@@ -9,10 +9,10 @@ public abstract class ConnexionProvider
 {
 	
 	private static final String BDD_NAME = "PATE_D_OR";
-	private static final String BDD_USER = "USER_SQLSERVER";
-	private static final String BDD_MDP = "PASSWORD_SQLSERVER";
+	private static final String BDD_USER = System.getenv("USER_SQLSERVER");
+	private static final String BDD_MDP = System.getenv("PASSWORD_SQLSERVER");
 	
-	public static Connection getConnection () throws SQLException
+	public static Connection getConnection () throws DALException
 	{
 		
 				//url de connexion jbdc - bdd
@@ -21,14 +21,14 @@ public abstract class ConnexionProvider
 				try 
 				{
 					//getConnection(url, utilisateur, mot de passe)
-					 return  DriverManager.getConnection(url, BDD_USER, BDD_MDP);
+					 return DriverManager.getConnection(url, BDD_USER, BDD_MDP);
 					
 					
 				} 
 				catch (SQLException error) 
 				{
 					
-					throw new SQLException("erreur de conexion à la base de donnée", error);
+					throw new DALException("erreur de conexion à la base de donnée", error);
 				}
 		
 	}
