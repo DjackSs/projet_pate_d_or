@@ -22,7 +22,7 @@ public class Menu
 		while (choice != 6)
 		{
 			
-			afficherMenu();
+			displayMenu();
 			
 			choice = scan.nextInt();
 			scan.nextLine();
@@ -67,7 +67,7 @@ public class Menu
 	
 	//==============================================================================
 	
-	public static void afficherMenu()
+	public static void displayMenu()
 	{
 		
 		System.out.printf("============================================\n");
