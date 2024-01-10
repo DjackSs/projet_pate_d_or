@@ -9,8 +9,8 @@ public abstract class ConnexionProvider
 {
 	
 	private static final String BDD_NAME = "PATE_D_OR";
-	private static final String BDD_USER = "USER_SQLSERVER";
-	private static final String BDD_MDP = "PASSWORD_SQLSERVER";
+	private static final String BDD_USER = System.getenv("USER_SQLSERVER");
+	private static final String BDD_MDP = System.getenv("PASSWORD_SQLSERVER");
 	
 	public static Connection getConnection () throws DALException
 	{

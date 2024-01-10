@@ -37,7 +37,7 @@ public class TableBLL {
 		
 	}
 	
-	public Table insert(int numberPlace, String state) throws BLLException {
+	public Table insert(int numberPlace, String state, int idRestaurant) throws BLLException {
 		
 		BLLException bllException = new BLLException();
 		
@@ -54,7 +54,7 @@ public class TableBLL {
 			throw bllException;
 		}
 		
-		Table table = new Table(numberPlace, state);
+		Table table = new Table(numberPlace, state, idRestaurant);
 		try {
 			dao.insert(table);
 		} catch (DALException e) {

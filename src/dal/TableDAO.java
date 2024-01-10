@@ -15,7 +15,7 @@ public class TableDAO implements GenericDAOInterface<Table> {
 
 	private static final String DELETE = "DELETE FROM"+ TABLE_NAME +" WHERE id = ?";
 	private static final String UPDATE = "UPDATE "+ TABLE_NAME +" SET nom = ?, nature = ?, date_sortie = ? WHERE id = ?";
-	private static final String INSERT = "INSERT INTO "+ TABLE_NAME +" (number_place, state) VALUES (?,?)";
+	private static final String INSERT = "INSERT INTO "+ TABLE_NAME +" (number_place, state, id_restaurant) VALUES (?,?,?)";
 	private static final String SELECT_BY_ID = "SELECT * FROM "+ TABLE_NAME +" WHERE id = ?";
 	private static final String SELECT = "SELECT * FROM "+ TABLE_NAME;
 
@@ -37,6 +37,7 @@ public class TableDAO implements GenericDAOInterface<Table> {
 				table.setId(rs.getInt("id"));
 				table.setNumberPlace(rs.getInt("number_place"));
 				table.setState(rs.getString("state"));
+				table.setIdRestaurant(rs.getInt("id_restaurant"));
 
 				tables.add(table);
 			}
@@ -59,6 +60,7 @@ public class TableDAO implements GenericDAOInterface<Table> {
 				table.setId(rs.getInt("id"));
 				table.setNumberPlace(rs.getInt("number_place"));
 				table.setState(rs.getString("state"));
+				table.setIdRestaurant(rs.getInt("id_restaurant"));
 
 			}
 		} catch (SQLException e) {
@@ -73,6 +75,7 @@ public class TableDAO implements GenericDAOInterface<Table> {
 			PreparedStatement ps = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, table.getNumberPlace());
 			ps.setString(2, table.getState());
+			ps.setInt(3, table.getIdRestaurant());
 			ps.executeUpdate();
 
 			ResultSet rs = ps.getGeneratedKeys();
@@ -91,7 +94,8 @@ public class TableDAO implements GenericDAOInterface<Table> {
 			PreparedStatement ps = cnx.prepareStatement(UPDATE);
 			ps.setInt(1, table.getNumberPlace());
 			ps.setString(2, table.getState());
-			ps.setInt(3, table.getId());
+			ps.setInt(3, table.getIdRestaurant());
+			ps.setInt(4, table.getId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			throw new DALException("Impossible de mettre a jour les informations pour l'id "+ table.getId(), e);
