@@ -10,8 +10,7 @@ public class Table {
 	}
 
 
-	public Table(int id, int numberPlace, char state) {
-		this.id = id;
+	public Table(int numberPlace, String state) {
 		this.numberPlace = numberPlace;
 		this.state = state;
 	}
