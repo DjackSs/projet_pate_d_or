@@ -10,7 +10,7 @@ import java.util.List;
 import bo.Table;
 
 //CRUD
-public class TableDAOJdbcImpl implements GenericDAOInterface<Table> {
+public class TableDAO implements GenericDAOInterface<Table> {
 	private static final String TABLE_NAME = " tables ";
 
 	private static final String DELETE = "DELETE FROM"+ TABLE_NAME +" WHERE id = ?";
@@ -21,7 +21,7 @@ public class TableDAOJdbcImpl implements GenericDAOInterface<Table> {
 
 	private Connection cnx;
 
-	public TableDAOJdbcImpl() throws DALException {
+	public TableDAO() throws DALException {
 		cnx = ConnexionProvider.getConnection();
 	}
 

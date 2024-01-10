@@ -6,14 +6,14 @@ import java.util.List;
 import bo.Table;
 import dal.DALException;
 import dal.GenericDAOInterface;
-import dal.TableDAOJdbcImpl;
+import dal.TableDAO;
 
 public class TableBLL {
 	private GenericDAOInterface<Table> dao;
 	
 	public TableBLL() throws BLLException {
 		try {
-			dao = new TableDAOJdbcImpl();
+			dao = new TableDAO();
 		} catch (DALException e) {
 			throw new BLLException("Echec de la connexion", e);
 		}
