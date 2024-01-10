@@ -86,7 +86,29 @@ public class TableDAOJdbcImpl implements GenericDAOInterface<Table> {
 		}
 	}
 	
+	public void update(Table table) throws DALException {
+		try {
+			PreparedStatement ps = cnx.prepareStatement(UPDATE);
+			ps.setInt(1, table.getNumberPlace());
+			ps.setString(2, table.getState());
+			ps.setInt(3, table.getId());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			throw new DALException("Impossible de mettre a jour les informations pour l'id "+ table.getId(), e);
+		}
+	}
 	
-	
-	
+	public void delete(int id) throws DALException {
+		try {
+			PreparedStatement ps = cnx.prepareStatement(DELETE);
+			ps.setInt(1, id);
+			int nbLignesSupprimees = ps.executeUpdate();
+			
+			if (nbLignesSupprimees == 0) {
+				throw new DALException("Echec de suppression du composant d'id " + id, null);
+			}
+		} catch (SQLException e) {
+			throw new DALException("Impossible de supprimer le composant d'id "+ id, e);
+		}
+	}
 }
