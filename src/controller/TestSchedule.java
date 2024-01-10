@@ -10,7 +10,7 @@ public class TestSchedule {
 	private static ScheduleBLL bll;
 	
 	public static void main(String[] args) {
-		System.out.println("Bienvenue dans notre application de gestion des horaires");
+		System.out.println("Bienvenue dans notre application de gestion des créneaux horaires");
 		scan = new Scanner(System.in);
 		try {
 			bll = new ScheduleBLL();
@@ -58,13 +58,28 @@ public class TestSchedule {
 	}
 	
 	private static void creerHoraires() {
-		System.out.println("Choix 1");
+		System.out.println("Vous avez choisi d'ajouter un créneau horaire");
+		
+		System.out.println("Veuillez saisir l'horaire d'ouverture");
+		String openHour = scan.nextLine();
+		
+		System.out.println("Veuillez saisir l'horaire de fermeture");
+		String closeHour = scan.nextLine();
+		
+		System.out.println("Souhaitez-vous associer ce créneau horaire à un restaurant ?");
+		System.out.println("Oui / Non");
+		boolean isAssociatedToRestaurant = false;
+		String associated = scan.nextLine();
+		if(associated.equals("Oui")) {
+			
+		}
+		
 	}
 	
 	private static int afficherMenu() {
-		System.out.println("1. Créer une horaire");
-		System.out.println("2. Consulter les horaires");
-		System.out.println("3. Supprimer un horaires");
+		System.out.println("1. Créer un créneau horaire");
+		System.out.println("2. Consulter les créneaux horaires");
+		System.out.println("3. Supprimer un créneau horaire");
 		System.out.println("4. Quitter");
 		int choix = scan.nextInt();
 		scan.nextLine();
