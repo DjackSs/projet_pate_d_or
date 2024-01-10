@@ -21,7 +21,7 @@ public class ScheduleDAO implements GenericDAOInterface<Schedule> {
 	private static final String SELECT_BY_ID = "SELECT * FROM "+ TABLE_NAME +" WHERE id = ?";
 	private static final String SELECT = "SELECT * FROM "+ TABLE_NAME;
 
-	public ScheduleDAO() throws SQLException {
+	public ScheduleDAO() throws DALException {
 		cnx = ConnexionProvider.getConnection();
 	}
 
