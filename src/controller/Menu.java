@@ -79,7 +79,7 @@ public class Menu
 		System.out.printf("3 - Supprimer un restaurant\n");
 		System.out.printf("4 - Creer une carte\n");
 		System.out.printf("5 - Modifier une carte\n");
-		System.out.printf("6 - Quitter en apuyant sur 6 et pas sur la croix\n");
+		System.out.printf("6 - Quitter en apuyant sur 6\n");
 		
 	
 		
