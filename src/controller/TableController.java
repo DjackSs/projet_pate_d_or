@@ -65,7 +65,7 @@ public class TableController
 
 		String state = null;
 		
-		for (int i = 1; i < nbTable; i++) {
+		for (int i = 0; i < nbTable; i++) {
 			Table newTable = new Table();
 			newTable.setNumberPlace(numberPlace);
 			newTable.setState(state);
