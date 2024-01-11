@@ -27,8 +27,7 @@ public abstract class ConnexionProvider
 				} 
 				catch (SQLException error) 
 				{
-					
-					throw new DALException("erreur de conexion à la base de donnée", error);
+					throw new DALException("Failed to connect to the database", error);
 				}
 		
 	}

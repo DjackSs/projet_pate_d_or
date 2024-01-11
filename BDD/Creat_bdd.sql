@@ -12,8 +12,8 @@ CREATE TABLE Cards (
 CREATE TABLE Restaurants (
 	id				INT				PRIMARY KEY identity,
     name			VARCHAR(50)		NOT NULL,
-    adresse			VARCHAR(60)		NOT NULL,
-    cpo             CHAR(5)         not null,
+    adress			VARCHAR(60)		NOT NULL,
+    postal_code     CHAR(5)         not null,
     town            varchar(40)     not null,
     id_card			int		        NULL,
 
@@ -34,7 +34,7 @@ CREATE TABLE Schedules (
 
 CREATE TABLE Tables (
 	id				INT				PRIMARY KEY identity,
-	nombre_place	int		        NOT NULL,
+	number_place	int		        NOT NULL,
     state           char(4)         null,
 	id_restaurant	INT				NOT NULL,
 
