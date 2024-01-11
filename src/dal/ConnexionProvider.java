@@ -21,14 +21,13 @@ public abstract class ConnexionProvider
 				try 
 				{
 					//getConnection(url, utilisateur, mot de passe)
-					 return  DriverManager.getConnection(url, BDD_USER, BDD_MDP);
+					 return DriverManager.getConnection(url, BDD_USER, BDD_MDP);
 					
 					
 				} 
 				catch (SQLException error) 
 				{
-					
-					throw new DALException("erreur de conexion à la base de donnée", error);
+					throw new DALException("Failed to connect to the database", error);
 				}
 		
 	}
