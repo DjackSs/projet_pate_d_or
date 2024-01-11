@@ -7,98 +7,89 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import bo.Card;
 import bo.Table;
 
-//CRUD
-public class TableDAO implements GenericDAOInterface<Table> {
-	private static final String TABLE_NAME = " tables ";
+public class CardDAO implements GenericDAOInterface<Card> {
+	private static final String TABLE_NAME = " cards ";
 
 	private static final String DELETE = "DELETE FROM"+ TABLE_NAME +" WHERE id = ?";
-	private static final String UPDATE = "UPDATE "+ TABLE_NAME +" SET nom = ?, nature = ?, date_sortie = ? WHERE id = ?";
-	private static final String INSERT = "INSERT INTO "+ TABLE_NAME +" (number_place, state, id_restaurant) VALUES (?,?,?)";
+	private static final String UPDATE = "UPDATE "+ TABLE_NAME +" SET name = ? WHERE id = ?";
+	private static final String INSERT = "INSERT INTO "+ TABLE_NAME +" (name) VALUES (?)";
 	private static final String SELECT_BY_ID = "SELECT * FROM "+ TABLE_NAME +" WHERE id = ?";
 	private static final String SELECT = "SELECT * FROM "+ TABLE_NAME;
 
 	private Connection cnx;
 
-	public TableDAO() throws DALException {
+	public CardDAO() throws DALException {
 		cnx = ConnexionProvider.getConnection();
 	}
 
-	public List<Table> selectAll() throws DALException {
-		List<Table> tables = new ArrayList<>();
+	public List<Card> selectAll() throws DALException {
+		List<Card> cards = new ArrayList<>();
 
 		try {
 			PreparedStatement ps = cnx.prepareStatement(SELECT);
 			ResultSet rs = ps.executeQuery();
 
-			while (rs.next()) {
-				Table table = new Table();
-				table.setId(rs.getInt("id"));
-				table.setNumberPlace(rs.getInt("number_place"));
-				table.setState(rs.getString("state"));
-				table.setIdRestaurant(rs.getInt("id_restaurant"));
+			while(rs.next()) {
+				Card card = new Card();
+				card.setId(rs.getInt("id"));
+				card.setName(rs.getString("name"));
 
-				tables.add(table);
+				cards.add(card);
 			}
 		} catch (SQLException e) {
 			throw new DALException("Impossible de recuperer les informations", e);
 		}
-
-		return tables;
+		return cards;
 	}
 
-	public Table selectById(int id) throws DALException {
-		Table table = null;
+	public Card selectById(int id) throws DALException {
+		Card card = null;
 
 		try {
 			PreparedStatement ps = cnx.prepareStatement(SELECT_BY_ID);
+			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 
-			if (rs.next()) {
-				table = new Table();
-				table.setId(rs.getInt("id"));
-				table.setNumberPlace(rs.getInt("number_place"));
-				table.setState(rs.getString("state"));
-				table.setIdRestaurant(rs.getInt("id_restaurant"));
-
+			if(rs.next()) {
+				card = new Card();
+				card.setId(rs.getInt("id"));
+				card.setName(rs.getString("name"));
 			}
+
 		} catch (SQLException e) {
 			throw new DALException("Impossible de recuperer les informations pour l'id "+ id, e);
 		}
-
-		return table;
+		return card;
 	}
 
-	public void insert(Table table) throws DALException {
+	public void insert(Card card) throws DALException {
 		try {
 			PreparedStatement ps = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
-			ps.setInt(1, table.getNumberPlace());
-			ps.setString(2, table.getState());
-			ps.setInt(3, table.getIdRestaurant());
-			ps.executeUpdate();
+			ps.setString(1, card.getName());
+			ps.setInt(2, card.getId());
+			ps.executeQuery();
 
 			ResultSet rs = ps.getGeneratedKeys();
-
-			if (rs.next()) {
+			if(rs.next()) {
 				int id = rs.getInt(1);
-				table.setId(id);
+				card.setId(id);
 			}
 		} catch (SQLException e) {
 			throw new DALException("Impossible d'inserer les donnees.", e);
 		}
 	}
 	
-	public void update(Table table) throws DALException {
+	public void update(Card card) throws DALException {
 		try {
 			PreparedStatement ps = cnx.prepareStatement(UPDATE);
-			ps.setInt(1, table.getNumberPlace());
-			ps.setString(2, table.getState());
-			ps.setInt(3, table.getIdRestaurant());
-			ps.setInt(4, table.getId());
+			ps.setString(1, card.getName());
+			ps.setInt(2, card.getId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			throw new DALException("Impossible de mettre a jour les informations pour l'id "+ table.getId(), e);
+			throw new DALException("Impossible de mettre a jour les informations pour l'id "+ card.getId(), e);
 		}
 	}
 	
@@ -107,8 +98,7 @@ public class TableDAO implements GenericDAOInterface<Table> {
 			PreparedStatement ps = cnx.prepareStatement(DELETE);
 			ps.setInt(1, id);
 			int nbDeleteLine = ps.executeUpdate();
-			
-			if (nbDeleteLine == 0) {
+			if(nbDeleteLine == 0) {
 				throw new DALException("Echec de suppression du composant d'id " + id, null);
 			}
 		} catch (SQLException e) {
