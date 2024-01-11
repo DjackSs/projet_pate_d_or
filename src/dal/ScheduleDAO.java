@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,8 +71,16 @@ public class ScheduleDAO implements GenericDAOInterface<Schedule> {
 		try {
 			PreparedStatement ps = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			ps.setTime(1, Time.valueOf(schedule.getOpenHour()));
-			ps.setTime(2, Time.valueOf(schedule.getOpenHour()));
-			ps.setInt(3, schedule.getIdRestaurant());
+			ps.setTime(2, Time.valueOf(schedule.getCloseHour()));
+			//ps.setInt(3, schedule.getIdRestaurant());
+			
+			if(schedule.getIdRestaurant() != 0) {
+				ps.setInt(3, schedule.getIdRestaurant());
+			}
+			else {
+				ps.setNull(3, Types.INTEGER);
+			}
+			
 			ps.executeUpdate();
 			
 			ResultSet rs = ps.getGeneratedKeys();

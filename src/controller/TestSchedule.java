@@ -1,9 +1,12 @@
 package controller;
 
+import java.time.LocalTime;
+import java.util.List;
 import java.util.Scanner;
 
 import bll.BLLException;
 import bll.ScheduleBLL;
+import bo.Schedule;
 
 public class TestSchedule {
 	private static Scanner scan;
@@ -23,17 +26,17 @@ public class TestSchedule {
 		int choix;
 		
 		do {
-			choix = afficherMenu();
+			choix = displayMenu();
 			
 			switch (choix) {
 			case 1:
-				creerHoraires();
+				createTimeSlot();
 				break;
 			case 2:
-				listerHoraires();
+				displayTimeSlots();
 				break;
 			case 3:
-				supprimerHoraires();
+				deleteTimeSlot();
 				break;
 			case 4:
 				System.out.println("Byebye");
@@ -49,15 +52,22 @@ public class TestSchedule {
 		
 	}
 	
-	private static void supprimerHoraires() {
+	private static void deleteTimeSlot() {
 		System.out.println("Choix 1");
 	}
 	
-	private static void listerHoraires() {
-		System.out.println("Choix 1");
+	private static void displayTimeSlots() {
+		try {
+			List<Schedule> schedules = bll.selectAll();
+			for (Schedule current : schedules) {
+				System.out.println("\t" + current.getId() + ". " + current);
+			}
+		} catch (BLLException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	private static void creerHoraires() {
+	private static void createTimeSlot() {
 		System.out.println("Vous avez choisi d'ajouter un créneau horaire");
 		
 		System.out.println("Veuillez saisir l'horaire d'ouverture");
@@ -66,21 +76,48 @@ public class TestSchedule {
 		System.out.println("Veuillez saisir l'horaire de fermeture");
 		String closeHour = scan.nextLine();
 		
-		System.out.println("Souhaitez-vous associer ce créneau horaire à un restaurant ?");
-		System.out.println("Oui / Non");
-		boolean isAssociatedToRestaurant = false;
-		String associated = scan.nextLine();
-		if(associated.equals("Oui")) {
+		int choix;
+		int idRestaurant = 0;
+		do {
+			choix = displaySetTimeSlotToRestaurantMenu();
 			
+			if (choix == 1) {				
+				System.out.println("Veuillez saisir l'id du restaurant à associer à ce créneau horaire");
+				idRestaurant = scan.nextInt();
+			} else if (choix == 2) {
+				System.out.println("Le créneau horaire créé n'est associé à aucun restaurant.");
+				idRestaurant = 0;
+			} else {
+				System.out.println("Saisie invalide. Choisissez 1 pour confirmer ou 2 "
+								+ "pour ne pas confirmer l'association du créneau horaire à un restaurant");
+			}
+			
+		} while (choix != 1 && choix != 2);
+		
+		try {			
+			Schedule scheduleAjoute = bll.insert(LocalTime.parse(openHour), LocalTime.parse(closeHour), idRestaurant);
+			System.out.println("L'horaire suivante est ajoutée : " + scheduleAjoute);
+		} catch (BLLException e) {
+			System.out.println("Une erreur est survenue : ");
+			e.printStackTrace();
 		}
 		
 	}
 	
-	private static int afficherMenu() {
+	private static int displayMenu() {
 		System.out.println("1. Créer un créneau horaire");
 		System.out.println("2. Consulter les créneaux horaires");
 		System.out.println("3. Supprimer un créneau horaire");
 		System.out.println("4. Quitter");
+		int choix = scan.nextInt();
+		scan.nextLine();
+		return choix;
+	}
+	
+	private static int displaySetTimeSlotToRestaurantMenu() {
+		System.out.println("Souhaitez-vous associer ce créneau horaire à un restaurant ?");
+		System.out.println("1. Oui");
+		System.out.println("2. Non");
 		int choix = scan.nextInt();
 		scan.nextLine();
 		return choix;
