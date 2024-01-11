@@ -16,7 +16,7 @@ public class ScheduleDAO implements GenericDAOInterface<Schedule> {
 	private Connection cnx;
 	
 	private static final String TABLE_NAME = "Schedules";
-	private static final String DELETE = "DELETE FROM"+ TABLE_NAME +" WHERE id = ?";
+	private static final String DELETE = "DELETE FROM "+ TABLE_NAME +" WHERE id = ?";
 	private static final String UPDATE = "UPDATE "+ TABLE_NAME +" SET open_hour = ?, close_hour = ?, id_restaurant = ? WHERE id = ?";
 	private static final String INSERT = "INSERT INTO "+ TABLE_NAME +" (open_hour, close_hour, id_restaurant) VALUES (?,?,?)";
 	private static final String SELECT_BY_ID = "SELECT * FROM "+ TABLE_NAME +" WHERE id = ?";
@@ -28,16 +28,22 @@ public class ScheduleDAO implements GenericDAOInterface<Schedule> {
 
 	@Override
 	public List<Schedule> selectAll() throws DALException {
-		List<Schedule> schedules = new ArrayList<Schedule>();
+		List<Schedule> schedules = new ArrayList<>();
+		
 		try {
 			PreparedStatement ps = cnx.prepareStatement(SELECT);
+			
 			ResultSet rs = ps.executeQuery();
+			
 			while(rs.next()) {
 				Schedule schedule = new Schedule();
+				
 				schedule.setId(rs.getInt("id"));
 				schedule.setOpenHour(rs.getTime("open_hour").toLocalTime());
 				schedule.setCloseHour(rs.getTime("open_hour").toLocalTime());
 				schedule.setIdRestaurant(rs.getInt("id_restaurant"));
+				
+				schedules.add(schedule);
 			}
 		} catch (SQLException e) {
 			throw new DALException("Impossible de récupérer les informations des horaires", e);
@@ -48,13 +54,16 @@ public class ScheduleDAO implements GenericDAOInterface<Schedule> {
 	@Override
 	public Schedule selectById(int id) throws DALException {
 		Schedule schedule = null;
+		
 		try {
 			PreparedStatement ps = cnx.prepareStatement(SELECT_BY_ID);
 			ps.setInt(1, id);
+			
 			ResultSet rs = ps.executeQuery();
+			
 			if (rs.next()) {
 				schedule = new Schedule();
-				schedule.setIdRestaurant(rs.getInt("id"));
+				schedule.setId(rs.getInt("id"));
 				schedule.setOpenHour(rs.getTime("open_hour").toLocalTime());
 				schedule.setCloseHour(rs.getTime("close_hour").toLocalTime());
 				schedule.setIdRestaurant(rs.getInt("id_restaurant"));
@@ -72,18 +81,17 @@ public class ScheduleDAO implements GenericDAOInterface<Schedule> {
 			PreparedStatement ps = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			ps.setTime(1, Time.valueOf(schedule.getOpenHour()));
 			ps.setTime(2, Time.valueOf(schedule.getCloseHour()));
-			//ps.setInt(3, schedule.getIdRestaurant());
 			
 			if(schedule.getIdRestaurant() != 0) {
 				ps.setInt(3, schedule.getIdRestaurant());
-			}
-			else {
+			} else {
 				ps.setNull(3, Types.INTEGER);
 			}
 			
 			ps.executeUpdate();
 			
 			ResultSet rs = ps.getGeneratedKeys();
+			
 			if (rs.next()) {
 				int id = rs.getInt(1);
 				schedule.setId(id);
@@ -100,7 +108,15 @@ public class ScheduleDAO implements GenericDAOInterface<Schedule> {
 			PreparedStatement ps = cnx.prepareStatement(UPDATE);
 			ps.setTime(1, Time.valueOf(schedule.getOpenHour()));
 			ps.setTime(2, Time.valueOf(schedule.getCloseHour()));
-			ps.setInt(3, schedule.getIdRestaurant());
+			
+			if (schedule.getIdRestaurant() != 0) {				
+				ps.setInt(3, schedule.getIdRestaurant());
+			} else {
+				ps.setNull(3, Types.INTEGER);
+			}
+			
+			ps.setInt(4, schedule.getId());
+			
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			throw new DALException("Impossible de mettre à jour l'horaire d'id " + schedule.getId(), e);

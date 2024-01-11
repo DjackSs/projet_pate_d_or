@@ -43,11 +43,13 @@ public class ScheduleBLL {
 		}
 		
 		Schedule schedule = new Schedule(openHour, closeHour, idRestaurant);
+		
 		try {
 			dao.insert(schedule);
 		} catch (DALException e) {
 			throw new BLLException("Echec de l'insertion", e);
 		}
+		
 		return schedule;
 	}
 	
@@ -55,7 +57,8 @@ public class ScheduleBLL {
 		try {
 			dao.update(schedule);
 		} catch (DALException e) {
-			throw new BLLException("Echec de la mise à jour", e);		}
+			throw new BLLException("Echec de la mise à jour", e);		
+		}
 	}
 	
 	public void delete(int id) throws BLLException {
