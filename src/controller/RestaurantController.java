@@ -30,8 +30,6 @@ public class RestaurantController
 		{
 			this.displayMenuAddResto();
 			
-			TableController tableRestaurant = new TableController();
-			
 			choice = scan.nextInt();
 			scan.nextLine();
 			
