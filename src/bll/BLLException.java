@@ -6,11 +6,6 @@ import java.util.List;
 public class BLLException extends Exception {
 
 	private static final long serialVersionUID = -8402728185430838053L;
-	
-	public BLLException(String message, Throwable cause) 
-	{
-		super(message, cause);
-	}
 
 	private List<String> errors = new ArrayList<>();
 
