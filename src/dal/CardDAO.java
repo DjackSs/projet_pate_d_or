@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bo.Card;
-import bo.Table;
 
 public class CardDAO implements GenericDAOInterface<Card> {
 	private static final String TABLE_NAME = " cards ";
@@ -69,10 +68,10 @@ public class CardDAO implements GenericDAOInterface<Card> {
 		try {
 			PreparedStatement ps = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			ps.setString(1, card.getName());
-			ps.setInt(2, card.getId());
-			ps.executeQuery();
+			ps.executeUpdate();
 
 			ResultSet rs = ps.getGeneratedKeys();
+			
 			if(rs.next()) {
 				int id = rs.getInt(1);
 				card.setId(id);

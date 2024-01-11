@@ -7,8 +7,7 @@ public class Card {
 	public Card() {
 	}
 	
-	public Card(int id, String name) {
-		this.id = id;
+	public Card(String name) {
 		this.name = name;
 	}
 	
