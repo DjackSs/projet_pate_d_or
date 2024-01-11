@@ -14,6 +14,8 @@ public class Menu
 		
 		scan = new Scanner(System.in);
 		
+		RestaurantController newRestaurant = new RestaurantController();
+		
 		int choice = 0;
 		
 		
@@ -31,7 +33,7 @@ public class Menu
 	        {
 
 		        case 1 :
-		        	System.out.printf("1\n");
+		        	newRestaurant.menuResto(scan);
 		            break;
 		        case 2 :
 		        	System.out.printf("2\n");
