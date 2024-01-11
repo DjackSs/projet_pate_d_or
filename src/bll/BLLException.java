@@ -1,7 +1,10 @@
 package bll;
 
-public class BLLException extends Exception 
-{
+import java.util.ArrayList;
+import java.util.List;
+
+public class BLLException extends Exception {
+
 	private static final long serialVersionUID = -8402728185430838053L;
 	
 	public BLLException(String message, Throwable cause) 
@@ -9,4 +12,20 @@ public class BLLException extends Exception
 		super(message, cause);
 	}
 
+	private List<String> errors = new ArrayList<>();
+
+	public BLLException() {
+	}
+
+	public BLLException(String message, Throwable cause) {
+		super(message, cause);
+	}
+	
+	public void addError(String error) {
+		errors.add(error);
+	}
+	
+	public List<String> getErrors() {
+		return errors;
+	}
 }
