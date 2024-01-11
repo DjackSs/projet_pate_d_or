@@ -17,7 +17,7 @@ public class RestaurantController
 		System.out.printf("============================================\n");
 		
 		System.out.printf("1 - Ajouter un restaurant manuellement\n");
-		System.out.printf("2 - Modifier un restaurant à aprtir d'un fichier\n");
+		System.out.printf("2 - Modifier un restaurant à partir d'un fichier\n");
 		System.out.printf("3 - Retour\n");
 	}
 	

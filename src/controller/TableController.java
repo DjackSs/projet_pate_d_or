@@ -11,49 +11,6 @@ public class TableController
 {
 	public TableController() {}
 	
-	public void displayMenuAddTable()
-	{
-		System.out.printf("============================================\n");
-		System.out.printf("    AJOUTER UNE TABLE\n");
-		System.out.printf("============================================\n");
-		
-		System.out.printf("1 - Ajouter une table\n");
-		System.out.printf("2 - Modifier un restaurant à d'un fichier\n");
-		System.out.printf("3 - Retour\n");
-	}
-	
-	
-	public void menuTable (Scanner scan, Restaurant restaurant)
-	{
-		
-		int choice = 0;
-		
-		while (choice != 3)
-		{
-			this.displayMenuAddTable();
-			
-			choice = scan.nextInt();
-			scan.nextLine();
-			
-			switch(choice)
-	        {
-
-		        case 1 :
-		        	this.addTable(scan, restaurant);
-		            break;
-		        case 2 :
-		        	System.out.println("Choix n°2 à définir\n");
-		            break;
-		        case 3 :
-		        	System.out.printf("exit\n");
-		            break;
-		        default:
-		        	System.out.printf("choix invalide ! \n");
-		        	break;
-	        }	
-		}
-	}
-	
 	public void addTable(Scanner scan, Restaurant restaurant) {
 		
 		
@@ -81,15 +38,7 @@ public class TableController
 				e.printStackTrace();
 			}
 		}
-		System.out.println(nbTable + " tables de " + numberPlace + " places créées.");
-	
-		
-		
-		
-
-		
-		
-
+		System.out.println(nbTable + " tables de " + numberPlace + " places ajoutées au restaurant.");
 	}
 	
 	
