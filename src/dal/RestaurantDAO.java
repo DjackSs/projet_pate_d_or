@@ -1,4 +1,4 @@
-package bo;
+package dal;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,9 +8,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import dal.ConnexionProvider;
-import dal.DALException;
-import dal.GenericDAOInterface;
+import bo.Restaurant;
 
 public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 {
@@ -238,7 +236,7 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 	
 	//--------------------------------------------------------------
 	
-	public void delete(Restaurant restaurant) throws DALException
+	public void delete(int id) throws DALException
 	{
 		
 		try 
@@ -247,7 +245,7 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 			PreparedStatement query;
 			query = cnx.prepareStatement(DELETE_RESTAURANTS);
 	
-			query.setInt(1, restaurant.getId());
+			query.setInt(1, id);
 					
 			int result = query.executeUpdate();
 			

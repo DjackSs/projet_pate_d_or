@@ -13,6 +13,6 @@ public interface GenericDAOInterface<T>
 	
 	void update(T objet) throws DALException;
 	
-	void delete(T objet) throws DALException;
+	void delete(int id) throws DALException;
 
 }

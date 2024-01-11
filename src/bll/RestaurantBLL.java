@@ -3,9 +3,9 @@ package bll;
 import java.util.List;
 
 import bo.Restaurant;
-import bo.RestaurantDAO;
 import dal.DALException;
 import dal.GenericDAOInterface;
+import dal.RestaurantDAO;
 
 public class RestaurantBLL 
 {
@@ -237,12 +237,12 @@ public class RestaurantBLL
 	//--------------------------------------------------------------
 	
 	
-	public void delete(Restaurant restaurant) throws BLLException
+	public void delete(int id) throws BLLException
 	{
 		
 		try 
 		{
-			dao.delete(restaurant);
+			dao.delete(id);
 			
 		} catch (DALException e)
 		{

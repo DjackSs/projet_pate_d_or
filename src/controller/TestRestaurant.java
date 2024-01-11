@@ -53,7 +53,7 @@ public class TestRestaurant
 			{
 				if(restaurants.get(i).getId() == deleteId)
 				{
-					restaurant.delete(restaurants.get(i));
+					restaurant.delete(restaurants.get(i).getId());
 				}
 				
 			}
