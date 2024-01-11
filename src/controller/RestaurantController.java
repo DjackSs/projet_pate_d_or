@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import bll.BLLException;
 import bll.RestaurantBLL;
+import bll.ScheduleBLL;
 import bo.Restaurant;
 
 public class RestaurantController 
@@ -96,10 +97,12 @@ public class RestaurantController
 			
 			
 			//------------------------------------------------------------------
-			//associer newrestaurant à un horraire
+			//associer newrestaurant à une horaire
 			
 			//envoi dans SheldulesController
 			//recupère newRestaurant
+			ScheduleController restaurantSchedule = new ScheduleController();
+			restaurantSchedule.addRestaurantTimeSlots(scan, newRestaurant);
 			
 			//------------------------------------------------------------------
 			//associer newrestaurant à des tables
