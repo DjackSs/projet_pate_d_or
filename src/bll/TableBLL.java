@@ -24,7 +24,7 @@ public class TableBLL {
 		try {
 			return dao.selectAll();
 		} catch (DALException e) {
-			throw new BLLException("Echec de la recuperation des composants", e);
+			throw new BLLException("Echec de la recuperation des tables", e);
 		}
 	}
 	
@@ -32,7 +32,7 @@ public class TableBLL {
 		try {
 			return dao.selectById(id);
 		} catch (DALException e) {
-			throw new BLLException("Echec de la recuperation du composant d'id " + id, e);
+			throw new BLLException("Echec de la recuperation de la table d'id " + id, e);
 		}
 		
 	}
