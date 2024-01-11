@@ -21,7 +21,7 @@ public class RestaurantController
 		System.out.printf("3 - Retour\n");
 	}
 	
-	public void menuResto (Scanner scan)
+	public void menuResto (Scanner scan, Restaurant restaurant)
 	{
 		
 		int choice = 0;
@@ -29,6 +29,8 @@ public class RestaurantController
 		while (choice != 3)
 		{
 			this.displayMenuAddResto();
+			
+			TableController tableRestaurant = new TableController();
 			
 			choice = scan.nextInt();
 			scan.nextLine();
@@ -94,7 +96,8 @@ public class RestaurantController
 			
 			System.out.println("nouveau restaurant crée :"+ newRestaurant);
 			
-			
+			TableController table = new TableController();
+			table.addTable(scan, newRestaurant);
 			//------------------------------------------------------------------
 			//associer newrestaurant à un horraire
 			
