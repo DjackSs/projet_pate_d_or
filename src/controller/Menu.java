@@ -2,10 +2,13 @@ package controller;
 
 import java.util.Scanner;
 
+import bo.Restaurant;
+
 
 public class Menu 
 {
 	private static Scanner scan;
+	private static Restaurant restaurant;
 
 	public static void main(String[] args) 
 	{
@@ -42,6 +45,7 @@ public class Menu
 		            break;
 		        case 4 :
 		        	System.out.printf("4\n");
+		        	
 		            break;
 		        case 5 :
 		        	System.out.printf("5\n");
