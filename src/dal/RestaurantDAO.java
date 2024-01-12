@@ -18,9 +18,9 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 	
 	private static final String SELECT_RESTAURANTS_BY_ID = "select Restaurants.* from Restaurants where Restaurants.id in(?)";
 	
-	private static final String INSERT_INTO_RESTAURANTS = "insert into Restaurants ( name, adress, postal_code, town, id_card) values ( ?, ?, ?, ?, ?)";
+	private static final String INSERT_INTO_RESTAURANTS = "insert into Restaurants ( name, address, postal_code, town, id_card) values ( ?, ?, ?, ?, ?)";
 
-	private static final String UPDATE_RESTAURANTS = "update Restaurants set Restaurants.name = ?, Restaurants.adress = ?, Restaurants.postal_code = ?, Restaurants.town = ?, Restaurants.id_card = ? where Restaurants.id = ?";
+	private static final String UPDATE_RESTAURANTS = "update Restaurants set Restaurants.name = ?, Restaurants.address = ?, Restaurants.postal_code = ?, Restaurants.town = ?, Restaurants.id_card = ? where Restaurants.id = ?";
 	
 	private static final String DELETE_RESTAURANTS = "delete from Restaurants where Restaurants.id = ?";
 		
@@ -68,7 +68,7 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 				Restaurant restaurant = new Restaurant();
 				restaurant.setId(result.getInt("id"));
 				restaurant.setName(result.getString("name"));
-				restaurant.setAdress(result.getString("adress"));
+				restaurant.setAddress(result.getString("address"));
 				restaurant.setPostalCode(result.getString("postal_code"));
 				restaurant.setTown(result.getString("town"));
 				restaurant.setIdCard(result.getInt("id_card"));	
@@ -112,7 +112,7 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 				restaurant = new Restaurant();
 				restaurant.setId(result.getInt("id"));
 				restaurant.setName(result.getString("name"));
-				restaurant.setAdress(result.getString("adress"));
+				restaurant.setAddress(result.getString("address"));
 				restaurant.setPostalCode(result.getString("postal_code"));
 				restaurant.setTown(result.getString("town"));
 				restaurant.setIdCard(result.getInt("id_card"));	
@@ -143,7 +143,7 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 			query = cnx.prepareStatement(INSERT_INTO_RESTAURANTS,PreparedStatement.RETURN_GENERATED_KEYS);
 			
 			query.setString(1, restaurant.getName());
-			query.setString(2, restaurant.getAdress());
+			query.setString(2, restaurant.getAddress());
 			query.setString(3, restaurant.getPostalCode());
 			query.setString(4, restaurant.getTown());
 			
@@ -199,7 +199,7 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 			query = cnx.prepareStatement(UPDATE_RESTAURANTS);
 			
 			query.setString(1, restaurant.getName());
-			query.setString(2, restaurant.getAdress());
+			query.setString(2, restaurant.getAddress());
 			query.setString(3, restaurant.getPostalCode());
 			query.setString(4, restaurant.getTown());
 			

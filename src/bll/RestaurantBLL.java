@@ -12,7 +12,7 @@ public class RestaurantBLL
 	private GenericDAOInterface<Restaurant> dao;
 	
 	private static final int NAME_MAX_LENGTH = 50;
-	private static final int ADRESS_MAX_LENGTH = 60;
+	private static final int ADDRESS_MAX_LENGTH = 60;
 	private static final int TOWN_MAX_LENGTH = 40;
 	private static final int POSTAL_CODE_LENGTH = 5;
 	private static final int MIN_LENGTH = 2;
@@ -76,7 +76,7 @@ public class RestaurantBLL
 	
 	//--------------------------------------------------------------
 
-	public Restaurant insert(String name, String adress, String postalCode, String town, int idCard) throws BLLException
+	public Restaurant insert(String name, String address, String postalCode, String town, int idCard) throws BLLException
 	{
 		
 		
@@ -94,14 +94,14 @@ public class RestaurantBLL
 		}
 		
 		
-		//adress
-		if(adress.length() > ADRESS_MAX_LENGTH)
+		//address
+		if(address.length() > ADDRESS_MAX_LENGTH)
 		{
-			throw new BLLException("Restaurant's adress is too big", null);
+			throw new BLLException("Restaurant's address is too big", null);
 					
 		}
 		
-		if(adress.length() < MIN_LENGTH)
+		if(address.length() < MIN_LENGTH)
 		{
 			throw new BLLException("Restaurant's adress is too small", null);
 			
@@ -140,7 +140,7 @@ public class RestaurantBLL
 			
 			Restaurant restaurant = new Restaurant();
 			restaurant.setName(name);
-			restaurant.setAdress(adress);
+			restaurant.setAddress(address);
 			restaurant.setPostalCode(postalCode);
 			restaurant.setTown(town);
 			restaurant.setIdCard(idCard);
@@ -161,7 +161,7 @@ public class RestaurantBLL
 	
 	//--------------------------------------------------------------
 	
-	public void update(String name, String adress, String postalCode, String town, int idCard, Restaurant restaurant) throws BLLException
+	public void update(String name, String address, String postalCode, String town, int idCard, Restaurant restaurant) throws BLLException
 	{
 			
 		//name
@@ -178,16 +178,16 @@ public class RestaurantBLL
 		}
 		
 		
-		//adress
-		if(adress.length() > ADRESS_MAX_LENGTH)
+		//address
+		if(address.length() > ADDRESS_MAX_LENGTH)
 		{
-			throw new BLLException("Restaurant's adress is too big", null);
+			throw new BLLException("Restaurant's address is too big", null);
 					
 		}
 		
-		if(adress.length() < MIN_LENGTH)
+		if(address.length() < MIN_LENGTH)
 		{
-			throw new BLLException("Restaurant's adress is too small", null);
+			throw new BLLException("Restaurant's address is too small", null);
 			
 		}
 		
@@ -217,7 +217,7 @@ public class RestaurantBLL
 		//idCard
 		
 		restaurant.setName(name);
-		restaurant.setAdress(adress);
+		restaurant.setAddress(address);
 		restaurant.setPostalCode(postalCode);
 		restaurant.setTown(town);
 		restaurant.setIdCard(idCard);

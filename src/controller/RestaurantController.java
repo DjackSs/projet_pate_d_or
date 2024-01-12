@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import bll.BLLException;
 import bll.RestaurantBLL;
+import bll.ScheduleBLL;
 import bo.Restaurant;
 
 public class RestaurantController 
@@ -79,10 +80,9 @@ public class RestaurantController
 		System.out.printf("Choisissez un nom pour votre restaurant :\n");
 		String name = scan.nextLine();
 		
-		
-		System.out.printf("Entrez une addresse pour votre restaurant :\n");
-		String adress = scan.nextLine();
-		
+		System.out.printf("Entrez une adresse pour votre restaurant :\n");
+		String address = scan.nextLine();
+		//scan.nextLine();
 		
 		System.out.printf("Entrez le code postal de votre restaurant :\n");
 		String postalCode = scan.nextLine();
@@ -93,7 +93,7 @@ public class RestaurantController
 		
 		Restaurant newRestaurant = new Restaurant ();
 		newRestaurant.setName(name);
-		newRestaurant.setAdress(adress);
+		newRestaurant.setAddress(address);
 		newRestaurant.setPostalCode(postalCode);
 		newRestaurant.setTown(town);
 		
@@ -101,12 +101,19 @@ public class RestaurantController
 		{
 			this.restauranBLL = new RestaurantBLL();
 			
-			newRestaurant = this.restauranBLL.insert(name, adress, postalCode, town, 0);
+			newRestaurant = restaurant.insert(name, address, postalCode, town, 0);
 			
 			System.out.println("nouveau restaurant crée :"+ newRestaurant);
 			
 			//ScheduleController
+			//------------------------------------------------------------------
+			//associer newrestaurant à une horaire
 			
+			//envoi dans SheldulesController
+			//recupère newRestaurant
+			ScheduleController restaurantSchedule = new ScheduleController();
+			restaurantSchedule.addRestaurantTimeSlots(scan, newRestaurant);
+
 			//TableController
       TableController table = new TableController();
 			table.addTable(scan, newRestaurant);
