@@ -63,6 +63,7 @@ public class ScheduleBLL {
 	public void update(Schedule schedule) throws BLLException {
 		try {
 			dao.update(schedule);
+			System.out.println("La modification a été effectué !");
 		} catch (DALException e) {
 			throw new BLLException("Echec de la mise à jour", e);		
 		}

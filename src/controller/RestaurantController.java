@@ -10,12 +10,14 @@ import bo.Restaurant;
 public class RestaurantController 
 {
 	private RestaurantBLL restauranBLL;
+	private ScheduleController restaurantSchedule;
 	
 	public RestaurantController() 
 	{
 		try 
 		{
 			this.restauranBLL = new RestaurantBLL();
+			restaurantSchedule = new ScheduleController();
 		} 
 		catch (BLLException e) 
 		{
@@ -105,7 +107,6 @@ public class RestaurantController
 			System.out.println("nouveau restaurant crée :"+ newRestaurant);
 			
 			// Gestion du 1er créneau horaire de base du restaurant créé
-			ScheduleController restaurantSchedule = new ScheduleController();
 			restaurantSchedule.createRestaurantTimeSlots(scan, newRestaurant);
 			
 			// Gestion de la création potentielle de nouveaux créneaux horaires du restaurant crée
@@ -160,7 +161,7 @@ public class RestaurantController
 			scan.nextLine();
 			
 
-			if(choice >= 1 && choice < restaurants.size())
+			if(choice >= 1 && choice <= restaurants.size())
 			{
 				Restaurant restaurantToUpdate = restaurants.get(choice-1);
 				
@@ -196,7 +197,7 @@ public class RestaurantController
 			System.out.println("2 - Adresse : "+ restaurant.getAddress());
 			System.out.println("3 - Code postal : "+ restaurant.getPostalCode());
 			System.out.println("4 - Ville : "+ restaurant.getTown());
-			System.out.println("5 - Horraires");
+			System.out.println("5 - Horaires");
 			System.out.println("6 - Disposition des tables");
 			System.out.println("7 - Quitter");
 			
@@ -226,7 +227,7 @@ public class RestaurantController
 					restaurant.setTown(newTown);
 					break;
 				case 5:
-					//SchedulesController
+					restaurantSchedule.updateRestaurantTimeSlots(scan, restaurant);
 					break;
 				case 6:
 					//TableController

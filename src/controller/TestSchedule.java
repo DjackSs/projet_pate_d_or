@@ -23,12 +23,12 @@ public class TestSchedule {
 		
 		System.out.println("Veuillez choisir l'action à réaliser");
 		
-		int choix;
+		int choice;
 		
 		do {
-			choix = displayMenu();
+			choice = displayMenu();
 			
-			switch (choix) {
+			switch (choice) {
 			case 1:
 				createTimeSlot();
 				break;
@@ -47,7 +47,7 @@ public class TestSchedule {
 				break;
 			}
 			
-		} while (choix != 4);
+		} while (choice != 4);
 		
 		
 		scan.close();
@@ -99,16 +99,16 @@ public class TestSchedule {
 		System.out.println("Veuillez saisir l'horaire de fermeture");
 		String closeHour = scan.nextLine();
 		
-		int choix;
+		int choice;
 		int idRestaurant = 0;
 		
 		do {
-			choix = displaySetTimeSlotToRestaurantMenu();
+			choice = displaySetTimeSlotToRestaurantMenu();
 			
-			if (choix == 1) {				
+			if (choice == 1) {				
 				System.out.println("Veuillez saisir l'id du restaurant à associer à ce créneau horaire");
 				idRestaurant = scan.nextInt();
-			} else if (choix == 2) {
+			} else if (choice == 2) {
 				System.out.println("Le créneau horaire créé n'est associé à aucun restaurant.");
 				idRestaurant = 0;
 			} else {
@@ -116,7 +116,7 @@ public class TestSchedule {
 								+ "pour ne pas confirmer l'association du créneau horaire à un restaurant");
 			}
 			
-		} while (choix != 1 && choix != 2);
+		} while (choice != 1 && choice != 2);
 		
 		try {			
 			Schedule scheduleAjoute = bll.insert(LocalTime.parse(openHour), LocalTime.parse(closeHour), idRestaurant);
@@ -134,11 +134,11 @@ public class TestSchedule {
 		System.out.println("3. Supprimer un créneau horaire");
 		System.out.println("4. Quitter");
 		
-		int choix = scan.nextInt();
+		int choice = scan.nextInt();
 		
 		scan.nextLine();
 		
-		return choix;
+		return choice;
 	}
 	
 	private static int displaySetTimeSlotToRestaurantMenu() {
@@ -146,10 +146,10 @@ public class TestSchedule {
 		System.out.println("1 = Oui");
 		System.out.println("2 = Non");
 		
-		int choix = scan.nextInt();
+		int choice = scan.nextInt();
 		
 		scan.nextLine();
 		
-		return choix;
+		return choice;
 	}
 }
