@@ -63,8 +63,8 @@ public class RestaurantController
 		String name = scan.nextLine();
 		//scan.nextLine();
 		
-		System.out.printf("Entrez une addresse pour votre restaurant :\n");
-		String adress = scan.nextLine();
+		System.out.printf("Entrez une adresse pour votre restaurant :\n");
+		String address = scan.nextLine();
 		//scan.nextLine();
 		
 		System.out.printf("Entrez le code postal de votre restaurant :\n");
@@ -79,7 +79,7 @@ public class RestaurantController
 		//création restaurant
 		Restaurant newRestaurant = new Restaurant ();
 		newRestaurant.setName(name);
-		newRestaurant.setAdress(adress);
+		newRestaurant.setAddress(address);
 		newRestaurant.setPostalCode(postalCode);
 		newRestaurant.setTown(town);
 		
@@ -91,7 +91,7 @@ public class RestaurantController
 		{
 			RestaurantBLL restaurant = new RestaurantBLL();
 			
-			newRestaurant = restaurant.insert(name, adress, postalCode, town, 0);
+			newRestaurant = restaurant.insert(name, address, postalCode, town, 0);
 			
 			System.out.println("nouveau restaurant crée :"+ newRestaurant);
 			

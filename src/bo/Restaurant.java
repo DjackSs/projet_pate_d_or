@@ -4,7 +4,7 @@ public class Restaurant
 {
 	private int id;
 	private String name;
-	private String adress;
+	private String address;
 	private String postalCode;
 	private String town;
 	
@@ -13,11 +13,11 @@ public class Restaurant
 	
 	public Restaurant() {}
 	
-	public Restaurant(String name, String adress, String postal, String town)
+	public Restaurant(String name, String address, String postal, String town)
 	{
 		this.id =0;
 		this.name = name;
-		this.adress = adress;
+		this.address = address;
 		this.postalCode = postal;
 		this.town = town;
 		
@@ -41,12 +41,12 @@ public class Restaurant
 		this.name = name;
 	}
 
-	public String getAdress() {
-		return adress;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setAdress(String adress) {
-		this.adress = adress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	
@@ -79,7 +79,7 @@ public class Restaurant
 	@Override
 	public String toString() 
 	{
-		return "Restaurant [id=" + id + ", name=" + name + ", adress=" + adress + ", postal_code=" + postalCode
+		return "Restaurant [id=" + id + ", name=" + name + ", address=" + address + ", postal_code=" + postalCode
 				+ ", town=" + town + ", idCard=" + idCard + "]";
 	}
 	
