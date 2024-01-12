@@ -27,7 +27,7 @@ CREATE TABLE Schedules (
     close_hour		    time			not null,
     id_restaurant		int			        null,
 
-    FOREIGN KEY (id_restaurant) REFERENCES Restaurants(id) ,
+    FOREIGN KEY (id_restaurant) REFERENCES Restaurants(id) on delete cascade,
     check(close_hour > open_hour)
 	
 );
@@ -38,7 +38,7 @@ CREATE TABLE Tables (
     state           char(4)         null,
 	id_restaurant	INT				NOT NULL,
 
-    FOREIGN KEY (id_restaurant) REFERENCES Restaurants(id),
+    FOREIGN KEY (id_restaurant) REFERENCES Restaurants(id) on delete cascade,
     check(state in(null,'pres'))
 
 
