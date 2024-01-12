@@ -1,6 +1,6 @@
 package bo;
 
-public class Dishe 
+public class Dish 
 {
 	private int id;
 	private String name;
@@ -10,10 +10,10 @@ public class Dishe
 	private int idCard;
 	
 	
-	public Dishe () {}
+	public Dish () {}
 	
 
-	public Dishe(String name, float price, String description, String category, int idCard) 
+	public Dish(String name, float price, String description, String category, int idCard) 
 	{
 		this.id = 0;
 		this.name = name;
@@ -89,7 +89,7 @@ public class Dishe
 	@Override
 	public String toString() 
 	{
-		return "Dishe [id=" + id + ", name=" + name + ", price=" + price + ", description=" + description
+		return "Dish [id=" + id + ", name=" + name + ", price=" + price + ", description=" + description
 				+ ", category=" + category + ", idCard=" + idCard + "]";
 	}
 

@@ -48,7 +48,7 @@ public class RestaurantController
 		int choice = 0;
 
 		while (choice != 3)
-		{
+		{			
 			this.displayMenuAddResto();
 
 			choice = scan.nextInt();
@@ -64,7 +64,7 @@ public class RestaurantController
 				System.out.printf("choix 2\n");
 				break;
 			case 3 :
-				System.out.printf("exit\n");
+				System.out.println("Exit\n");
 				break;
 			default:
 				System.out.printf("choix invalide ! \n");
@@ -183,7 +183,7 @@ public class RestaurantController
 		while(choice != 7)
 		{
 			System.out.printf("============================================\n");
-			System.out.printf("    Choisissez votre valeure à modifier :\n");
+			System.out.printf("    Choisissez votre valeur à modifier :\n");
 			System.out.printf("============================================\n");
 
 			System.out.println("1 - Nom : "+ restaurant.getName());

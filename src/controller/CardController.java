@@ -92,8 +92,8 @@ public class CardController
 			
 			System.out.println("nouvelle carte crée :"+ newCard);
 			
-			DisheController disheController = new DisheController();
-			//disheController.addDishe(scan, newCard);
+			DishController DishController = new DishController();
+			DishController.addDish(scan, newCard);
 			
 			
 			this.bindCard(newCard, scan);
@@ -209,13 +209,13 @@ public class CardController
 	
 	public void updateCardMenu (Card card, Scanner scan)
 	{
-		
+		DishController dishController = new DishController();
 		int choice = 0;
 		
 		while(choice != 5)
 		{
 			System.out.printf("============================================\n");
-			System.out.printf("    Choisissez votre valeure à modifier :\n");
+			System.out.printf("    Choisissez votre valeur à modifier :\n");
 			System.out.printf("============================================\n");
 			
 			System.out.println("1 - Nom : "+ card.getName());
@@ -235,7 +235,7 @@ public class CardController
 					card.setName(newName);
 					break;
 				case 2:
-					//disheController
+					dishController.updateDishIntoCard(scan, card);
 					break;
 				case 3:
 					this.displayCardRestaurant(card, scan);
