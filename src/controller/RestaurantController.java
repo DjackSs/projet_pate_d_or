@@ -101,7 +101,7 @@ public class RestaurantController
 		{
 			this.restauranBLL = new RestaurantBLL();
 			
-			newRestaurant = restaurant.insert(name, address, postalCode, town, 0);
+			newRestaurant = this.restauranBLL.insert(name, address, postalCode, town, 0);
 			
 			System.out.println("nouveau restaurant crée :"+ newRestaurant);
 			
@@ -196,7 +196,7 @@ public class RestaurantController
 			System.out.printf("============================================\n");
 			
 			System.out.println("1 - Nom : "+ restaurant.getName());
-			System.out.println("2 - Adresse : "+ restaurant.getAdress());
+			System.out.println("2 - Adresse : "+ restaurant.getAddress());
 			System.out.println("3 - Code postal : "+ restaurant.getPostalCode());
 			System.out.println("4 - Ville : "+ restaurant.getTown());
 			System.out.println("5 - Horraires");
@@ -215,8 +215,8 @@ public class RestaurantController
 					break;
 				case 2:
 					System.out.printf("Choisissez une nouvelle adresse pour votre restaurant :\n");
-					String newAdress = scan.nextLine();
-					restaurant.setAdress(newAdress);
+					String newAddress = scan.nextLine();
+					restaurant.setAddress(newAddress);
 					break;
 				case 3:
 					System.out.printf("Choisissez un nouveau code postal pour votre restaurant :\n");
@@ -244,7 +244,7 @@ public class RestaurantController
 			
 			try 
 			{
-				this.restauranBLL.update(restaurant.getName(), restaurant.getAdress(), restaurant.getPostalCode(), restaurant.getTown(), restaurant.getIdCard(), restaurant);
+				this.restauranBLL.update(restaurant.getName(), restaurant.getAddress(), restaurant.getPostalCode(), restaurant.getTown(), restaurant.getIdCard(), restaurant);
 			} 
 			catch (BLLException e)
 			{
