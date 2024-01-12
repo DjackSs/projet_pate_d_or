@@ -2,11 +2,13 @@ package controller;
 
 import java.util.Scanner;
 
+import bo.Restaurant;
 
 
 public class Menu 
 {
 	private static Scanner scan;
+	private static Restaurant restaurant;
 
 	public static void main(String[] args) 
 	{
@@ -14,7 +16,7 @@ public class Menu
 		
 		scan = new Scanner(System.in);
 		
-		RestaurantController newRestaurant = new RestaurantController();
+		RestaurantController restaurantController = new RestaurantController();
 		
 		int choice = 0;
 		
@@ -33,16 +35,17 @@ public class Menu
 	        {
 
 		        case 1 :
-		        	newRestaurant.menuResto(scan);
+		        	restaurantController.menuResto(scan);
 		            break;
 		        case 2 :
-		        	System.out.printf("2\n");
+		        	restaurantController.updateRestaurantList(scan);
 		            break;
 		        case 3 :
-		        	System.out.printf("3\n");
+		        	restaurantController.deleteRestaurantList(scan);
 		            break;
 		        case 4 :
 		        	System.out.printf("4\n");
+		        	
 		            break;
 		        case 5 :
 		        	System.out.printf("5\n");
@@ -86,15 +89,6 @@ public class Menu
 	
 		
 	}
-	
-	
-	
-	
-	//==============================================================================
-	
-	
-	
-	
 	
 	
 	
