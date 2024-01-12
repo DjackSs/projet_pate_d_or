@@ -99,7 +99,6 @@ public class RestaurantController
 		
 		try 
 		{
-			this.restauranBLL = new RestaurantBLL();
 			
 			newRestaurant = this.restauranBLL.insert(name, adress, postalCode, town, 0);
 			
@@ -108,7 +107,7 @@ public class RestaurantController
 			//ScheduleController
 			
 			//TableController
-      TableController table = new TableController();
+			TableController table = new TableController();
 			table.addTable(scan, newRestaurant);
 			
 			
@@ -156,11 +155,10 @@ public class RestaurantController
 			scan.nextLine();
 			
 
-			if(choice >= 1 && choice < restaurants.size())
+			if(choice >= 1 && choice <= restaurants.size())
 			{
-				Restaurant restaurantToUpdate = restaurants.get(choice-1);
 				
-				updateRestaurantMenu(restaurantToUpdate, scan);
+				updateRestaurantMenu(restaurants.get(choice-1), scan);
 				
 			}
 			
@@ -281,7 +279,7 @@ public class RestaurantController
 			choice = scan.nextInt();
 			scan.nextLine();
 			
-			if(choice >= 0 && choice <= restaurants.size())
+			if(choice >= 1 && choice <= restaurants.size())
 			{
 				Restaurant restaurantToDelete = restaurants.get(choice-1);
 				
