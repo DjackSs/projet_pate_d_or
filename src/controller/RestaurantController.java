@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import bll.BLLException;
 import bll.RestaurantBLL;
+import bo.Card;
 import bo.Restaurant;
 
 public class RestaurantController 
@@ -93,7 +94,7 @@ public class RestaurantController
 		
 		Restaurant newRestaurant = new Restaurant ();
 		newRestaurant.setName(name);
-		newRestaurant.setAdress(adress);
+		newRestaurant.setAddress(adress);
 		newRestaurant.setPostalCode(postalCode);
 		newRestaurant.setTown(town);
 		
@@ -187,7 +188,7 @@ public class RestaurantController
 			System.out.printf("============================================\n");
 			
 			System.out.println("1 - Nom : "+ restaurant.getName());
-			System.out.println("2 - Adresse : "+ restaurant.getAdress());
+			System.out.println("2 - Adresse : "+ restaurant.getAddress());
 			System.out.println("3 - Code postal : "+ restaurant.getPostalCode());
 			System.out.println("4 - Ville : "+ restaurant.getTown());
 			System.out.println("5 - Horraires");
@@ -206,8 +207,8 @@ public class RestaurantController
 					break;
 				case 2:
 					System.out.printf("Choisissez une nouvelle adresse pour votre restaurant :\n");
-					String newAdress = scan.nextLine();
-					restaurant.setAdress(newAdress);
+					String newAddress = scan.nextLine();
+					restaurant.setAddress(newAddress);
 					break;
 				case 3:
 					System.out.printf("Choisissez un nouveau code postal pour votre restaurant :\n");
@@ -235,7 +236,7 @@ public class RestaurantController
 			
 			try 
 			{
-				this.restauranBLL.update(restaurant.getName(), restaurant.getAdress(), restaurant.getPostalCode(), restaurant.getTown(), restaurant.getIdCard(), restaurant);
+				this.restauranBLL.update(restaurant.getName(), restaurant.getAddress(), restaurant.getPostalCode(), restaurant.getTown(), restaurant.getIdCard(), restaurant);
 			} 
 			catch (BLLException e)
 			{
@@ -303,6 +304,59 @@ public class RestaurantController
 	
 	
 	//------------------------------------------------------------------
+	
+	public void bindCard(Card card, Scanner scan)
+	{
+		
+		System.out.printf("======================================================\n");
+		System.out.printf("    Choisissez un restaurant à associer à votre carte :\n");
+		System.out.printf("======================================================\n");
+		
+		
+		int choice = 0;
+		
+		try 
+		{
+			List<Restaurant> restaurants = this.restauranBLL.selectALl();
+			
+			for(int i=0; i<=restaurants.size(); i++)
+			{
+				if(i < restaurants.size())
+				{
+					System.out.println(i+1+" - "+restaurants.get(i));
+					
+				}
+				else
+				{
+					System.out.println(i+1+" - Quitter");		
+				}
+			}
+			
+			choice = scan.nextInt();
+			scan.nextLine();
+			
+			if(choice >= 1 && choice <= restaurants.size())
+			{
+				Restaurant restaurantToBind = restaurants.get(choice-1);
+				
+				restaurantToBind.setIdCard(card.getId());
+				
+				restauranBLL.update(restaurantToBind.getName(),restaurantToBind.getAddress(),restaurantToBind.getPostalCode(),restaurantToBind.getTown(),restaurantToBind.getIdCard(),restaurantToBind);
+				
+				System.out.println("Vous avez affecté la carte "+card.getName()+" au restaurant "+restaurantToBind.getName());
+				
+			}
+				
+			
+		} 
+		catch (BLLException e) 
+		{
+			
+			e.printStackTrace();
+		}
+		
+		
+	}
 	
 	
 

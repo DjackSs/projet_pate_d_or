@@ -4,12 +4,11 @@ import java.util.List;
 
 import bo.Restaurant;
 import dal.DALException;
-import dal.GenericDAOInterface;
 import dal.RestaurantDAO;
 
 public class RestaurantBLL 
 {
-	private GenericDAOInterface<Restaurant> dao;
+	private RestaurantDAO dao;
 	
 	private static final int NAME_MAX_LENGTH = 50;
 	private static final int ADRESS_MAX_LENGTH = 60;
@@ -72,6 +71,25 @@ public class RestaurantBLL
 		}
 		
 		
+	}
+	
+	//--------------------------------------------------------------
+	
+	public List<Restaurant> selectByFk(int fk) throws BLLException
+	{
+		
+		try
+		{
+				
+			return dao.selectByFk(fk);
+			
+		}
+		catch (DALException e) 
+		{
+			throw new BLLException("Echec de la recuperation des cartes associées au restaurant "+fk, e);
+		}
+		
+	
 	}
 	
 	//--------------------------------------------------------------
@@ -140,7 +158,7 @@ public class RestaurantBLL
 			
 			Restaurant restaurant = new Restaurant();
 			restaurant.setName(name);
-			restaurant.setAdress(adress);
+			restaurant.setAddress(adress);
 			restaurant.setPostalCode(postalCode);
 			restaurant.setTown(town);
 			restaurant.setIdCard(idCard);
@@ -217,7 +235,7 @@ public class RestaurantBLL
 		//idCard
 		
 		restaurant.setName(name);
-		restaurant.setAdress(adress);
+		restaurant.setAddress(adress);
 		restaurant.setPostalCode(postalCode);
 		restaurant.setTown(town);
 		restaurant.setIdCard(idCard);

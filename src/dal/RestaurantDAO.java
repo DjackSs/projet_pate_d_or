@@ -16,6 +16,8 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 		
 	private static final String SELECT_RESTAURANTS = "select Restaurants.* from Restaurants";
 	
+	private static final String SELECT_RESTAURANTS_BY_FK = "select Restaurants.* from Restaurants where Restaurants.id_card in(?)";
+	
 	private static final String SELECT_RESTAURANTS_BY_ID = "select Restaurants.* from Restaurants where Restaurants.id in(?)";
 	
 	private static final String INSERT_INTO_RESTAURANTS = "insert into Restaurants ( name, adress, postal_code, town, id_card) values ( ?, ?, ?, ?, ?)";
@@ -68,7 +70,7 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 				Restaurant restaurant = new Restaurant();
 				restaurant.setId(result.getInt("id"));
 				restaurant.setName(result.getString("name"));
-				restaurant.setAdress(result.getString("adress"));
+				restaurant.setAddress(result.getString("adress"));
 				restaurant.setPostalCode(result.getString("postal_code"));
 				restaurant.setTown(result.getString("town"));
 				restaurant.setIdCard(result.getInt("id_card"));	
@@ -112,7 +114,7 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 				restaurant = new Restaurant();
 				restaurant.setId(result.getInt("id"));
 				restaurant.setName(result.getString("name"));
-				restaurant.setAdress(result.getString("adress"));
+				restaurant.setAddress(result.getString("adress"));
 				restaurant.setPostalCode(result.getString("postal_code"));
 				restaurant.setTown(result.getString("town"));
 				restaurant.setIdCard(result.getInt("id_card"));	
@@ -134,6 +136,48 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 	
 	//--------------------------------------------------------------
 	
+		public List<Restaurant> selectByFk(int fk) throws DALException
+		{
+			List<Restaurant> restaurants = new ArrayList<>();
+			
+			try 
+			{
+				PreparedStatement query;
+				query = cnx.prepareStatement(SELECT_RESTAURANTS_BY_FK);
+				
+				query.setInt(1, fk);
+				
+				ResultSet result = query.executeQuery();
+				
+				while(result.next())
+				{
+					Restaurant restaurant = new Restaurant();
+					restaurant.setId(result.getInt("id"));
+					restaurant.setName(result.getString("name"));
+					restaurant.setAddress(result.getString("adress"));
+					restaurant.setPostalCode(result.getString("postal_code"));
+					restaurant.setTown(result.getString("town"));
+					restaurant.setIdCard(result.getInt("id_card"));	
+					
+					restaurants.add(restaurant);
+					
+				}
+				
+			} 
+			catch (SQLException error) 
+			{
+				
+				throw new DALException("Unable to recover datas", error);
+			}
+			
+			return restaurants;
+			
+			
+			
+		}
+	
+	//--------------------------------------------------------------
+	
 	public void insert(Restaurant restaurant) throws DALException
 	{
 		
@@ -143,7 +187,7 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 			query = cnx.prepareStatement(INSERT_INTO_RESTAURANTS,PreparedStatement.RETURN_GENERATED_KEYS);
 			
 			query.setString(1, restaurant.getName());
-			query.setString(2, restaurant.getAdress());
+			query.setString(2, restaurant.getAddress());
 			query.setString(3, restaurant.getPostalCode());
 			query.setString(4, restaurant.getTown());
 			
@@ -199,7 +243,7 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 			query = cnx.prepareStatement(UPDATE_RESTAURANTS);
 			
 			query.setString(1, restaurant.getName());
-			query.setString(2, restaurant.getAdress());
+			query.setString(2, restaurant.getAddress());
 			query.setString(3, restaurant.getPostalCode());
 			query.setString(4, restaurant.getTown());
 			

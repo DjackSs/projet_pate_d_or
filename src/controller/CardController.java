@@ -5,7 +5,9 @@ import java.util.Scanner;
 
 import bll.BLLException;
 import bll.CardBLL;
+import bll.RestaurantBLL;
 import bo.Card;
+import bo.Restaurant;
 
 public class CardController 
 {
@@ -92,12 +94,59 @@ public class CardController
 			
 			//ajouter des plat avec disheController
 			
+			this.bindCard(newCard, scan);
+			
 		}
 		catch (BLLException e) 
 		{
 			e.printStackTrace();
 		}
 		
+		
+		
+	}
+	
+	//------------------------------------------------------------------
+	
+	public void bindCardMenu()
+	{
+		System.out.printf("============================================\n");
+		System.out.printf("    Affecter la carte à un restaurant ? \n");
+		System.out.printf("============================================\n");
+		System.out.printf("1 - Obtenir la liste des restaurant\n");
+		System.out.printf("2 - Retour\n");
+		
+		
+	}
+	
+	public void bindCard(Card card, Scanner scan)
+	{
+		int choice = 0;
+		
+		while(choice != 2)
+		{
+			bindCardMenu();
+			
+			choice = scan.nextInt();
+			scan.nextLine();
+			
+			switch(choice)
+			{
+				case 1:
+					RestaurantController restaurantController = new RestaurantController();
+					restaurantController.bindCard(card, scan);
+					break;
+				case 2:
+					break;
+				default:
+					System.out.println("Choix invalide");
+					break;
+				
+			}
+			
+			
+		}
+			
 		
 		
 	}
@@ -139,7 +188,7 @@ public class CardController
 			if(choice >= 1 && choice <= cards.size())
 			{
 				
-				updateCardMenu(cards.get(choice-1), scan);
+				this.updateCardMenu(cards.get(choice-1), scan);
 				
 			}
 			
@@ -161,7 +210,7 @@ public class CardController
 		
 		int choice = 0;
 		
-		while(choice != 3)
+		while(choice != 5)
 		{
 			System.out.printf("============================================\n");
 			System.out.printf("    Choisissez votre valeure à modifier :\n");
@@ -169,7 +218,9 @@ public class CardController
 			
 			System.out.println("1 - Nom : "+ card.getName());
 			System.out.println("2 - Plats dans la carte");
-			System.out.println("3 - Quitter");
+			System.out.println("3 - Supprimer l'affectation de restaurant");
+			System.out.println("4 - Affecter à un restaurant");
+			System.out.println("5 - Quitter");
 			
 			choice = scan.nextInt();
 			scan.nextLine();
@@ -185,6 +236,13 @@ public class CardController
 					//disheController
 					break;
 				case 3:
+					this.displayCardRestaurant(card, scan);
+					break;
+				case 4:
+					RestaurantController restaurantController = new RestaurantController();
+					restaurantController.bindCard(card, scan);
+					break;
+				case 5:
 					break;
 				default:
 					System.out.println("Choix invalide");
@@ -203,6 +261,89 @@ public class CardController
 			
 		}
 		
+		
+	}
+	
+	//------------------------------------------------------------------
+	
+	public void displayCardRestaurant(Card card, Scanner scan)
+	{
+		
+		try 
+		{
+			RestaurantBLL restaurantBLL = new RestaurantBLL();
+			List<Restaurant> bindedRestaurant = restaurantBLL.selectByFk(card.getId());
+			
+			if(bindedRestaurant.size() != 0)
+			{
+				deleteRestaurantBindedList(bindedRestaurant, restaurantBLL, scan);
+				
+			}
+			else
+			{
+				System.out.println("Cette carte n'est affectée à aucuns restaurant");
+			}
+			
+			
+		} catch (BLLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+	}
+	
+	//------------------------------------------------------------------
+	
+	public void deleteRestaurantBindedList (List<Restaurant> restaurants, RestaurantBLL restaurantBLL, Scanner scan)
+	{
+		
+		System.out.printf("============================================\n");
+		System.out.printf("    Choisissez un restaurant à dé-affecter :\n");
+		System.out.printf("============================================\n");
+		
+		
+		int choice = 0;
+		
+		try 
+		{
+			
+			for(int i=0; i<=restaurants.size(); i++)
+			{
+				if(i < restaurants.size())
+				{
+					System.out.println(i+1+" - "+restaurants.get(i));
+					
+				}
+				else
+				{
+					System.out.println(i+1+" - Quitter");		
+				}
+			}
+			
+			choice = scan.nextInt();
+			scan.nextLine();
+			
+			if(choice >= 1 && choice <= restaurants.size())
+			{
+				Restaurant restaurantToUnbind = restaurants.get(choice-1);
+				restaurantToUnbind.setIdCard(0);
+				
+				restaurantBLL.update(restaurantToUnbind.getName(), restaurantToUnbind.getAddress(), restaurantToUnbind.getPostalCode(), restaurantToUnbind.getTown(), restaurantToUnbind.getIdCard(), restaurantToUnbind);
+				
+				System.out.println("Vous avez retirez la carte du restaurant "+restaurantToUnbind);
+				
+				
+			}
+				
+			
+		} 
+		catch (BLLException e) 
+		{
+			
+			e.printStackTrace();
+		}
+		
+	
 		
 	}
 	
