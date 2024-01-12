@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import bll.BLLException;
 import bll.RestaurantBLL;
+import bll.ScheduleBLL;
 import bo.Restaurant;
 
 public class RestaurantController 
@@ -79,10 +80,8 @@ public class RestaurantController
 		System.out.printf("Choisissez un nom pour votre restaurant :\n");
 		String name = scan.nextLine();
 
-
-		System.out.printf("Entrez une addresse pour votre restaurant :\n");
-		String adress = scan.nextLine();
-
+		System.out.printf("Entrez une adresse pour votre restaurant :\n");
+		String address = scan.nextLine();
 
 		System.out.printf("Entrez le code postal de votre restaurant :\n");
 		String postalCode = scan.nextLine();
@@ -93,19 +92,19 @@ public class RestaurantController
 
 		Restaurant newRestaurant = new Restaurant ();
 		newRestaurant.setName(name);
-		newRestaurant.setAdress(adress);
+		newRestaurant.setAddress(address);
 		newRestaurant.setPostalCode(postalCode);
 		newRestaurant.setTown(town);
 
 		try 
 		{
-			this.restauranBLL = new RestaurantBLL();
-
-			newRestaurant = this.restauranBLL.insert(name, adress, postalCode, town, 0);
-
+			newRestaurant = this.restauranBLL.insert(name, address, postalCode, town, 0);
+			
 			System.out.println("nouveau restaurant crée :"+ newRestaurant);
 
 			//ScheduleController
+			ScheduleController restaurantSchedule = new ScheduleController();
+			restaurantSchedule.addRestaurantTimeSlots(scan, newRestaurant);
 
 			//TableController
 			TableController table = new TableController();
@@ -155,16 +154,10 @@ public class RestaurantController
 			choice = scan.nextInt();
 			scan.nextLine();
 
-
 			if(choice >= 1 && choice <= restaurants.size())
 			{
-				Restaurant restaurantToUpdate = restaurants.get(choice-1);
-
-				updateRestaurantMenu(restaurantToUpdate, scan);
-
+				updateRestaurantMenu(restaurants.get(choice-1), scan);
 			}
-
-
 		} 
 		catch (BLLException e) 
 		{
@@ -189,7 +182,7 @@ public class RestaurantController
 			System.out.printf("============================================\n");
 
 			System.out.println("1 - Nom : "+ restaurant.getName());
-			System.out.println("2 - Adresse : "+ restaurant.getAdress());
+			System.out.println("2 - Adresse : "+ restaurant.getAddress());
 			System.out.println("3 - Code postal : "+ restaurant.getPostalCode());
 			System.out.println("4 - Ville : "+ restaurant.getTown());
 			System.out.println("5 - Horraires");
@@ -235,12 +228,11 @@ public class RestaurantController
 			default:
 				System.out.println("Choix invalide");
 				break;
-
 			}
 
 			try 
 			{
-				this.restauranBLL.update(restaurant.getName(), restaurant.getAdress(), restaurant.getPostalCode(), restaurant.getTown(), restaurant.getIdCard(), restaurant);
+				this.restauranBLL.update(restaurant.getName(), restaurant.getAddress(), restaurant.getPostalCode(), restaurant.getTown(), restaurant.getIdCard(), restaurant);
 			} 
 			catch (BLLException e)
 			{
@@ -283,8 +275,8 @@ public class RestaurantController
 
 			choice = scan.nextInt();
 			scan.nextLine();
-
-			if(choice >= 0 && choice <= restaurants.size())
+			
+			if(choice >= 1 && choice <= restaurants.size())
 			{
 				Restaurant restaurantToDelete = restaurants.get(choice-1);
 

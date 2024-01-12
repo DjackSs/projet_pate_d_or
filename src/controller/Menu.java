@@ -8,7 +8,6 @@ import bo.Restaurant;
 public class Menu 
 {
 	private static Scanner scan;
-	private static Restaurant restaurant;
 
 	public static void main(String[] args) 
 	{
@@ -17,13 +16,14 @@ public class Menu
 		scan = new Scanner(System.in);
 		
 		RestaurantController restaurantController = new RestaurantController();
+		CardController cardController = new CardController();
 		
 		int choice = 0;
 		
 		
 		//------------------------------------------------------------------
 		
-		while (choice != 6)
+		while (choice != 7)
 		{
 			
 			displayMenu();
@@ -44,14 +44,16 @@ public class Menu
 		        	restaurantController.deleteRestaurantList(scan);
 		            break;
 		        case 4 :
-		        	System.out.printf("4\n");
-		        	
+		        	cardController.menuCard(scan);
 		            break;
 		        case 5 :
-		        	System.out.printf("5\n");
+		        	cardController.updateCardList(scan);
 		            break;
 		        case 6 :
-		        	System.out.printf("6\n");
+		        	cardController.deleteCardList(scan);
+		            break;
+		        case 7 :
+		        	System.out.printf("Au revoir\n");
 		            break;
 		        default:
 		        	System.out.printf("choix invalide ! \n");
@@ -84,7 +86,8 @@ public class Menu
 		System.out.printf("3 - Supprimer un restaurant\n");
 		System.out.printf("4 - Creer une carte\n");
 		System.out.printf("5 - Modifier une carte\n");
-		System.out.printf("6 - Quitter en apuyant sur 6\n");
+		System.out.printf("6 - Supprimer une carte\n");
+		System.out.printf("7 - Quitter en apuyant sur 7\n");
 		
 	
 		

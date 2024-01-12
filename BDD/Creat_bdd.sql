@@ -12,7 +12,7 @@ CREATE TABLE Cards (
 CREATE TABLE Restaurants (
 	id				INT				PRIMARY KEY identity,
     name			VARCHAR(50)		NOT NULL,
-    adress			VARCHAR(60)		NOT NULL,
+    address			VARCHAR(60)		NOT NULL,
     postal_code     CHAR(5)         not null,
     town            varchar(40)     not null,
     id_card			int		        NULL,
