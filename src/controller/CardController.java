@@ -90,7 +90,9 @@ public class CardController
 			
 			System.out.println("nouvelle carte crée :"+ newCard);
 			
-			//ajouter des plat avec disheController
+			DisheController disheController = new DisheController();
+			//disheController.addDishe(scan, newCard);
+			
 			
 		}
 		catch (BLLException e) 
