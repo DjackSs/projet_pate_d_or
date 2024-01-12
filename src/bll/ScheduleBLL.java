@@ -5,11 +5,10 @@ import java.util.List;
 
 import bo.Schedule;
 import dal.DALException;
-import dal.GenericDAOInterface;
 import dal.ScheduleDAO;
 
 public class ScheduleBLL {
-	private GenericDAOInterface<Schedule> dao;
+	private ScheduleDAO dao;
 
 	public ScheduleBLL() throws BLLException {
 		try {
@@ -32,6 +31,14 @@ public class ScheduleBLL {
 			return dao.selectById(id);
 		} catch (DALException e) {
 			throw new BLLException("Echec de la récupération de l'horaire d'id " + id, e);
+		}
+	}
+	
+	public List<Schedule> selectAllByIdRestaurant(int id) throws BLLException {
+		try {
+			return dao.selectAllByIdRestaurant(id);
+		} catch (DALException e) {
+			throw new BLLException("Echec de la récupération des horaires du restaurant d'id " + id, e);
 		}
 	}
 	

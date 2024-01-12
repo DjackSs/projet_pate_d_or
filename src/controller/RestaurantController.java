@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import bll.BLLException;
 import bll.RestaurantBLL;
-import bll.ScheduleBLL;
 import bo.Restaurant;
 
 public class RestaurantController 
@@ -105,14 +104,12 @@ public class RestaurantController
 			
 			System.out.println("nouveau restaurant crée :"+ newRestaurant);
 			
-			//ScheduleController
-			//------------------------------------------------------------------
-			//associer newrestaurant à une horaire
-			
-			//envoi dans SheldulesController
-			//recupère newRestaurant
+			// Gestion du 1er créneau horaire de base du restaurant créé
 			ScheduleController restaurantSchedule = new ScheduleController();
-			restaurantSchedule.addRestaurantTimeSlots(scan, newRestaurant);
+			restaurantSchedule.createRestaurantTimeSlots(scan, newRestaurant);
+			
+			// Gestion de la création potentielle de nouveaux créneaux horaires du restaurant crée
+			restaurantSchedule.addNewRestaurantTimeSlots(scan, newRestaurant);
 
 			//TableController
       TableController table = new TableController();
