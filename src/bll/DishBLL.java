@@ -3,15 +3,15 @@ package bll;
 import java.util.Arrays;
 import java.util.List;
 
-import bo.Dishe;
+import bo.Dish;
 import dal.DALException;
-import dal.DisheDAO;
+import dal.DishDAO;
 import dal.GenericDAOInterface;
 
-public class DisheBLL 
+public class DishBLL 
 {
 	
-	private GenericDAOInterface<Dishe> dao;
+	private GenericDAOInterface<Dish> dao;
 	
 	private static final int NAME_MAX_LENGTH = 40;
 	private static final int DESCRIPTION_MAX_LENGTH = 250;
@@ -21,12 +21,12 @@ public class DisheBLL
 	
 	//==============================================================
 	
-	public DisheBLL() throws BLLException
+	public DishBLL() throws BLLException
 	{
 		
 		try
 		{
-			this.dao = new DisheDAO();
+			this.dao = new DishDAO();
 			
 		}
 		catch (DALException error)
@@ -41,7 +41,7 @@ public class DisheBLL
 	//==============================================================
 	
 	
-	public List<Dishe> selectALl() throws BLLException
+	public List<Dish> selectALl() throws BLLException
 	{
 
 		try 
@@ -59,7 +59,7 @@ public class DisheBLL
 	
 	//--------------------------------------------------------------
 	
-	public Dishe selectById(int id) throws BLLException
+	public Dish selectById(int id) throws BLLException
 	{
 		
 		try 
@@ -77,27 +77,27 @@ public class DisheBLL
 	
 	//--------------------------------------------------------------
 
-	public Dishe insert(String name, Float price, String description, String category, int idCard) throws BLLException
+	public Dish insert(String name, Float price, String description, String category, int idCard) throws BLLException
 	{
 		
 		
 		//name
 		if(name.length() > NAME_MAX_LENGTH)
 		{
-			throw new BLLException("Dishe's name is too big", null);
+			throw new BLLException("Dish's name is too big", null);
 					
 		}
 		
 		if(name.length() < MIN_LENGTH)
 		{
-			throw new BLLException("Dishe's name is too small", null);
+			throw new BLLException("Dish's name is too small", null);
 			
 		}
 		
 		//price
 		if(price > PRICE_MAX_VALUE)
 		{
-			throw new BLLException("Dishe's price is too high", null);
+			throw new BLLException("Dish's price is too high", null);
 			
 		}
 		
@@ -105,13 +105,13 @@ public class DisheBLL
 		//description
 		if(description.length() > DESCRIPTION_MAX_LENGTH)
 		{
-			throw new BLLException("Dishe's description is too big", null);
+			throw new BLLException("Dish's description is too big", null);
 					
 		}
 		
 		if(description.length() < MIN_LENGTH)
 		{
-			throw new BLLException("Dishe's description is too small", null);
+			throw new BLLException("Dish's description is too small", null);
 			
 		}
 		
@@ -121,7 +121,7 @@ public class DisheBLL
 		
 		if(!AllowedCategories.contains(category.toLowerCase()) )
 		{
-			throw new BLLException("Invalid dishe's category", null);
+			throw new BLLException("Invalid Dish's category", null);
 				
 		}
 		
@@ -132,16 +132,16 @@ public class DisheBLL
 		try
 		{
 			
-			Dishe dishe = new Dishe();
-			dishe.setName(name);
-			dishe.setPrice(price);
-			dishe.setDescription(description);
-			dishe.setCategory(category.toLowerCase());
-			dishe.setIdCard(idCard);
+			Dish Dish = new Dish();
+			Dish.setName(name);
+			Dish.setPrice(price);
+			Dish.setDescription(description);
+			Dish.setCategory(category.toLowerCase());
+			Dish.setIdCard(idCard);
 			
-			dao.insert(dishe);
+			dao.insert(Dish);
 			
-			return dishe;
+			return Dish;
 			
 			
 			
@@ -155,26 +155,26 @@ public class DisheBLL
 	
 	//--------------------------------------------------------------
 	
-	public void update(String name, Float price, String description, String category, int idCard, Dishe dishe) throws BLLException
+	public void update(String name, Float price, String description, String category, int idCard, Dish Dish) throws BLLException
 	{
 			
 		//name
 		if(name.length() > NAME_MAX_LENGTH)
 		{
-			throw new BLLException("Dishe's name is too big", null);
+			throw new BLLException("Dish's name is too big", null);
 					
 		}
 		
 		if(name.length() < MIN_LENGTH)
 		{
-			throw new BLLException("Dishe's name is too small", null);
+			throw new BLLException("Dish's name is too small", null);
 			
 		}
 		
 		//price
 		if(price > PRICE_MAX_VALUE)
 		{
-			throw new BLLException("Dishe's price is too high", null);
+			throw new BLLException("Dish's price is too high", null);
 			
 		}
 		
@@ -182,13 +182,13 @@ public class DisheBLL
 		//description
 		if(description.length() > DESCRIPTION_MAX_LENGTH)
 		{
-			throw new BLLException("Dishe's description is too big", null);
+			throw new BLLException("Dish's description is too big", null);
 					
 		}
 		
 		if(description.length() < MIN_LENGTH)
 		{
-			throw new BLLException("Dishe's description is too small", null);
+			throw new BLLException("Dish's description is too small", null);
 			
 		}
 		
@@ -198,23 +198,23 @@ public class DisheBLL
 		
 		if(!AllowedCategories.contains(category.toLowerCase()) )
 		{
-			throw new BLLException("Invalid dishe's category", null);
+			throw new BLLException("Invalid Dish's category", null);
 				
 		}
 		
 		
 		//idCard
 		
-		dishe.setName(name);
-		dishe.setPrice(price);
-		dishe.setDescription(description);
-		dishe.setCategory(category.toLowerCase());
-		dishe.setIdCard(idCard);
+		Dish.setName(name);
+		Dish.setPrice(price);
+		Dish.setDescription(description);
+		Dish.setCategory(category.toLowerCase());
+		Dish.setIdCard(idCard);
 		
 		
 		try 
 		{
-			dao.update(dishe);
+			dao.update(Dish);
 			
 		} catch (DALException error)
 		{

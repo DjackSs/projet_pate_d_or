@@ -201,8 +201,8 @@ public class RestaurantController
 				break;
 			case 2:
 				System.out.printf("Choisissez une nouvelle adresse pour votre restaurant :\n");
-				String newAdress = scan.nextLine();
-				restaurant.setAdress(newAdress);
+				String newAddress = scan.nextLine();
+				restaurant.setAddress(newAddress);
 				break;
 			case 3:
 				System.out.printf("Choisissez un nouveau code postal pour votre restaurant :\n");

@@ -8,26 +8,26 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import bo.Dishe;
+import bo.Dish;
 
-public class DisheDAO implements GenericDAOInterface<Dishe> 
+public class DishDAO implements GenericDAOInterface<Dish> 
 {
 	private Connection cnx;
 	
-	private static final String SELECT_DISHES = "select Dishes.* from Dishes";
+	private static final String SELECT_DISH = "select DISHES.* from DISH";
 	
-	private static final String SELECT_DISHES_BY_ID = "select Dishes.* from Dishes where Dishes.id in(?)";
+	private static final String SELECT_DISH_BY_ID = "select DISHES.* from DISH where DISH.id in(?)";
 	
-	private static final String INSERT_INTO_DISHES = "insert into Dishes ( name, price, description, category, id_card) values ( ?, ?, ?, ?, ?)";
+	private static final String INSERT_INTO_DISH = "insert into DISHES ( name, price, description, category, id_card) values ( ?, ?, ?, ?, ?)";
 
-	private static final String UPDATE_DISHES = "update Dishes set Dishes.name = ?, Dishes.price = ?, Dishes.description = ?, Dishes.category = ?, Dishes.id_card = ? where Dishes.id = ?";
+	private static final String UPDATE_DISH = "update DISHES set DISHES.name = ?, DISHES.price = ?, DISHES.description = ?, DISHES.category = ?, DISHES.id_card = ? where DISHES.id = ?";
 	
-	private static final String DELETE_DISHES = "delete from Dishes where Dishes.id = ?";
+	private static final String DELETE_DISH = "delete from DISHES where DISH.id = ?";
 		
 		
 	//==============================================================
 	
-	public DisheDAO() throws DALException
+	public DishDAO() throws DALException
 	{
 		try 
 		{
@@ -50,29 +50,29 @@ public class DisheDAO implements GenericDAOInterface<Dishe>
 	
 	//==============================================================
 	
-	public List<Dishe> selectAll() throws DALException
+	public List<Dish> selectAll() throws DALException
 	{
-		List<Dishe> dishes = new ArrayList<>();
+		List<Dish> DISH = new ArrayList<>();
 		
 		try 
 		{
 			PreparedStatement query;
-			query = cnx.prepareStatement(SELECT_DISHES);
+			query = cnx.prepareStatement(SELECT_DISH);
 			
 			ResultSet result = query.executeQuery();
 			
 			while(result.next())
 			{
-				Dishe dishe = new Dishe();
-				dishe.setId(result.getInt("id"));
-				dishe.setName(result.getString("name"));
-				dishe.setPrice(result.getFloat("price"));
-				dishe.setDescription(result.getString("description"));
-				dishe.setCategory(result.getString("category"));
-				dishe.setIdCard(result.getInt("id_card"));
+				Dish Dish = new Dish();
+				Dish.setId(result.getInt("id"));
+				Dish.setName(result.getString("name"));
+				Dish.setPrice(result.getFloat("price"));
+				Dish.setDescription(result.getString("description"));
+				Dish.setCategory(result.getString("category"));
+				Dish.setIdCard(result.getInt("id_card"));
 				
 				
-				dishes.add(dishe);
+				DISH.add(Dish);
 				
 			}
 			
@@ -83,7 +83,7 @@ public class DisheDAO implements GenericDAOInterface<Dishe>
 			throw new DALException("Unable to recover datas", error);
 		}
 		
-		return dishes;
+		return DISH;
 		
 		
 		
@@ -91,15 +91,15 @@ public class DisheDAO implements GenericDAOInterface<Dishe>
 	
 	//--------------------------------------------------------------
 	
-	public Dishe selectById(int id) throws DALException
+	public Dish selectById(int id) throws DALException
 	{
-		Dishe dishe = null;
+		Dish Dish = null;
 		
 		try 
 		{
 			
 			PreparedStatement query;
-			query = cnx.prepareStatement(SELECT_DISHES_BY_ID);
+			query = cnx.prepareStatement(SELECT_DISH_BY_ID);
 			
 			query.setInt(1, id);
 			
@@ -108,13 +108,13 @@ public class DisheDAO implements GenericDAOInterface<Dishe>
 			
 			if(result.next())
 			{
-				dishe = new Dishe();
-				dishe.setId(result.getInt("id"));
-				dishe.setName(result.getString("name"));
-				dishe.setPrice(result.getFloat("price"));
-				dishe.setDescription(result.getString("description"));
-				dishe.setCategory(result.getString("category"));
-				dishe.setIdCard(result.getInt("id_card"));
+				Dish = new Dish();
+				Dish.setId(result.getInt("id"));
+				Dish.setName(result.getString("name"));
+				Dish.setPrice(result.getFloat("price"));
+				Dish.setDescription(result.getString("description"));
+				Dish.setCategory(result.getString("category"));
+				Dish.setIdCard(result.getInt("id_card"));
 				
 				
 				
@@ -127,7 +127,7 @@ public class DisheDAO implements GenericDAOInterface<Dishe>
 			throw new DALException("Unable to recover the data", error);
 		}
 		
-		return dishe;
+		return Dish;
 		
 		
 		
@@ -135,22 +135,22 @@ public class DisheDAO implements GenericDAOInterface<Dishe>
 	
 	//--------------------------------------------------------------
 	
-	public void insert(Dishe dishe) throws DALException
+	public void insert(Dish Dish) throws DALException
 	{
 		
 		try 
 		{
 			PreparedStatement query;
-			query = cnx.prepareStatement(INSERT_INTO_DISHES,PreparedStatement.RETURN_GENERATED_KEYS);
+			query = cnx.prepareStatement(INSERT_INTO_DISH,PreparedStatement.RETURN_GENERATED_KEYS);
 			
-			query.setString(1, dishe.getName());
-			query.setFloat(2, dishe.getPrice());
-			query.setString(3, dishe.getDescription());
-			query.setString(4, dishe.getCategory());
+			query.setString(1, Dish.getName());
+			query.setFloat(2, Dish.getPrice());
+			query.setString(3, Dish.getDescription());
+			query.setString(4, Dish.getCategory());
 			
-			if(dishe.getIdCard() != 0)
+			if(Dish.getIdCard() != 0)
 			{
-				query.setInt(5, dishe.getIdCard());
+				query.setInt(5, Dish.getIdCard());
 				
 			}
 			else
@@ -172,7 +172,7 @@ public class DisheDAO implements GenericDAOInterface<Dishe>
 			if(generatedKey.next()) 
 			{
 				int primarykey = generatedKey.getInt(1);
-				dishe.setId(primarykey);
+				Dish.setId(primarykey);
 				
 			}
 			
@@ -190,23 +190,23 @@ public class DisheDAO implements GenericDAOInterface<Dishe>
 	
 	//--------------------------------------------------------------
 	
-	public void update(Dishe dishe) throws DALException
+	public void update(Dish Dish) throws DALException
 	{
 		
 		try 
 		{
 			PreparedStatement query;
 			
-			query = cnx.prepareStatement(UPDATE_DISHES);
+			query = cnx.prepareStatement(UPDATE_DISH);
 			
-			query.setString(1, dishe.getName());
-			query.setFloat(2, dishe.getPrice());
-			query.setString(3, dishe.getDescription());
-			query.setString(4, dishe.getCategory());
+			query.setString(1, Dish.getName());
+			query.setFloat(2, Dish.getPrice());
+			query.setString(3, Dish.getDescription());
+			query.setString(4, Dish.getCategory());
 			
-			if(dishe.getIdCard() != 0)
+			if(Dish.getIdCard() != 0)
 			{
-				query.setInt(5, dishe.getIdCard());
+				query.setInt(5, Dish.getIdCard());
 				
 			}
 			else
@@ -215,7 +215,7 @@ public class DisheDAO implements GenericDAOInterface<Dishe>
 			}
 			
 			
-			query.setInt(6, dishe.getId());
+			query.setInt(6, Dish.getId());
 			
 			int result = query.executeUpdate();
 			
@@ -244,7 +244,7 @@ public class DisheDAO implements GenericDAOInterface<Dishe>
 		{
 			
 			PreparedStatement query;
-			query = cnx.prepareStatement(DELETE_DISHES);
+			query = cnx.prepareStatement(DELETE_DISH);
 	
 			query.setInt(1, id);
 					

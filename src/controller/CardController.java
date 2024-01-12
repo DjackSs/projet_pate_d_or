@@ -90,8 +90,8 @@ public class CardController
 			
 			System.out.println("nouvelle carte crée :"+ newCard);
 			
-			DisheController disheController = new DisheController();
-			//disheController.addDishe(scan, newCard);
+			DishController DishController = new DishController();
+			DishController.addDish(scan, newCard);
 			
 			
 		}
@@ -184,7 +184,7 @@ public class CardController
 					card.setName(newName);
 					break;
 				case 2:
-					//disheController
+					//DishController
 					break;
 				case 3:
 					break;
