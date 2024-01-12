@@ -154,7 +154,7 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 					Restaurant restaurant = new Restaurant();
 					restaurant.setId(result.getInt("id"));
 					restaurant.setName(result.getString("name"));
-					restaurant.setAddress(result.getString("adress"));
+					restaurant.setAddress(result.getString("address"));
 					restaurant.setPostalCode(result.getString("postal_code"));
 					restaurant.setTown(result.getString("town"));
 					restaurant.setIdCard(result.getInt("id_card"));	

@@ -1,0 +1,5 @@
+nom,adresse,codePostal,ville,ouverture,fermeture,nombreDeTable,nombreDePlace
+nom1,adresse1,44000,ville1,10:00/18:00,15:00/23:00,5/10/3,2/4/6
+nom2,adresse2,44000,ville2,09:00/12:00,10:00/18:00,2/15,2/6
+nom3,adresse3,44000,ville3,10:00,23:00,10,4
+nom4,adresse4,44000,ville4,15:00,23:00,5/5/5,2/4/6

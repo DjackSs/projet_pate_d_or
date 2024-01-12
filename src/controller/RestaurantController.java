@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import bll.BLLException;
 import bll.RestaurantBLL;
-import bll.ScheduleBLL;
 import bo.Card;
 import bo.Restaurant;
 
@@ -34,7 +33,7 @@ public class RestaurantController
 		System.out.printf("============================================\n");
 
 		System.out.printf("1 - Ajouter un restaurant manuellement\n");
-		System.out.printf("2 - Modifier un restaurant à partir d'un fichier\n");
+		System.out.printf("2 - Ajouter1 un restaurant à partir d'un fichier\n");
 		System.out.printf("3 - Retour\n");
 	}
 
@@ -59,7 +58,7 @@ public class RestaurantController
 				this.addRestaurant(scan);
 				break;
 			case 2 :
-				System.out.printf("choix 2\n");
+				this.parseRestaurant(scan);
 				break;
 			case 3 :
 				System.out.printf("exit\n");
@@ -120,6 +119,26 @@ public class RestaurantController
 
 
 
+	}
+	
+	public void parseRestaurant (Scanner scan)
+	{
+		System.out.printf("============================================\n");
+		System.out.printf("    AJOUTER UN RESTAURANT A PARTIR D'UN CSV\n");
+		System.out.printf("============================================\n");
+		
+		System.out.printf("Placez votre fichier CSV dans le dossier et indiquer son nom :\n");
+		System.out.printf("Nom du fichier CSV ? \n");
+		
+		String data = scan.nextLine();
+		String mime = ".csv";
+		
+		CSVReader reader = new CSVReader();
+		
+		List<Restaurant> restaurants = reader.parseRestaurant(data.concat(mime));
+		
+		
+		
 	}
 
 	//------------------------------------------------------------------
