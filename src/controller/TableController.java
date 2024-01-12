@@ -43,7 +43,7 @@ public class TableController
 		        	this.addTable(scan, restaurant);
 		            break;
 		        case 2 :
-		        	createRestaurant.menuResto(scan, restaurant);
+		        	createRestaurant.menuResto(scan);
 		            break;
 		        default:
 		        	System.out.printf("choix invalide ! \n");
