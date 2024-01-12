@@ -5,17 +5,21 @@ import java.util.Scanner;
 
 import bll.BLLException;
 import bll.RestaurantBLL;
+import bll.ScheduleBLL;
+import bo.Card;
 import bo.Restaurant;
 
 public class RestaurantController 
 {
 	private RestaurantBLL restauranBLL;
-
+	private ScheduleController restaurantSchedule;
+  
 	public RestaurantController() 
 	{
 		try 
 		{
 			this.restauranBLL = new RestaurantBLL();
+			restaurantSchedule = new ScheduleController();
 		} 
 		catch (BLLException e) 
 		{
@@ -100,10 +104,12 @@ public class RestaurantController
 			newRestaurant = this.restauranBLL.insert(name, address, postalCode, town, 0);
 			
 			System.out.println("nouveau restaurant crée :"+ newRestaurant);
-
-			//ScheduleController
-			ScheduleController restaurantSchedule = new ScheduleController();
-			restaurantSchedule.addRestaurantTimeSlots(scan, newRestaurant);
+			
+			// Gestion du 1er créneau horaire de base du restaurant créé
+			restaurantSchedule.createRestaurantTimeSlots(scan, newRestaurant);
+			
+			// Gestion de la création potentielle de nouveaux créneaux horaires du restaurant crée
+			restaurantSchedule.addNewRestaurantTimeSlots(scan, newRestaurant);
 
 			//TableController
 			TableController table = new TableController();
@@ -193,40 +199,40 @@ public class RestaurantController
 
 			switch(choice)
 			{
-			case 1:
-				System.out.printf("Choisissez un nouveau nom pour votre restaurant :\n");
-				String newName = scan.nextLine();
-				restaurant.setName(newName);
-				break;
-			case 2:
-				System.out.printf("Choisissez une nouvelle adresse pour votre restaurant :\n");
-				String newAddress = scan.nextLine();
-				restaurant.setAddress(newAddress);
-				break;
-			case 3:
-				System.out.printf("Choisissez un nouveau code postal pour votre restaurant :\n");
-				String newPostalCode = scan.nextLine();
-				restaurant.setPostalCode(newPostalCode);
-				break;
-			case 4:
-				System.out.printf("Choisissez une nouvelleville pour votre restaurant :\n");
-				String newTown = scan.nextLine();
-				restaurant.setTown(newTown);
-				break;
-			case 5:
-				//SchedulesController
-				break;
-			case 6:
-				//TableController
-				System.out.printf("Modifier la disposition des tables du restaurant :\n");
-				TableController table = new TableController();
-				table.updateTable(scan, restaurant);
-				break;
-			case 7:
-				break;
-			default:
-				System.out.println("Choix invalide");
-				break;
+				case 1:
+					System.out.printf("Choisissez un nouveau nom pour votre restaurant :\n");
+					String newName = scan.nextLine();
+					restaurant.setName(newName);
+					break;
+				case 2:
+					System.out.printf("Choisissez une nouvelle adresse pour votre restaurant :\n");
+					String newAddress = scan.nextLine();
+					restaurant.setAddress(newAddress);
+					break;
+				case 3:
+					System.out.printf("Choisissez un nouveau code postal pour votre restaurant :\n");
+					String newPostalCode = scan.nextLine();
+					restaurant.setPostalCode(newPostalCode);
+					break;
+				case 4:
+					System.out.printf("Choisissez une nouvelleville pour votre restaurant :\n");
+					String newTown = scan.nextLine();
+					restaurant.setTown(newTown);
+					break;
+				case 5:
+					restaurantSchedule.updateRestaurantTimeSlots(scan, restaurant);
+					break;
+        case 6:
+          //TableController
+          System.out.printf("Modifier la disposition des tables du restaurant :\n");
+          TableController table = new TableController();
+          table.updateTable(scan, restaurant);
+          break;
+        case 7:
+          break;
+        default:
+          System.out.println("Choix invalide");
+          break;
 			}
 
 			try 
@@ -300,6 +306,61 @@ public class RestaurantController
 
 	//------------------------------------------------------------------
 
+	
+	public void bindCard(Card card, Scanner scan)
+	{
+		
+		System.out.printf("======================================================\n");
+		System.out.printf("    Choisissez un restaurant à associer à votre carte :\n");
+		System.out.printf("======================================================\n");
+		
+		
+		int choice = 0;
+		
+		try 
+		{
+			List<Restaurant> restaurants = this.restauranBLL.selectALl();
+			
+			for(int i=0; i<=restaurants.size(); i++)
+			{
+				if(i < restaurants.size())
+				{
+					System.out.println(i+1+" - "+restaurants.get(i));
+					
+				}
+				else
+				{
+					System.out.println(i+1+" - Quitter");		
+				}
+			}
+			
+			choice = scan.nextInt();
+			scan.nextLine();
+			
+			if(choice >= 1 && choice <= restaurants.size())
+			{
+				Restaurant restaurantToBind = restaurants.get(choice-1);
+				
+				restaurantToBind.setIdCard(card.getId());
+				
+				restauranBLL.update(restaurantToBind.getName(),restaurantToBind.getAddress(),restaurantToBind.getPostalCode(),restaurantToBind.getTown(),restaurantToBind.getIdCard(),restaurantToBind);
+				
+				System.out.println("Vous avez affecté la carte "+card.getName()+" au restaurant "+restaurantToBind.getName());
+				
+			}
+				
+			
+		} 
+		catch (BLLException e) 
+		{
+			
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	
 
 
 }

@@ -5,11 +5,10 @@ import java.util.List;
 
 import bo.Schedule;
 import dal.DALException;
-import dal.GenericDAOInterface;
 import dal.ScheduleDAO;
 
 public class ScheduleBLL {
-	private GenericDAOInterface<Schedule> dao;
+	private ScheduleDAO dao;
 
 	public ScheduleBLL() throws BLLException {
 		try {
@@ -35,6 +34,14 @@ public class ScheduleBLL {
 		}
 	}
 	
+	public List<Schedule> selectAllByIdRestaurant(int id) throws BLLException {
+		try {
+			return dao.selectAllByIdRestaurant(id);
+		} catch (DALException e) {
+			throw new BLLException("Echec de la récupération des horaires du restaurant d'id " + id, e);
+		}
+	}
+	
 	
 	public Schedule insert(LocalTime openHour, LocalTime closeHour, int idRestaurant) throws BLLException {
 		if(openHour.isAfter(closeHour)) {
@@ -56,6 +63,7 @@ public class ScheduleBLL {
 	public void update(Schedule schedule) throws BLLException {
 		try {
 			dao.update(schedule);
+			System.out.println("La modification a été effectué !");
 		} catch (DALException e) {
 			throw new BLLException("Echec de la mise à jour", e);		
 		}
