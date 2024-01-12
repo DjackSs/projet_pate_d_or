@@ -178,14 +178,14 @@ public class RestaurantController
 		while(choice != 7)
 		{
 			System.out.printf("============================================\n");
-			System.out.printf("    Choisissez votre valeure à modifier :\n");
+			System.out.printf("    Choisissez votre valeur à modifier :\n");
 			System.out.printf("============================================\n");
 
 			System.out.println("1 - Nom : "+ restaurant.getName());
 			System.out.println("2 - Adresse : "+ restaurant.getAddress());
 			System.out.println("3 - Code postal : "+ restaurant.getPostalCode());
 			System.out.println("4 - Ville : "+ restaurant.getTown());
-			System.out.println("5 - Horraires");
+			System.out.println("5 - Horaires");
 			System.out.println("6 - Disposition des tables");
 			System.out.println("7 - Quitter");
 

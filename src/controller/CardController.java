@@ -160,13 +160,13 @@ public class CardController
 	
 	public void updateCardMenu (Card card, Scanner scan)
 	{
-		
+		DishController dishController = new DishController();
 		int choice = 0;
 		
 		while(choice != 3)
 		{
 			System.out.printf("============================================\n");
-			System.out.printf("    Choisissez votre valeure à modifier :\n");
+			System.out.printf("    Choisissez votre valeur à modifier :\n");
 			System.out.printf("============================================\n");
 			
 			System.out.println("1 - Nom : "+ card.getName());
@@ -184,7 +184,7 @@ public class CardController
 					card.setName(newName);
 					break;
 				case 2:
-					//DishController
+					dishController.updateDishIntoCard(scan, card);
 					break;
 				case 3:
 					break;
