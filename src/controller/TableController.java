@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.List;
 import java.util.Scanner;
 
 import bll.BLLException;
@@ -83,6 +84,47 @@ public class TableController
 		
 		menuTable(scan, restaurant);
 	}
+	
+    public void updateTable(Scanner scan, Restaurant restaurant) {
+        // Affiche la liste des tables disponibles pour modification
+        System.out.println("Liste des tables pour modification :");
+        try {
+            List<Table> tables = new TableBLL().selectTablesByRestaurantId(restaurant.getId()); // Utilise la BLL pour récupérer la liste des tables
+            for (int i = 0; i < tables.size(); i++) {
+                System.out.println(i + 1 + " - " + tables.get(i));
+            }
+
+            // Demande à l'utilisateur de choisir une table à modifier
+            System.out.println("Choisissez le numéro de la table que vous souhaitez modifier (0 pour annuler) :");
+            int choice = scan.nextInt();
+            scan.nextLine();
+
+            if (choice > 0 && choice <= tables.size()) {
+                Table selectedTable = tables.get(choice - 1);
+
+                // Demande à l'utilisateur de saisir les nouvelles informations
+                System.out.println("Saisissez le nouveau nombre de places :");
+                int newNumberPlace = scan.nextInt();
+                scan.nextLine();
+
+                String newState = null;
+                int restaurantId = restaurant.getId();
+
+                // Appelle la méthode de BLL pour effectuer la mise à jour
+                try {
+                    new TableBLL().updateTable(selectedTable.getId(), newNumberPlace, newState, restaurantId);
+                    System.out.println("Table mise à jour avec succès !");
+                } catch (BLLException e) {
+                    System.err.println("Erreur lors de la mise à jour de la table : " + e.getMessage());
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("Opération annulée.");
+            }
+        } catch (BLLException e) {
+            System.err.println("Erreur lors de la récupération des tables : " + e.getMessage());
+        }
+    }
 	
 	
 }

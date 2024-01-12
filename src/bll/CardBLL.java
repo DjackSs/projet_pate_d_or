@@ -36,6 +36,8 @@ public class CardBLL {
 		
 	}
 	
+	
+	
 	public Card insert(String name) throws BLLException {
 		
 		BLLException bllException = new BLLException();

@@ -37,6 +37,14 @@ public class TableBLL {
 		
 	}
 	
+    public List<Table> selectTablesByRestaurantId(int restaurantId) throws BLLException {
+        try {
+            return ((TableDAO) dao).selectByForeignKey("id_restaurant", restaurantId);
+        } catch (DALException e) {
+            throw new BLLException("Echec de la récupération des tables par id_restaurant", e);
+        }
+    }
+	
 	public Table insert(int numberPlace, String state, int idRestaurant) throws BLLException {
 		
 		BLLException bllException = new BLLException();
@@ -71,6 +79,35 @@ public class TableBLL {
 			throw new BLLException("Echec de la mise a jour", e);
 		}
 	}
+	
+    public void updateTable(int id, int newNumberPlace, String newState, int restaurantId) throws BLLException {
+        BLLException bllException = new BLLException();
+
+        if (newNumberPlace < 2) {
+            bllException.addError("Le nombre de place d'une table doit être au minimum de 2.");
+        }
+
+        List<String> checkState = Arrays.asList(null, "PRES");
+        if (!checkState.contains(newState)) {
+            bllException.addError("Le statut de la table est soit nul soit PRES");
+        }
+
+        if (bllException.getErrors().size() > 0) {
+            throw bllException;
+        }
+
+        Table updatedTable = new Table();
+        updatedTable.setId(id);
+        updatedTable.setNumberPlace(newNumberPlace);
+        updatedTable.setState(newState);
+        updatedTable.setIdRestaurant(restaurantId);
+
+        try {
+            dao.update(updatedTable);
+        } catch (DALException e) {
+            throw new BLLException("Echec de la mise a jour de la table d'id " + id, e);
+        }
+    }
 	
 	public void delete(int id) throws BLLException {
 		try {
