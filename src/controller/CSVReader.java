@@ -58,6 +58,7 @@ public class CSVReader
 				
 				if(datas.length != 8)
 				{
+					System.err.println("Données incomplètes");
 					
 				}
 				else
@@ -83,6 +84,7 @@ public class CSVReader
 							
 							if(dataScheduleOpen.length != dataScheduleClose.length)
 							{
+								System.err.println("Données pour les horraires invalides");
 								
 							}
 							else
@@ -96,25 +98,26 @@ public class CSVReader
 								}
 							}
 							
-							
-							for(int i=0; i<dataTableNumber.length; i++)
+							if(dataTableNumber.length == 0)
 							{
-								for(int j=0; j< Integer.parseInt(dataTableNumber[i]); j++)
+								System.err.println("Données pour les tables incomplètes");
+								
+							}
+							else
+							{
+								for(int i=0; i<dataTableNumber.length; i++)
 								{
-									Table newTable = new Table(Integer.parseInt(dataTablePlace[i]), null, newRestaurant.getId());
-									try 
+									for(int j=0; j< Integer.parseInt(dataTableNumber[i]); j++)
 									{
+										Table newTable = new Table(Integer.parseInt(dataTablePlace[i]), null, newRestaurant.getId());
+										
 										newTable = this.tableBLL.insert(newTable.getNumberPlace(), newTable.getState(), newTable.getIdRestaurant());
-									} 
-									catch (BLLException e) 
-									{
-										e.printStackTrace();
+										
 									}
+									
 								}
 								
 							}
-							
-						
 							
 						} 
 						catch (BLLException e) 
@@ -122,11 +125,7 @@ public class CSVReader
 							e.printStackTrace();
 						}
 					
-						
-						
-						
-						
-						
+					
 						
 					}
 					

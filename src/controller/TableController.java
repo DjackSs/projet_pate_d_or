@@ -32,7 +32,7 @@ public class TableController
 		{
 			this.displayMenuAddTable();
 			
-			RestaurantController createRestaurant = new RestaurantController();
+			
 			
 			choice = scan.nextInt();
 			scan.nextLine();
@@ -44,7 +44,7 @@ public class TableController
 		        	this.addTable(scan, restaurant);
 		            break;
 		        case 2 :
-		        	createRestaurant.menuResto(scan);
+		        	System.out.printf("Retour \n");
 		            break;
 		        default:
 		        	System.out.printf("choix invalide ! \n");

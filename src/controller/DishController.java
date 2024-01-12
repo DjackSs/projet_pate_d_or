@@ -39,7 +39,7 @@ public class DishController
 		
 		int choice = 0;
 		
-		while (choice != 3)
+		while (choice != 2)
 		{
 			this.displayMenuAddDish();
 			
@@ -55,7 +55,7 @@ public class DishController
 		        	this.addDish(scan, card);
 		            break;
 		        case 2 :
-		        	createCard.menuCard(scan);
+		        	System.out.printf("Retour \n");
 		            break;
 		        default:
 		        	System.out.printf("choix invalide ! \n");
