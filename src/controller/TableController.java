@@ -28,7 +28,7 @@ public class TableController
 		
 		int choice = 0;
 		
-		while (choice != 3)
+		while (choice != 2)
 		{
 			this.displayMenuAddTable();
 			
