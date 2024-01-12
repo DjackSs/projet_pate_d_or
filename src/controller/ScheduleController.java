@@ -32,9 +32,9 @@ public class ScheduleController {
 			
 		scan.nextLine();
 			
-		if(choice == 0 || choice >= listTimeSlots.size()) {
+		/*if(choice == 0 || choice >= listTimeSlots.size()) {
 			return;
-		} else {
+		}  else {
 			choice -= choice;
 			
 			Schedule scheduleSelected = listTimeSlots.get(choice);
@@ -62,6 +62,54 @@ public class ScheduleController {
 			}
 			
 			return;
+		}*/
+		
+		switch (choice) {
+		case 0 :
+			break;
+		case 1 :
+			choice -= 1; 
+			
+			updateSelectedRestaurantTimeSlot(scan, choice, listTimeSlots);
+			
+			break;
+		case 2 : 
+			if(listTimeSlots.size() < 2) {
+				System.out.println("Ajout d'un nouveau créneau horaire ?");
+				createRestaurantTimeSlots(scan, restaurant);
+			} else {
+				choice -= 1;
+				updateSelectedRestaurantTimeSlot(scan, choice, listTimeSlots);
+			}
+			break;
+		default: 
+			break;
+		}
+	}
+
+	private void updateSelectedRestaurantTimeSlot(Scanner scan, int choice, List<Schedule> listTimeSlots) {
+		Schedule scheduleSelected = listTimeSlots.get(choice);
+		
+		Schedule newSchedule = null;
+		try {
+			newSchedule = scheduleBLL.selectById(scheduleSelected.getId());
+		} catch (BLLException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Veuillez saisir l'horaire d'ouverture");
+		String openHour = scan.nextLine();
+		
+		System.out.println("Veuillez saisir l'horaire de fermeture");
+		String closeHour = scan.nextLine();
+		
+		newSchedule.setOpenHour(LocalTime.parse(openHour));
+		newSchedule.setCloseHour(LocalTime.parse(closeHour));
+		
+		try {
+			scheduleBLL.update(newSchedule);
+		} catch (BLLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -86,7 +134,13 @@ public class ScheduleController {
 								+ listTimeSlots.get(i).getCloseHour());
 		}
 			
-		System.out.println("\t" + (listTimeSlots.size()+1) + ". Quitter");
+		if (listTimeSlots.size() < 2) {
+			System.out.println("\t" + (listTimeSlots.size()+1) + ". Ajouter un nouveau créneau horaire");
+			System.out.println("\t" + (listTimeSlots.size()+2) + ". Quitter");
+		} else {			
+			System.out.println("\t" + (listTimeSlots.size()+1) + ". Quitter");
+		}
+		
 		
 		return listTimeSlots;
 	}
