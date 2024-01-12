@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import bll.BLLException;
 import bll.RestaurantBLL;
-import bll.ScheduleBLL;
 import bo.Restaurant;
 
 public class RestaurantController 
@@ -45,7 +44,7 @@ public class RestaurantController
 		int choice = 0;
 
 		while (choice != 3)
-		{
+		{			
 			this.displayMenuAddResto();
 
 			choice = scan.nextInt();
@@ -61,7 +60,7 @@ public class RestaurantController
 				System.out.printf("choix 2\n");
 				break;
 			case 3 :
-				System.out.printf("exit\n");
+				System.out.println("Exit\n");
 				break;
 			default:
 				System.out.printf("choix invalide ! \n");
