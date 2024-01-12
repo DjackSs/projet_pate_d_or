@@ -12,12 +12,14 @@ import bo.Restaurant;
 public class RestaurantController 
 {
 	private RestaurantBLL restauranBLL;
-
+	private ScheduleController restaurantSchedule;
+  
 	public RestaurantController() 
 	{
 		try 
 		{
 			this.restauranBLL = new RestaurantBLL();
+			restaurantSchedule = new ScheduleController();
 		} 
 		catch (BLLException e) 
 		{
@@ -102,10 +104,12 @@ public class RestaurantController
 			newRestaurant = this.restauranBLL.insert(name, address, postalCode, town, 0);
 			
 			System.out.println("nouveau restaurant crée :"+ newRestaurant);
-
-			//ScheduleController
-			ScheduleController restaurantSchedule = new ScheduleController();
-			restaurantSchedule.addRestaurantTimeSlots(scan, newRestaurant);
+			
+			// Gestion du 1er créneau horaire de base du restaurant créé
+			restaurantSchedule.createRestaurantTimeSlots(scan, newRestaurant);
+			
+			// Gestion de la création potentielle de nouveaux créneaux horaires du restaurant crée
+			restaurantSchedule.addNewRestaurantTimeSlots(scan, newRestaurant);
 
 			//TableController
 			TableController table = new TableController();
@@ -186,7 +190,7 @@ public class RestaurantController
 			System.out.println("2 - Adresse : "+ restaurant.getAddress());
 			System.out.println("3 - Code postal : "+ restaurant.getPostalCode());
 			System.out.println("4 - Ville : "+ restaurant.getTown());
-			System.out.println("5 - Horraires");
+			System.out.println("5 - Horaires");
 			System.out.println("6 - Disposition des tables");
 			System.out.println("7 - Quitter");
 
@@ -195,30 +199,29 @@ public class RestaurantController
 
 			switch(choice)
 			{
-
-        case 1:
-          System.out.printf("Choisissez un nouveau nom pour votre restaurant :\n");
-          String newName = scan.nextLine();
-          restaurant.setName(newName);
-          break;
-        case 2:
-          System.out.printf("Choisissez une nouvelle adresse pour votre restaurant :\n");
-          String newAddress = scan.nextLine();
-          restaurant.setAddress(newAddress);
-          break;
-        case 3:
-          System.out.printf("Choisissez un nouveau code postal pour votre restaurant :\n");
-          String newPostalCode = scan.nextLine();
-          restaurant.setPostalCode(newPostalCode);
-          break;
-        case 4:
-          System.out.printf("Choisissez une nouvelleville pour votre restaurant :\n");
-          String newTown = scan.nextLine();
-          restaurant.setTown(newTown);
-          break;
-        case 5:
-          //SchedulesController
-          break;
+				case 1:
+					System.out.printf("Choisissez un nouveau nom pour votre restaurant :\n");
+					String newName = scan.nextLine();
+					restaurant.setName(newName);
+					break;
+				case 2:
+					System.out.printf("Choisissez une nouvelle adresse pour votre restaurant :\n");
+					String newAddress = scan.nextLine();
+					restaurant.setAddress(newAddress);
+					break;
+				case 3:
+					System.out.printf("Choisissez un nouveau code postal pour votre restaurant :\n");
+					String newPostalCode = scan.nextLine();
+					restaurant.setPostalCode(newPostalCode);
+					break;
+				case 4:
+					System.out.printf("Choisissez une nouvelleville pour votre restaurant :\n");
+					String newTown = scan.nextLine();
+					restaurant.setTown(newTown);
+					break;
+				case 5:
+					restaurantSchedule.updateRestaurantTimeSlots(scan, restaurant);
+					break;
         case 6:
           //TableController
           System.out.printf("Modifier la disposition des tables du restaurant :\n");

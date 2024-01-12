@@ -310,4 +310,5 @@ public class RestaurantDAO implements GenericDAOInterface<Restaurant>
 			
 	}
 
+
 }
