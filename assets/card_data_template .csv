@@ -1,2 +1,10 @@
-nomCarte,nomplat,
+nomCarte,nomPlat,prixPlat,descriptionPlat,categoriePlat
+nom1,nom1.1,10,description1.1,entry
+nom1,nom1.2,15,description1.2,dish
+nom1,nom1.3,20,description1.3,desert
+nom2,nom2.1,15,description2.1,beverage
+nom3,nom3.1,5,description3.1,dish
+nom3,nom3.2,30,description3.2,dish
+
+
 
