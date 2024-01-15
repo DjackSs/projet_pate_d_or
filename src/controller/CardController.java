@@ -1,7 +1,6 @@
 package controller;
 
 import java.util.List;
-import java.util.Scanner;
 
 import bll.BLLException;
 import bll.CardBLL;
@@ -41,7 +40,7 @@ public class CardController
 	
 	//------------------------------------------------------------------
 	
-	public void menuCard (Scanner scan)
+	public void menuCard ()
 	{
 		
 		int choice = 0;
@@ -50,17 +49,17 @@ public class CardController
 		{
 			this.displayMenuAddCard();
 			
-			choice = scan.nextInt();
-			scan.nextLine();
+			choice = Menu.SCAN.nextInt();
+			Menu.SCAN.nextLine();
 			
 			switch(choice)
 	        {
 
 		        case 1 :
-		        	this.addCard(scan);
+		        	this.addCard();
 		            break;
 		        case 2 :
-		        	this.parseCard(scan);
+		        	this.parseCard();
 		            break;
 		        case 3 :
 		        	System.out.printf("exit\n");
@@ -76,11 +75,11 @@ public class CardController
 	
 	//------------------------------------------------------------------
 	
-	public void addCard (Scanner scan)
+	public void addCard ()
 	{
 		
 		System.out.printf("Choisissez un nom pour votre carte :\n");
-		String name = scan.nextLine();
+		String name = Menu.SCAN.nextLine();
 		
 		Card newCard = new Card ();
 		newCard.setName(name);
@@ -93,10 +92,10 @@ public class CardController
 			System.out.println("nouvelle carte crée :"+ newCard);
 			
 			DishController DishController = new DishController();
-			DishController.addDish(scan, newCard);
+			DishController.addDish(newCard);
 			
 			
-			this.bindCard(newCard, scan);
+			this.bindCard(newCard);
 			
 		}
 		catch (BLLException e) 
@@ -110,7 +109,7 @@ public class CardController
 	
 	//------------------------------------------------------------------
 	
-	public void parseCard (Scanner scan)
+	public void parseCard ()
 	{
 		System.out.printf("============================================\n");
 		System.out.printf("    AJOUTER UNE CARTE A PARTIR D'UN CSV\n");
@@ -119,7 +118,7 @@ public class CardController
 		System.out.printf("Placez votre fichier CSV dans le dossier et indiquer son nom :\n");
 		System.out.printf("Nom du fichier CSV ? \n");
 		
-		String data = scan.nextLine();
+		String data = Menu.SCAN.nextLine();
 		String mime = ".csv";
 		
 		CSVReader reader = new CSVReader();
@@ -144,7 +143,7 @@ public class CardController
 		
 	}
 	
-	public void bindCard(Card card, Scanner scan)
+	public void bindCard(Card card)
 	{
 		int choice = 0;
 		
@@ -152,14 +151,14 @@ public class CardController
 		{
 			bindCardMenu();
 			
-			choice = scan.nextInt();
-			scan.nextLine();
+			choice = Menu.SCAN.nextInt();
+			Menu.SCAN.nextLine();
 			
 			switch(choice)
 			{
 				case 1:
 					RestaurantController restaurantController = new RestaurantController();
-					restaurantController.bindCard(card, scan);
+					restaurantController.bindCard(card);
 					break;
 				case 2:
 					break;
@@ -178,7 +177,7 @@ public class CardController
 	
 	//------------------------------------------------------------------
 	
-	public void updateCardList (Scanner scan)
+	public void updateCardList ()
 	{
 		
 		System.out.printf("============================================\n");
@@ -206,14 +205,14 @@ public class CardController
 				}
 			}
 			
-			choice = scan.nextInt();
-			scan.nextLine();
+			choice = Menu.SCAN.nextInt();
+			Menu.SCAN.nextLine();
 			
 
 			if(choice >= 1 && choice <= cards.size())
 			{
 				
-				this.updateCardMenu(cards.get(choice-1), scan);
+				this.updateCardMenu(cards.get(choice-1));
 				
 			}
 			
@@ -230,7 +229,7 @@ public class CardController
 	
 	//------------------------------------------------------------------
 	
-	public void updateCardMenu (Card card, Scanner scan)
+	public void updateCardMenu (Card card)
 	{
 		DishController dishController = new DishController();
 		int choice = 0;
@@ -247,25 +246,25 @@ public class CardController
 			System.out.println("4 - Affecter à un restaurant");
 			System.out.println("5 - Quitter");
 			
-			choice = scan.nextInt();
-			scan.nextLine();
+			choice = Menu.SCAN.nextInt();
+			Menu.SCAN.nextLine();
 			
 			switch(choice)
 			{
 				case 1:
 					System.out.printf("Choisissez un nouveau nom pour votre carte :\n");
-					String newName = scan.nextLine();
+					String newName = Menu.SCAN.nextLine();
 					card.setName(newName);
 					break;
 				case 2:
-					dishController.updateDishIntoCard(scan, card);
+					dishController.updateDishIntoCard(card);
 					break;
 				case 3:
-					this.displayCardRestaurant(card, scan);
+					this.displayCardRestaurant(card);
 					break;
 				case 4:
 					RestaurantController restaurantController = new RestaurantController();
-					restaurantController.bindCard(card, scan);
+					restaurantController.bindCard(card);
 					break;
 				case 5:
 					break;
@@ -291,7 +290,7 @@ public class CardController
 	
 	//------------------------------------------------------------------
 	
-	public void displayCardRestaurant(Card card, Scanner scan)
+	public void displayCardRestaurant(Card card)
 	{
 		
 		try 
@@ -301,7 +300,7 @@ public class CardController
 			
 			if(bindedRestaurant.size() != 0)
 			{
-				deleteRestaurantBindedList(bindedRestaurant, restaurantBLL, scan);
+				deleteRestaurantBindedList(bindedRestaurant, restaurantBLL);
 				
 			}
 			else
@@ -319,7 +318,7 @@ public class CardController
 	
 	//------------------------------------------------------------------
 	
-	public void deleteRestaurantBindedList (List<Restaurant> restaurants, RestaurantBLL restaurantBLL, Scanner scan)
+	public void deleteRestaurantBindedList (List<Restaurant> restaurants, RestaurantBLL restaurantBLL)
 	{
 		
 		System.out.printf("============================================\n");
@@ -345,15 +344,15 @@ public class CardController
 				}
 			}
 			
-			choice = scan.nextInt();
-			scan.nextLine();
+			choice = Menu.SCAN.nextInt();
+			Menu.SCAN.nextLine();
 			
 			if(choice >= 1 && choice <= restaurants.size())
 			{
 				Restaurant restaurantToUnbind = restaurants.get(choice-1);
 				restaurantToUnbind.setIdCard(0);
 				
-				restaurantBLL.update(restaurantToUnbind.getName(), restaurantToUnbind.getAddress(), restaurantToUnbind.getPostalCode(), restaurantToUnbind.getTown(), restaurantToUnbind.getIdCard(), restaurantToUnbind);
+				restaurantBLL.update(restaurantToUnbind);
 				
 				System.out.println("Vous avez retirez la carte du restaurant "+restaurantToUnbind);
 				
@@ -375,7 +374,7 @@ public class CardController
 	//------------------------------------------------------------------
 	
 	
-	public void deleteCardList (Scanner scan)
+	public void deleteCardList ()
 	{
 		
 		System.out.printf("============================================\n");
@@ -402,8 +401,8 @@ public class CardController
 				}
 			}
 			
-			choice = scan.nextInt();
-			scan.nextLine();
+			choice = Menu.SCAN.nextInt();
+			Menu.SCAN.nextLine();
 			
 			if(choice >= 1 && choice <= cards.size())
 			{

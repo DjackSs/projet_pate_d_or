@@ -78,7 +78,7 @@ public class TestRestaurant
 			{
 				if(restaurants.get(i).getId() == id)
 				{
-					restaurant.update(name, adress, postal, town, 0, restaurants.get(i));
+					restaurant.update(restaurants.get(i));
 				}
 				
 			}

@@ -1,7 +1,6 @@
 package controller;
 
 import java.util.List;
-import java.util.Scanner;
 
 import bll.BLLException;
 import bll.DishBLL;
@@ -34,7 +33,7 @@ public class DishController
 		System.out.printf("2 - Retour à la création de carte\n");
 	}
 	
-	public void menuDish (Scanner scan, Card card)
+	public void menuDish ( Card card)
 	{
 		
 		int choice = 0;
@@ -45,14 +44,14 @@ public class DishController
 			
 			CardController createCard = new CardController();
 			
-			choice = scan.nextInt();
-			scan.nextLine();
+			choice = Menu.SCAN.nextInt();
+			Menu.SCAN.nextLine();
 			
 			switch(choice)
 	        {
 
 		        case 1 :
-		        	this.addDish(scan, card);
+		        	this.addDish(card);
 		            break;
 		        case 2 :
 		        	System.out.printf("Retour \n");
@@ -65,20 +64,20 @@ public class DishController
 	}
 	
 	
-	public void addDish(Scanner scan, Card card) {
+	public void addDish(Card card) {
 		
 		System.out.println("Saisissez le nom de l'élément à ajouter à la carte");
-		String nameDish = scan.nextLine();
+		String nameDish = Menu.SCAN.nextLine();
 		
 		System.out.println("Saisissez le prix de l'élément ajouté (utilisez les ',' pour les décimales)");
-		float priceDish = scan.nextFloat();
-		scan.nextLine();
+		float priceDish = Menu.SCAN.nextFloat();
+		Menu.SCAN.nextLine();
 
 		System.out.println("Saisissez une description pour l'élément ajouté");
-		String descriptionDish = scan.nextLine();
+		String descriptionDish = Menu.SCAN.nextLine();
 		
 		System.out.println("Votre plat est-il une entrée[entry] ? Un plat[dish] ? Un dessert[desert] ? Une boisson[beverage] ?");
-		String categoryDish = scan.nextLine();
+		String categoryDish = Menu.SCAN.nextLine();
 		
 		int idCard = card.getId();
 		
@@ -98,10 +97,10 @@ public class DishController
 		}
 	
 		System.out.println("L'élément " + nameDish + " a été ajouté à la carte");
-		menuDish(scan, card);
+		menuDish(card);
 	}
 	
-    public void updateDishIntoCard(Scanner scan, Card card) {
+    public void updateDishIntoCard(Card card) {
         // Affiche la liste des tables disponibles pour modification
         System.out.println("Liste des plats pour modification :");
         try {
@@ -112,25 +111,25 @@ public class DishController
 
             // Demande à l'utilisateur de choisir une table à modifier
             System.out.println("Choisissez le numéro du plat que vous souhaitez modifier (0 pour annuler) :");
-            int choice = scan.nextInt();
-            scan.nextLine();
+            int choice = Menu.SCAN.nextInt();
+            Menu.SCAN.nextLine();
 
             if (choice > 0 && choice <= dishes.size()) {
                 Dish selectedDish = dishes.get(choice - 1);
 
                 // Demande à l'utilisateur de saisir les nouvelles informations
         		System.out.println("Saisissez le nom de l'élément à ajouter à la carte");
-        		String newNameDish = scan.nextLine();
+        		String newNameDish = Menu.SCAN.nextLine();
         		
         		System.out.println("Saisissez le prix de l'élément ajouté (utilisez les ',' pour les décimales)");
-        		float newPriceDish = scan.nextFloat();
-        		scan.nextLine();
+        		float newPriceDish = Menu.SCAN.nextFloat();
+        		Menu.SCAN.nextLine();
 
         		System.out.println("Saisissez une description pour l'élément ajouté");
-        		String newDescriptionDish = scan.nextLine();
+        		String newDescriptionDish = Menu.SCAN.nextLine();
         		
         		System.out.println("Votre plat est-il une entrée[entry] ? Un plat[dish] ? Un dessert[desert] ? Une boisson[beverage] ?");
-        		String newCategoryDish = scan.nextLine();
+        		String newCategoryDish = Menu.SCAN.nextLine();
         		
         		int IdCard = card.getId();
 

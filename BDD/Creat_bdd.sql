@@ -99,7 +99,7 @@ CREATE TABLE Dishes (
     category        varchar(30)     not null,
     id_card         int             null,
 
-    FOREIGN KEY (id_card) REFERENCES Cards(id),
+    FOREIGN KEY (id_card) REFERENCES Cards(id) on delete cascade,
     check(category in('entry', 'dish', 'desert', 'beverage'))
 
 );

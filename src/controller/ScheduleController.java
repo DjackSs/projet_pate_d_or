@@ -2,7 +2,6 @@ package controller;
 
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Scanner;
 
 import bll.BLLException;
 import bll.RestaurantBLL;
@@ -23,14 +22,14 @@ public class ScheduleController {
 		}
 	}
 	
-	public void updateRestaurantTimeSlots (Scanner scan, Restaurant restaurant) {
+	public void updateRestaurantTimeSlots ( Restaurant restaurant) {
 		int choice;
 		
 		List<Schedule> listTimeSlots = displayRestaurantTimeSlotsUpdateMenu(restaurant);
 			
-		choice = scan.nextInt();
+		choice = Menu.SCAN.nextInt();
 			
-		scan.nextLine();
+		Menu.SCAN.nextLine();
 			
 		/*if(choice == 0 || choice >= listTimeSlots.size()) {
 			return;
@@ -70,16 +69,16 @@ public class ScheduleController {
 		case 1 :
 			choice -= 1; 
 			
-			updateSelectedRestaurantTimeSlot(scan, choice, listTimeSlots);
+			updateSelectedRestaurantTimeSlot(choice, listTimeSlots);
 			
 			break;
 		case 2 : 
 			if(listTimeSlots.size() < 2) {
 				System.out.println("Ajout d'un nouveau créneau horaire ?");
-				createRestaurantTimeSlots(scan, restaurant);
+				createRestaurantTimeSlots(restaurant);
 			} else {
 				choice -= 1;
-				updateSelectedRestaurantTimeSlot(scan, choice, listTimeSlots);
+				updateSelectedRestaurantTimeSlot(choice, listTimeSlots);
 			}
 			break;
 		default: 
@@ -87,7 +86,7 @@ public class ScheduleController {
 		}
 	}
 
-	private void updateSelectedRestaurantTimeSlot(Scanner scan, int choice, List<Schedule> listTimeSlots) {
+	private void updateSelectedRestaurantTimeSlot(int choice, List<Schedule> listTimeSlots) {
 		Schedule scheduleSelected = listTimeSlots.get(choice);
 		
 		Schedule newSchedule = null;
@@ -98,10 +97,10 @@ public class ScheduleController {
 		}
 		
 		System.out.println("Veuillez saisir l'horaire d'ouverture");
-		String openHour = scan.nextLine();
+		String openHour = Menu.SCAN.nextLine();
 		
 		System.out.println("Veuillez saisir l'horaire de fermeture");
-		String closeHour = scan.nextLine();
+		String closeHour = Menu.SCAN.nextLine();
 		
 		newSchedule.setOpenHour(LocalTime.parse(openHour));
 		newSchedule.setCloseHour(LocalTime.parse(closeHour));
@@ -145,12 +144,12 @@ public class ScheduleController {
 		return listTimeSlots;
 	}
 	
-	public void createRestaurantTimeSlots(Scanner scan, Restaurant restaurantScheduleOff) {
+	public void createRestaurantTimeSlots(Restaurant restaurantScheduleOff) {
 		System.out.println("Veuillez saisir l'horaire d'ouverture");
-		String openHour = scan.nextLine();
+		String openHour = Menu.SCAN.nextLine();
 		
 		System.out.println("Veuillez saisir l'horaire de fermeture");
-		String closeHour = scan.nextLine();
+		String closeHour = Menu.SCAN.nextLine();
 		System.out.println(closeHour);
 		
 		try {			
@@ -176,15 +175,15 @@ public class ScheduleController {
 		}
 	}
 	
-	public void addNewRestaurantTimeSlots(Scanner scan, Restaurant restaurant) {
+	public void addNewRestaurantTimeSlots( Restaurant restaurant) {
 		
 		int choice = 0;
 		
 		do {
-			choice = addNewRestaurantTimeSlotsMenu(scan);
+			choice = addNewRestaurantTimeSlotsMenu();
 			
 			if (choice == 1) {
-				createRestaurantTimeSlots(scan, restaurant);
+				createRestaurantTimeSlots(restaurant);
 			} else if (choice == 2) {
 				return;
 			} else {
@@ -194,15 +193,15 @@ public class ScheduleController {
 		} while (choice != 2);
 	}
 
-	private static int addNewRestaurantTimeSlotsMenu(Scanner scan) {
+	private static int addNewRestaurantTimeSlotsMenu() {
 		int choice;
 		System.out.println("Souhaitez-vous rajouter un nouveau créneau horaire ?");
 		System.out.println("1 = Oui");
 		System.out.println("2 = Non");
 		
-		choice = scan.nextInt();
+		choice = Menu.SCAN.nextInt();
 		
-		scan.nextLine();
+		Menu.SCAN.nextLine();
 		
 		return choice;
 	}
