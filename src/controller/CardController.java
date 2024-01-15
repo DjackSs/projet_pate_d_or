@@ -35,7 +35,7 @@ public class CardController
 		System.out.printf("============================================\n");
 		
 		System.out.printf("1 - Ajouter une carte manuellement\n");
-		System.out.printf("2 - Modifier une carte à partir d'un fichier\n");
+		System.out.printf("2 - Ajouter une carte à partir d'un fichier\n");
 		System.out.printf("3 - Retour\n");
 	}
 	
@@ -60,7 +60,7 @@ public class CardController
 		        	this.addCard(scan);
 		            break;
 		        case 2 :
-		        	System.out.printf("choix 2\n");
+		        	this.parseCard(scan);
 		            break;
 		        case 3 :
 		        	System.out.printf("exit\n");
@@ -107,6 +107,29 @@ public class CardController
 		
 		
 	}
+	
+	//------------------------------------------------------------------
+	
+	public void parseCard (Scanner scan)
+	{
+		System.out.printf("============================================\n");
+		System.out.printf("    AJOUTER UNE CARTE A PARTIR D'UN CSV\n");
+		System.out.printf("============================================\n");
+		
+		System.out.printf("Placez votre fichier CSV dans le dossier et indiquer son nom :\n");
+		System.out.printf("Nom du fichier CSV ? \n");
+		
+		String data = scan.nextLine();
+		String mime = ".csv";
+		
+		CSVReader reader = new CSVReader();
+		
+		reader.parseCard(data.concat(mime));
+		
+		
+		
+	}
+
 	
 	//------------------------------------------------------------------
 	

@@ -139,7 +139,7 @@ public class RestaurantController
 		
 		CSVReader reader = new CSVReader();
 		
-		List<Restaurant> restaurants = reader.parseRestaurant(data.concat(mime));
+		reader.parseRestaurant(data.concat(mime));
 		
 		
 		

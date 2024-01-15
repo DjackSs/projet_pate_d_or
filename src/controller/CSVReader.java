@@ -3,15 +3,17 @@ package controller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 import bll.BLLException;
+import bll.CardBLL;
+import bll.DishBLL;
 import bll.RestaurantBLL;
 import bll.ScheduleBLL;
 import bll.TableBLL;
+import bo.Card;
+import bo.Dish;
 import bo.Restaurant;
 import bo.Schedule;
 import bo.Table;
@@ -23,6 +25,9 @@ public class CSVReader
 	private TableBLL tableBLL;
 	
 	
+	private CardBLL cardBLL;
+	private DishBLL dishBLL;
+	
 	public CSVReader() 
 	{
 		try 
@@ -30,6 +35,9 @@ public class CSVReader
 			this.restaurantBLL = new RestaurantBLL();
 			this.scheduleBLL = new ScheduleBLL();
 			this.tableBLL = new TableBLL();
+			
+			this.cardBLL = new CardBLL();
+			this.dishBLL = new DishBLL();
 		} 
 		catch (BLLException e) 
 		{
@@ -40,13 +48,12 @@ public class CSVReader
 	
 	//------------------------------------------------------------------
 	
-	public List<Restaurant> parseRestaurant(String path)
+	public void parseRestaurant(String path)
 	{
-		List<Restaurant> restaurants = new ArrayList<>();
 		
-		File fichier = new File(path);
+		File file = new File(path);
 		
-		try (Scanner scan =new Scanner(fichier);)
+		try (Scanner scan =new Scanner(file);)
 		{
 			
 			while (scan.hasNext())
@@ -71,8 +78,6 @@ public class CSVReader
 						try 
 						{
 							newRestaurant = restaurantBLL.insert(newRestaurant.getName(), newRestaurant.getAddress(), newRestaurant.getPostalCode(), newRestaurant.getTown(), 0);
-							
-							System.out.println(newRestaurant);
 							
 							//schedule
 							String[] dataScheduleOpen = datas[4].split("/");
@@ -145,9 +150,87 @@ public class CSVReader
 			
 		}
 		
-		return restaurants;
 	}
 	
 	//------------------------------------------------------------------
+	
+	public void parseCard(String path)
+	{
+		
+		File file = new File(path);
+		
+		Card currentCard = new Card();
+		
+		try (Scanner scan =new Scanner(file);)
+		{
+			
+			while (scan.hasNext())
+			{
+				String[] datas = scan.nextLine().split(",");
+				
+				
+				System.out.println(Arrays.toString(datas));
+				
+				if(datas.length != 5)
+				{
+					System.err.println("Données incomplètes");
+					
+				}
+				else
+				{
+					if(!datas[0].equals( "nomCarte"))
+					{
+						
+						Card newCard = new Card(datas[0]);
+						
+						try 
+						{
+							//card
+							if(!datas[0].equals(currentCard.getName()))
+							{
+								newCard = cardBLL.insert(newCard.getName());
+								
+								currentCard = newCard;
+								
+							}
+							else
+							{
+								newCard = currentCard;
+								
+							}
+							
+							//dish
+							Dish newDish = new Dish(datas[1], Float.parseFloat(datas[2]), datas[3], datas[4], newCard.getId());
+							
+							newDish = dishBLL.insert(newDish.getName(), newDish.getPrice(), newDish.getDescription(), newDish.getCategory(), newDish.getIdCard());
+							
+						
+						} 
+						catch (BLLException e) 
+						{
+							e.printStackTrace();
+						}
+					
+					
+						
+					}
+					
+					
+					
+				}
+				
+					
+			}
+			
+			
+		} 
+		catch (FileNotFoundException error) 
+		{
+			
+			error.printStackTrace();
+			
+		}
+		
+	}
 
 }
