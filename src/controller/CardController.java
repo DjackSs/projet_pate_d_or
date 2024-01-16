@@ -92,8 +92,7 @@ public class CardController
 			System.out.println("nouvelle carte crée :"+ newCard);
 			
 			DishController DishController = new DishController();
-			DishController.addDish(newCard);
-			
+			DishController.menuDish(newCard);
 			
 			this.bindCard(newCard);
 			

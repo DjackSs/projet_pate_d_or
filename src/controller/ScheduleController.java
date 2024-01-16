@@ -177,6 +177,8 @@ public class ScheduleController {
 	
 	public void addNewRestaurantTimeSlots( Restaurant restaurant) {
 		
+		this.createRestaurantTimeSlots(restaurant);
+		
 		int choice = 0;
 		
 		do {

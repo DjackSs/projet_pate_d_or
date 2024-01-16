@@ -104,14 +104,14 @@ public class RestaurantController
 			System.out.println("nouveau restaurant crée :"+ newRestaurant);
 			
 			// Gestion du 1er créneau horaire de base du restaurant créé
-			restaurantSchedule.createRestaurantTimeSlots(newRestaurant);
+			//restaurantSchedule.createRestaurantTimeSlots(newRestaurant);
 			
 			// Gestion de la création potentielle de nouveaux créneaux horaires du restaurant crée
 			restaurantSchedule.addNewRestaurantTimeSlots(newRestaurant);
 
 			//TableController
 			TableController table = new TableController();
-			table.addTable(newRestaurant);
+			table.menuTable(newRestaurant);
 
 
 		}

@@ -23,7 +23,8 @@ public class TableController
 	
 	
 	public void menuTable (Restaurant restaurant)
-	{
+	{ 
+		this.addTable(restaurant);
 		
 		int choice = 0;
 		
@@ -77,7 +78,6 @@ public class TableController
 		
 		System.out.println(nbTable + " tables de " + numberPlace + " places ajoutées.");
 		
-		this.menuTable(restaurant);
 		
 		
 	}

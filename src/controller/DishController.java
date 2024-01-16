@@ -35,14 +35,13 @@ public class DishController
 	
 	public void menuDish ( Card card)
 	{
+		this.addDish(card);
 		
 		int choice = 0;
 		
 		while (choice != 2)
 		{
 			this.displayMenuAddDish();
-			
-			CardController createCard = new CardController();
 			
 			choice = Menu.SCAN.nextInt();
 			Menu.SCAN.nextLine();
@@ -54,7 +53,6 @@ public class DishController
 		        	this.addDish(card);
 		            break;
 		        case 2 :
-		        	System.out.printf("Retour \n");
 		            break;
 		        default:
 		        	System.out.printf("choix invalide ! \n");
@@ -97,7 +95,6 @@ public class DishController
 		}
 	
 		System.out.println("L'élément " + nameDish + " a été ajouté à la carte");
-		menuDish(card);
 	}
 	
     public void updateDishIntoCard(Card card) {
