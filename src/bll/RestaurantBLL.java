@@ -179,17 +179,17 @@ public class RestaurantBLL
 	
 	//--------------------------------------------------------------
 	
-	public void update(String name, String address, String postalCode, String town, int idCard, Restaurant restaurant) throws BLLException
+	public void update(Restaurant restaurant) throws BLLException
 	{
 			
 		//name
-		if(name.length() > NAME_MAX_LENGTH)
+		if(restaurant.getName().length() > NAME_MAX_LENGTH)
 		{
 			throw new BLLException("Restaurant's name is too big", null);
 					
 		}
 		
-		if(name.length() < MIN_LENGTH)
+		if(restaurant.getName().length() < MIN_LENGTH)
 		{
 			throw new BLLException("Restaurant's name is too small", null);
 			
@@ -197,13 +197,13 @@ public class RestaurantBLL
 		
 		
 		//address
-		if(address.length() > ADDRESS_MAX_LENGTH)
+		if(restaurant.getAddress().length() > ADDRESS_MAX_LENGTH)
 		{
 			throw new BLLException("Restaurant's address is too big", null);
 					
 		}
 		
-		if(address.length() < MIN_LENGTH)
+		if(restaurant.getAddress().length() < MIN_LENGTH)
 		{
 			throw new BLLException("Restaurant's address is too small", null);
 			
@@ -211,7 +211,7 @@ public class RestaurantBLL
 		
 		
 		//postalCode
-		if(postalCode.length() != POSTAL_CODE_LENGTH)
+		if(restaurant.getPostalCode().length() != POSTAL_CODE_LENGTH)
 		{
 			throw new BLLException("Restaurant's postal code is not valid", null);
 					
@@ -219,26 +219,17 @@ public class RestaurantBLL
 		
 		
 		//town
-		if(town.length() > TOWN_MAX_LENGTH)
+		if(restaurant.getTown().length() > TOWN_MAX_LENGTH)
 		{
 			throw new BLLException("Restaurant town's name is too big", null);
 					
 		}
 		
-		if(town.length() < MIN_LENGTH)
+		if(restaurant.getTown().length() < MIN_LENGTH)
 		{
 			throw new BLLException("Restaurant town's name is too small", null);
 			
 		}
-		
-		
-		//idCard
-		
-		restaurant.setName(name);
-		restaurant.setAddress(address);
-		restaurant.setPostalCode(postalCode);
-		restaurant.setTown(town);
-		restaurant.setIdCard(idCard);
 		
 		
 		try 

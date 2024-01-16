@@ -7,19 +7,16 @@ import bo.Restaurant;
 
 public class Menu 
 {
-	private static Scanner scan;
+	public static final Scanner SCAN = new Scanner(System.in);
+	
+	public Menu (){}
 
 	public static void main(String[] args) 
 	{
-		
-		
-		scan = new Scanner(System.in);
-		
 		RestaurantController restaurantController = new RestaurantController();
 		CardController cardController = new CardController();
 		
 		int choice = 0;
-		
 		
 		//------------------------------------------------------------------
 		
@@ -28,29 +25,29 @@ public class Menu
 			
 			displayMenu();
 			
-			choice = scan.nextInt();
-			scan.nextLine();
+			choice = SCAN.nextInt();
+			SCAN.nextLine();
 			
 			switch(choice)
 	        {
 
 		        case 1 :
-		        	restaurantController.menuResto(scan);
+		        	restaurantController.menuResto();
 		            break;
 		        case 2 :
-		        	restaurantController.updateRestaurantList(scan);
+		        	restaurantController.updateRestaurantList();
 		            break;
 		        case 3 :
-		        	restaurantController.deleteRestaurantList(scan);
+		        	restaurantController.deleteRestaurantList();
 		            break;
 		        case 4 :
-		        	cardController.menuCard(scan);
+		        	cardController.menuCard();
 		            break;
 		        case 5 :
-		        	cardController.updateCardList(scan);
+		        	cardController.updateCardList();
 		            break;
 		        case 6 :
-		        	cardController.deleteCardList(scan);
+		        	cardController.deleteCardList();
 		            break;
 		        case 7 :
 		        	System.out.printf("Au revoir\n");
@@ -67,7 +64,7 @@ public class Menu
 		//------------------------------------------------------------------
 		
 	
-		scan.close();
+		SCAN.close();
 			
 		
 	}

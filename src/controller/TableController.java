@@ -1,7 +1,6 @@
 package controller;
 
 import java.util.List;
-import java.util.Scanner;
 
 import bll.BLLException;
 import bll.TableBLL;
@@ -23,46 +22,42 @@ public class TableController
 	}
 	
 	
-	public void menuTable (Scanner scan, Restaurant restaurant)
-	{
+	public void menuTable (Restaurant restaurant)
+	{ 
+		this.addTable(restaurant);
 		
 		int choice = 0;
 		
-		while (choice != 2)
+		while(choice != 2)
 		{
 			this.displayMenuAddTable();
 			
-			
-			
-			choice = scan.nextInt();
-			scan.nextLine();
+			choice = Menu.SCAN.nextInt();
+			Menu.SCAN.nextLine();
 			
 			switch(choice)
-	        {
-
-		        case 1 :
-		        	this.addTable(scan, restaurant);
-		            break;
-		        case 2 :
-		        	System.out.printf("Retour \n");
-		            break;
-		        default:
-		        	System.out.printf("choix invalide ! \n");
-		        	break;
-	        }	
+			{
+				case 1 :
+					this.addTable(restaurant);
+					break;
+				case 2 :
+					break;
+				default:
+					System.out.println("Choix invalid");
+					break;
+			}
 		}
 	}
 	
-	public void addTable(Scanner scan, Restaurant restaurant) {
-		
-		
+	public void addTable(Restaurant restaurant) {
+			
 		System.out.println("Saisissez le nombre de table souhaitée");
-		int nbTable = scan.nextInt();
-		scan.nextLine();
+		int nbTable = Menu.SCAN.nextInt();
+		Menu.SCAN.nextLine();
 		
 		System.out.println("Combien de place souhaitez-vous pour cette table ?");
-		int numberPlace = scan.nextInt();
-		scan.nextLine();
+		int numberPlace = Menu.SCAN.nextInt();
+		Menu.SCAN.nextLine();
 
 		String state = null;
 		
@@ -74,18 +69,20 @@ public class TableController
 			
 			try {
 				TableBLL table = new TableBLL();
-				newTable = table.insert(numberPlace, state, restaurant.getId());
+				newTable = table.insert(numberPlace, state, restaurant.getId());	
 			
 			} catch (BLLException e) {
 				e.printStackTrace();
 			}
 		}
+		
 		System.out.println(nbTable + " tables de " + numberPlace + " places ajoutées.");
 		
-		menuTable(scan, restaurant);
+		
+		
 	}
 	
-    public void updateTable(Scanner scan, Restaurant restaurant) {
+    public void updateTable( Restaurant restaurant) {
         // Affiche la liste des tables disponibles pour modification
         System.out.println("Liste des tables pour modification :");
         try {
@@ -96,16 +93,16 @@ public class TableController
 
             // Demande à l'utilisateur de choisir une table à modifier
             System.out.println("Choisissez le numéro de la table que vous souhaitez modifier (0 pour annuler) :");
-            int choice = scan.nextInt();
-            scan.nextLine();
+            int choice = Menu.SCAN.nextInt();
+            Menu.SCAN.nextLine();
 
             if (choice > 0 && choice <= tables.size()) {
                 Table selectedTable = tables.get(choice - 1);
 
                 // Demande à l'utilisateur de saisir les nouvelles informations
                 System.out.println("Saisissez le nouveau nombre de places :");
-                int newNumberPlace = scan.nextInt();
-                scan.nextLine();
+                int newNumberPlace = Menu.SCAN.nextInt();
+                Menu.SCAN.nextLine();
 
                 String newState = null;
                 int restaurantId = restaurant.getId();
