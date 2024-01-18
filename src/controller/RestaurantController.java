@@ -10,14 +10,16 @@ import bo.Restaurant;
 public class RestaurantController 
 {
 	private RestaurantBLL restauranBLL;
-	private ScheduleController restaurantSchedule;
+	private ScheduleController scheduleController;
+	private TableController tableController ;
   
 	public RestaurantController() 
 	{
 		try 
 		{
 			this.restauranBLL = new RestaurantBLL();
-			restaurantSchedule = new ScheduleController();
+			this.tableController = new TableController();
+			this.scheduleController = new ScheduleController();
 		} 
 		catch (BLLException e) 
 		{
@@ -103,15 +105,11 @@ public class RestaurantController
 			
 			System.out.println("nouveau restaurant crée :"+ newRestaurant);
 			
-			// Gestion du 1er créneau horaire de base du restaurant créé
-			//restaurantSchedule.createRestaurantTimeSlots(newRestaurant);
-			
-			// Gestion de la création potentielle de nouveaux créneaux horaires du restaurant crée
-			restaurantSchedule.addNewRestaurantTimeSlots(newRestaurant);
+			//Gestion de la création de nouveaux créneaux horaires
+			scheduleController.addNewRestaurantTimeSlots(newRestaurant);
 
-			//TableController
-			TableController table = new TableController();
-			table.menuTable(newRestaurant);
+			//Gestion de la création de nouvelles tables
+			tableController.menuTable(newRestaurant);
 
 
 		}
@@ -226,13 +224,10 @@ public class RestaurantController
 					restaurant.setTown(newTown);
 					break;
 				case 5:
-					restaurantSchedule.updateRestaurantTimeSlots(restaurant);
+					scheduleController.updateRestaurantTimeSlots(restaurant);
 					break;
 		        case 6:
-			        //TableController
-			        System.out.printf("Modifier la disposition des tables du restaurant :\n");
-			        TableController table = new TableController();
-			        table.updateTable(restaurant);
+		        	tableController.updateTable(restaurant);
 			        break;
 		        case 7:
 		        	break;
