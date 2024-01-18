@@ -9,13 +9,13 @@ import bo.Dish;
 
 public class DishController 
 {
-	private DishBLL DishBLL;
+	private DishBLL dishBLL;
 	
 	public DishController()
 	{
 		try 
 		{
-			this.DishBLL = new DishBLL();
+			this.dishBLL = new DishBLL();
 		}
 		catch (BLLException e)
 		{
@@ -87,8 +87,8 @@ public class DishController
 		newDish.setIdCard(idCard);
 		
 		try {
-			DishBLL dish = new DishBLL();
-			newDish = dish.insert(nameDish, priceDish, descriptionDish, categoryDish, idCard);
+			
+			newDish = this.dishBLL.insert(nameDish, priceDish, descriptionDish, categoryDish, idCard);
 		
 		} catch (BLLException e) {
 			e.printStackTrace();
@@ -137,7 +137,8 @@ public class DishController
                 	selectedDish.setDescription(newDescriptionDish);
                 	selectedDish.setCategory(newCategoryDish);
                 	selectedDish.setIdCard(IdCard);
-                    new DishBLL().update(selectedDish);
+                	
+                    this.dishBLL.update(selectedDish);
                     System.out.println("Plat mise à jour avec succès !");
                 } catch (BLLException e) {
                     System.err.println("Erreur lors de la mise à jour du plat : " + e.getMessage());

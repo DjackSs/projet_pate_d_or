@@ -1,21 +1,21 @@
-package controller;
+package controller.test;
 
 import java.util.List;
 import java.util.Scanner;
 
 import bll.BLLException;
-import bll.TableBLL;
-import bo.Table;
+import bll.CardBLL;
+import bo.Card;
 
-public class TestTable {
+public class TestCard {
 	private static Scanner scan;
-	private static TableBLL bll;
+	private static CardBLL bll;
 	
 	public static void main(String[] args) {
-		System.out.println("Bienvenue dans notre application de gestion des tables");
+		System.out.println("Bienvenue dans notre application de gestion des cartes");
 		scan = new Scanner(System.in);
 		try {
-			bll = new TableBLL();
+			bll = new CardBLL();
 		} catch (BLLException e) {
 			e.printStackTrace();
 		}
@@ -28,13 +28,13 @@ public class TestTable {
 			
 			switch (choice) {
 			case 1:
-				createTable();
+				createCard();
 				break;
 			case 2:
-				listTable();
+				listCards();
 				break;
 			case 3:
-				deleteTable();
+				deleteCard();
 				break;
 			case 4:
 				System.out.println("Byebye");
@@ -50,34 +50,34 @@ public class TestTable {
 		
 	}
 	
-	private static void deleteTable() {
+	private static void deleteCard() {
 		try {
-			List<Table> tables = bll.selectAll();
-			if (tables.size() == 0) {
-				System.out.println("Il n'existe aucun composant en base");
+			List<Card> cards = bll.selectAll();
+			if (cards.size() == 0) {
+				System.out.println("Il n'existe aucune carte en base");
 				return;
 			}
 		} catch (BLLException e1) {
 			e1.printStackTrace();
 		}
 		
-		System.out.println("Vous avez choisi de supprimer une table");
-		System.out.println("Veuillez saisir l'id de la table à supprimer");
+		System.out.println("Vous avez choisi de supprimer une carte");
+		System.out.println("Veuillez saisir l'id de la carte à supprimer");
 		int id = scan.nextInt();
 		scan.nextLine();
 		
 		try {
 			bll.delete(id);
-			System.out.println("La table a bien été supprimée");
+			System.out.println("La carte a bien été supprimée");
 		} catch (BLLException e) {
 			System.out.println("L'id saisi n'existe pas en base de données");
 		}
 	}
 
-	private static void listTable() {
+	private static void listCards() {
 		try {
-			List<Table> tables = bll.selectAll();
-			for (Table current : tables) {
+			List<Card> cards = bll.selectAll();
+			for (Card current : cards) {
 				System.out.println("\t" + current.getId() + ". " + current);
 			}
 		} catch (BLLException e) {
@@ -85,23 +85,15 @@ public class TestTable {
 		}
 	}
 
-	private static void createTable() {
+	private static void createCard() {
 		
-		System.out.println("Saisir le nbre de place pour une table");
-		int numberPlace = scan.nextInt();
-		scan.nextLine();
-		
-		System.out.println("Saisir le statut de la table");
-		String state = scan.nextLine();
-		
-		System.out.println("Saisir l'index de votre restaurant");
-		int idRestaurant = scan.nextInt();
-
+		System.out.println("Saisir le nom de la carte");
+		String name = scan.nextLine();
 	
 		
 		try {
-			Table addTable = bll.insert(numberPlace, state, idRestaurant);
-			System.out.println("Table ajoutée " + addTable);
+			Card addCard = bll.insert(name);
+			System.out.println("Carte ajoutée " + addCard);
 		} catch (BLLException e) {
 			System.out.println("Une erreur est survenue :");
 			for (String error : e.getErrors()) {
@@ -113,9 +105,9 @@ public class TestTable {
 	}
 	
 	private static int displayMenu() {
-		System.out.println("1. Créer une table");
-		System.out.println("2. Consulter les tables");
-		System.out.println("3. Supprimer une table");
+		System.out.println("1. Créer une carte");
+		System.out.println("2. Consulter les cartes");
+		System.out.println("3. Supprimer une carte");
 		System.out.println("4. Quitter");
 		int choice = scan.nextInt();
 		scan.nextLine();

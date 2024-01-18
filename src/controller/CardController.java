@@ -11,12 +11,18 @@ import bo.Restaurant;
 public class CardController 
 {
 	private CardBLL cardBLL;
+	private RestaurantBLL restaurantBLL;
+	private DishController dishController;
+	private RestaurantController restaurantController;
 	
 	public CardController()
 	{
 		try 
 		{
 			this.cardBLL = new CardBLL();
+			this.restaurantBLL = new RestaurantBLL();
+			this.dishController = new DishController ();
+			this.restaurantController = new RestaurantController();
 		} 
 		catch (BLLException e)
 		{
@@ -91,8 +97,8 @@ public class CardController
 			
 			System.out.println("nouvelle carte crée :"+ newCard);
 			
-			DishController DishController = new DishController();
-			DishController.menuDish(newCard);
+			//Gestion de la création de nouveaux plats dans la carte
+			this.dishController.menuDish(newCard);
 			
 			this.bindCard(newCard);
 			
@@ -156,8 +162,7 @@ public class CardController
 			switch(choice)
 			{
 				case 1:
-					RestaurantController restaurantController = new RestaurantController();
-					restaurantController.bindCard(card);
+					this.restaurantController.bindCard(card);
 					break;
 				case 2:
 					break;
@@ -230,7 +235,6 @@ public class CardController
 	
 	public void updateCardMenu (Card card)
 	{
-		DishController dishController = new DishController();
 		int choice = 0;
 		
 		while(choice != 5)
@@ -256,14 +260,13 @@ public class CardController
 					card.setName(newName);
 					break;
 				case 2:
-					dishController.updateDishIntoCard(card);
+					this.dishController.updateDishIntoCard(card);
 					break;
 				case 3:
 					this.displayCardRestaurant(card);
 					break;
 				case 4:
-					RestaurantController restaurantController = new RestaurantController();
-					restaurantController.bindCard(card);
+					this.restaurantController.bindCard(card);
 					break;
 				case 5:
 					break;
@@ -294,12 +297,11 @@ public class CardController
 		
 		try 
 		{
-			RestaurantBLL restaurantBLL = new RestaurantBLL();
-			List<Restaurant> bindedRestaurant = restaurantBLL.selectByFk(card.getId());
+			List<Restaurant> bindedRestaurant = this.restaurantBLL.selectByFk(card.getId());
 			
 			if(bindedRestaurant.size() != 0)
 			{
-				deleteRestaurantBindedList(bindedRestaurant, restaurantBLL);
+				deleteRestaurantBindedList(bindedRestaurant);
 				
 			}
 			else
@@ -317,7 +319,7 @@ public class CardController
 	
 	//------------------------------------------------------------------
 	
-	public void deleteRestaurantBindedList (List<Restaurant> restaurants, RestaurantBLL restaurantBLL)
+	public void deleteRestaurantBindedList (List<Restaurant> restaurants)
 	{
 		
 		System.out.printf("============================================\n");
@@ -330,18 +332,8 @@ public class CardController
 		try 
 		{
 			
-			for(int i=0; i<=restaurants.size(); i++)
-			{
-				if(i < restaurants.size())
-				{
-					System.out.println(i+1+" - "+restaurants.get(i));
-					
-				}
-				else
-				{
-					System.out.println(i+1+" - Quitter");		
-				}
-			}
+			restaurantController.displayRestaurantList(restaurants);
+
 			
 			choice = Menu.SCAN.nextInt();
 			Menu.SCAN.nextLine();
@@ -351,7 +343,7 @@ public class CardController
 				Restaurant restaurantToUnbind = restaurants.get(choice-1);
 				restaurantToUnbind.setIdCard(0);
 				
-				restaurantBLL.update(restaurantToUnbind);
+				this.restaurantBLL.update(restaurantToUnbind);
 				
 				System.out.println("Vous avez retirez la carte du restaurant "+restaurantToUnbind);
 				
