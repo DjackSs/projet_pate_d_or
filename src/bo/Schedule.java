@@ -6,22 +6,19 @@ public class Schedule {
 	private int id;
 	private LocalTime openHour;
 	private LocalTime closeHour;
-	private int idRestaurant;
 	
 	
 	public Schedule() {}
 
-	public Schedule(LocalTime open_hour, LocalTime close_hour, int id_restaurant) {
+	public Schedule(LocalTime open_hour, LocalTime close_hour) {
 		this.openHour = open_hour;
 		this.closeHour = close_hour;
-		this.idRestaurant = id_restaurant;
 	}
 
-	public Schedule(int id, LocalTime open_hour, LocalTime close_hour, int id_restaurant) {
+	public Schedule(int id, LocalTime open_hour, LocalTime close_hour) {
 		this.id = id;
 		this.openHour = open_hour;
 		this.closeHour = close_hour;
-		this.idRestaurant = id_restaurant;
 	}
 
 	public int getId() {
@@ -48,19 +45,15 @@ public class Schedule {
 		this.closeHour = closeHour;
 	}
 
-	public int getIdRestaurant() {
-		return idRestaurant;
-	}
-
-	public void setIdRestaurant(int idRestaurant) {
-		this.idRestaurant = idRestaurant;
-	}
-
 	@Override
-	public String toString() {
-		return "Schedule [id=" + id + ", openHour=" + openHour + ", closeHour=" + closeHour + ", idRestaurant="
-				+ idRestaurant + "]";
+	public String toString()
+	{
+		return "Schedule [id=" + id + ", openHour=" + openHour + ", closeHour=" + closeHour + "]";
 	}
+
+	
+
+	
 	
 	
 	

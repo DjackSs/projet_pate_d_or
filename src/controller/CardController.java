@@ -4,14 +4,11 @@ import java.util.List;
 
 import bll.BLLException;
 import bll.CardBLL;
-import bll.RestaurantBLL;
 import bo.Card;
-import bo.Restaurant;
 
 public class CardController 
 {
 	private CardBLL cardBLL;
-	private RestaurantBLL restaurantBLL;
 	private DishController dishController;
 	private RestaurantController restaurantController;
 	
@@ -20,7 +17,6 @@ public class CardController
 		try 
 		{
 			this.cardBLL = new CardBLL();
-			this.restaurantBLL = new RestaurantBLL();
 			this.dishController = new DishController ();
 			this.restaurantController = new RestaurantController();
 		} 
@@ -93,14 +89,14 @@ public class CardController
 		
 		try 
 		{	
-			newCard = this.cardBLL.insert(name);
-			
-			System.out.println("nouvelle carte crée :"+ newCard);
 			
 			//Gestion de la création de nouveaux plats dans la carte
 			this.dishController.menuDish(newCard);
 			
 			this.bindCard(newCard);
+			
+			newCard = this.cardBLL.insert(newCard);
+			System.out.println("nouvelle carte crée :"+ newCard);
 			
 		}
 		catch (BLLException e) 
@@ -263,7 +259,7 @@ public class CardController
 					this.dishController.updateDishIntoCard(card);
 					break;
 				case 3:
-					this.displayCardRestaurant(card);
+					this.restaurantController.displayCardRestaurant(card);
 					break;
 				case 4:
 					this.restaurantController.bindCard(card);
@@ -275,92 +271,21 @@ public class CardController
 					break;
 				
 			}
-			
-			try 
-			{
-				this.cardBLL.update(card);
-			} 
-			catch (BLLException e)
-			{
-				e.printStackTrace();
-			}
-			
+				
 		}
-		
-		
-	}
-	
-	//------------------------------------------------------------------
-	
-	public void displayCardRestaurant(Card card)
-	{
-		
 		try 
 		{
-			List<Restaurant> bindedRestaurant = this.restaurantBLL.selectByFk(card.getId());
-			
-			if(bindedRestaurant.size() != 0)
-			{
-				deleteRestaurantBindedList(bindedRestaurant);
-				
-			}
-			else
-			{
-				System.out.println("Cette carte n'est affectée à aucuns restaurant");
-			}
-			
-			
-		} catch (BLLException e) 
-		{
-			e.printStackTrace();
-		}
-		
-	}
-	
-	//------------------------------------------------------------------
-	
-	public void deleteRestaurantBindedList (List<Restaurant> restaurants)
-	{
-		
-		System.out.printf("============================================\n");
-		System.out.printf("    Choisissez un restaurant à dé-affecter :\n");
-		System.out.printf("============================================\n");
-		
-		
-		int choice = 0;
-		
-		try 
-		{
-			
-			restaurantController.displayRestaurantList(restaurants);
-
-			
-			choice = Menu.SCAN.nextInt();
-			Menu.SCAN.nextLine();
-			
-			if(choice >= 1 && choice <= restaurants.size())
-			{
-				Restaurant restaurantToUnbind = restaurants.get(choice-1);
-				restaurantToUnbind.setIdCard(0);
-				
-				this.restaurantBLL.update(restaurantToUnbind);
-				
-				System.out.println("Vous avez retirez la carte du restaurant "+restaurantToUnbind);
-				
-				
-			}
-				
-			
+			this.cardBLL.update(card);
 		} 
-		catch (BLLException e) 
+		catch (BLLException e)
 		{
-			
 			e.printStackTrace();
 		}
 		
-	
 		
 	}
+	
+	
 	
 	//------------------------------------------------------------------
 	

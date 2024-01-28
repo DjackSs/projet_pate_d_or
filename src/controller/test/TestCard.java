@@ -11,7 +11,8 @@ public class TestCard {
 	private static Scanner scan;
 	private static CardBLL bll;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 		System.out.println("Bienvenue dans notre application de gestion des cartes");
 		scan = new Scanner(System.in);
 		try {
@@ -92,7 +93,8 @@ public class TestCard {
 	
 		
 		try {
-			Card addCard = bll.insert(name);
+			Card addCard = new Card(name);
+			addCard = bll.insert(addCard);
 			System.out.println("Carte ajoutée " + addCard);
 		} catch (BLLException e) {
 			System.out.println("Une erreur est survenue :");

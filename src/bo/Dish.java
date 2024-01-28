@@ -7,20 +7,18 @@ public class Dish
 	private float price;
 	private String description;
 	private String category;
-	private int idCard;
 	
 	
 	public Dish () {}
 	
 
-	public Dish(String name, float price, String description, String category, int idCard) 
+	public Dish(String name, float price, String description, String category) 
 	{
 		this.id = 0;
 		this.name = name;
 		this.price = price;
 		this.description = description;
 		this.category = category;
-		this.idCard = idCard;
 	}
 
 
@@ -75,25 +73,18 @@ public class Dish
 	}
 
 
-	public int getIdCard() {
-		return idCard;
-	}
-
-
-	public void setIdCard(int idCard) {
-		this.idCard = idCard;
-	};
-	
-	
-
 	@Override
 	public String toString() 
 	{
-		return "Dish [id=" + id + ", name=" + name + ", price=" + price + ", description=" + description
-				+ ", category=" + category + ", idCard=" + idCard + "]";
+		return "Dish [id=" + id + ", name=" + name + ", price=" + price + ", description=" + description + ", category="
+				+ category + "]";
 	}
+	
+	
+
 
 	
+
 	
 	
 

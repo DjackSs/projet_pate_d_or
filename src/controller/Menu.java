@@ -2,8 +2,6 @@ package controller;
 
 import java.util.Scanner;
 
-import bo.Restaurant;
-
 
 public class Menu 
 {
