@@ -1,8 +1,11 @@
 package bll;
 
+import java.util.Arrays;
 import java.util.List;
 
 import bo.Restaurant;
+import bo.Schedule;
+import bo.Table;
 import dal.DALException;
 import dal.RestaurantDAO;
 
@@ -94,18 +97,18 @@ public class RestaurantBLL
 	
 	//--------------------------------------------------------------
 
-	public Restaurant insert(String name, String address, String postalCode, String town, int idCard) throws BLLException
+	public Restaurant insert(Restaurant restaurant) throws BLLException
 	{
 		
 		
 		//name
-		if(name.length() > NAME_MAX_LENGTH)
+		if(restaurant.getName().length() > NAME_MAX_LENGTH)
 		{
 			throw new BLLException("Restaurant's name is too big", null);
 					
 		}
 		
-		if(name.length() < MIN_LENGTH)
+		if(restaurant.getName().length() < MIN_LENGTH)
 		{
 			throw new BLLException("Restaurant's name is too small", null);
 			
@@ -113,13 +116,13 @@ public class RestaurantBLL
 		
 		
 		//address
-		if(address.length() > ADDRESS_MAX_LENGTH)
+		if(restaurant.getAddress().length() > ADDRESS_MAX_LENGTH)
 		{
 			throw new BLLException("Restaurant's address is too big", null);
 					
 		}
 		
-		if(address.length() < MIN_LENGTH)
+		if(restaurant.getAddress().length() < MIN_LENGTH)
 		{
 			throw new BLLException("Restaurant's adress is too small", null);
 			
@@ -127,7 +130,7 @@ public class RestaurantBLL
 		
 		
 		//postalCode
-		if(postalCode.length() != POSTAL_CODE_LENGTH)
+		if(restaurant.getPostalCode().length() != POSTAL_CODE_LENGTH)
 		{
 			throw new BLLException("Restaurant's postal code is not valid", null);
 					
@@ -135,39 +138,27 @@ public class RestaurantBLL
 		
 		
 		//town
-		if(town.length() > TOWN_MAX_LENGTH)
+		if(restaurant.getTown().length() > TOWN_MAX_LENGTH)
 		{
 			throw new BLLException("Restaurant town's name is too big", null);
 					
 		}
 		
-		if(town.length() < MIN_LENGTH)
+		if(restaurant.getTown().length() < MIN_LENGTH)
 		{
 			throw new BLLException("Restaurant town's name is too small", null);
 			
 		}
+				
+		this.controlSchedule(restaurant.getSchedules());
 		
-		
-		//idCard
-		
-		
-		
+		this.controlTable(restaurant.getTables());
 			
 		try
 		{
-			
-			Restaurant restaurant = new Restaurant();
-			restaurant.setName(name);
-			restaurant.setAddress(address);
-			restaurant.setPostalCode(postalCode);
-			restaurant.setTown(town);
-			restaurant.setIdCard(idCard);
-			
 			dao.insert(restaurant);
 			
 			return restaurant;
-			
-			
 			
 		}
 		catch (DALException error) 
@@ -231,6 +222,10 @@ public class RestaurantBLL
 			
 		}
 		
+		this.controlSchedule(restaurant.getSchedules());
+		
+		this.controlTable(restaurant.getTables());
+		
 		
 		try 
 		{
@@ -259,5 +254,43 @@ public class RestaurantBLL
 		}
 		
 	}
+	
+	//--------------------------------------------------------------
+	
+	public void controlSchedule(List<Schedule> schedules) throws BLLException
+	{
+		for(Schedule schedule : schedules)
+		{
+			if(schedule.getOpenHour().isAfter(schedule.getCloseHour())) 
+			{
+				throw new BLLException("L'heure d'ouverture " + schedule.getOpenHour()
+										+ "doit être avant l'heure de fermeture " + schedule.getCloseHour(), null);
+			}
+		}
+		
+	}
+	
+	//--------------------------------------------------------------
+	
+		public void controlTable(List<Table> tables) throws BLLException
+		{
+			for(Table table : tables)
+			{
+				if (table.getNumberPlace() < MIN_LENGTH) 
+				{
+					throw new BLLException("Le nombre de place d'une table doit être au minimum de 2.", null);
+				}
+				
+				List<String> checkState = Arrays.asList(null, "PRES");
+				
+				if (!checkState.contains(table.getState())) 
+				{
+					throw new BLLException("Le statut de la table est soit nul soit PRES", null);
+				}
+				
+				
+			}
+			
+		}
 
 }

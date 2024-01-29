@@ -1,5 +1,8 @@
 package bo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Restaurant 
 {
 	private int id;
@@ -8,10 +11,17 @@ public class Restaurant
 	private String postalCode;
 	private String town;
 	
-	private int idCard;
+	private Card card;
+	private List<Schedule> schedules;
+	private List<Table> tables;
 	
 	
-	public Restaurant() {}
+	public Restaurant() 
+	{
+		this.id =0;
+		this.schedules = new ArrayList<>();
+		this.tables = new ArrayList<>();
+	}
 	
 	public Restaurant(String name, String address, String postal, String town)
 	{
@@ -21,8 +31,20 @@ public class Restaurant
 		this.postalCode = postal;
 		this.town = town;
 		
-		this.idCard = 0;
+		this.card = null;
+		this.schedules = new ArrayList<>();
+		this.tables = new ArrayList<>();
 		
+	}
+	
+	public void addSchedule(Schedule schedule)
+	{
+		this.schedules.add(schedule);
+	}
+	
+	public void addTable(Table table)
+	{
+		this.tables.add(table);
 	}
 
 	public int getId() {
@@ -68,21 +90,43 @@ public class Restaurant
 		this.town = town;
 	}
 
-	
-	public int getIdCard() {
-		return idCard;
+	public Card getCard() {
+		return card;
 	}
 
-	public void setIdCard(int idCard) {
-		this.idCard = idCard;
+	public void setCard(Card card) {
+		this.card = card;
+	}
+	
+	
+
+	public List<Schedule> getSchedules() {
+		return schedules;
+	}
+
+	public void setSchedules(List<Schedule> schedules) {
+		this.schedules = schedules;
+	}
+
+	public List<Table> getTables() {
+		return tables;
+	}
+
+	public void setTables(List<Table> tables) {
+		this.tables = tables;
 	}
 
 	@Override
 	public String toString() 
 	{
-		return "Restaurant [id=" + id + ", name=" + name + ", address=" + address + ", postal_code=" + postalCode
-				+ ", town=" + town + ", idCard=" + idCard + "]";
+		return "Restaurant [id=" + id + ", name=" + name + ", address=" + address + ", postalCode=" + postalCode
+				+ ", town=" + town + ", card=" + card + ", schedules=" + schedules.size() + ", tables=" + tables.size() + "]";
 	}
+
+	
+
+	
+	
 	
 	
 	

@@ -1,14 +1,30 @@
 package bo;
 
-public class Card {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Card 
+{
 	private int id;
 	private String name;
 	
-	public Card() {
+	List<Dish> dishes;
+	
+	public Card() 
+	{
+		this.dishes = new ArrayList<>();
 	}
 	
-	public Card(String name) {
+	public Card(String name) 
+	{
+		this.id = 0;
 		this.name = name;
+		this.dishes = new ArrayList<>();
+	}
+	
+	public void addDish(Dish dish)
+	{
+		this.dishes.add(dish);
 	}
 	
 	public int getId() {
@@ -27,8 +43,20 @@ public class Card {
 		this.name = name;
 	}
 	
+	
+	
+	public List<Dish> getDishes() {
+		return dishes;
+	}
+
+	public void setDishes(List<Dish> dishes) {
+		this.dishes = dishes;
+	}
+
 	@Override
 	public String toString() {
-		return "Card [id=" + id + ", name=" + name + "]";
+		return "Card [id=" + id + ", name=" + name + ", dishes=" + dishes.size() + "]";
 	}
+
+	
 }

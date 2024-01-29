@@ -9,7 +9,7 @@ import bo.Restaurant;
 
 public class RestaurantController 
 {
-	private RestaurantBLL restauranBLL;
+	private RestaurantBLL restaurantBLL;
 	private ScheduleController scheduleController;
 	private TableController tableController ;
   
@@ -17,7 +17,7 @@ public class RestaurantController
 	{
 		try 
 		{
-			this.restauranBLL = new RestaurantBLL();
+			this.restaurantBLL = new RestaurantBLL();
 			this.tableController = new TableController();
 			this.scheduleController = new ScheduleController();
 		} 
@@ -101,15 +101,15 @@ public class RestaurantController
 
 		try 
 		{
-			newRestaurant = this.restauranBLL.insert(name, address, postalCode, town, 0);
-			
-			System.out.println("nouveau restaurant crée :"+ newRestaurant);
 			
 			//Gestion de la création de nouveaux créneaux horaires
 			scheduleController.addNewRestaurantTimeSlots(newRestaurant);
 
 			//Gestion de la création de nouvelles tables
 			tableController.menuTable(newRestaurant);
+			
+			newRestaurant = this.restaurantBLL.insert(newRestaurant);
+			System.out.println("nouveau restaurant crée :"+ newRestaurant);
 
 
 		}
@@ -156,7 +156,7 @@ public class RestaurantController
 
 		try 
 		{
-			List<Restaurant> restaurants = this.restauranBLL.selectALl();
+			List<Restaurant> restaurants = this.restaurantBLL.selectALl();
 
 			this.displayRestaurantList(restaurants);
 
@@ -236,15 +236,16 @@ public class RestaurantController
 		        	break;
 			}
 
-			try 
-			{
-				this.restauranBLL.update(restaurant);
-			} 
-			catch (BLLException e)
-			{
-				e.printStackTrace();
-			}
-
+		
+		}
+		
+		try 
+		{
+			this.restaurantBLL.update(restaurant);
+		} 
+		catch (BLLException e)
+		{
+			e.printStackTrace();
 		}
 
 
@@ -264,7 +265,7 @@ public class RestaurantController
 
 		try 
 		{
-			List<Restaurant> restaurants = this.restauranBLL.selectALl();
+			List<Restaurant> restaurants = this.restaurantBLL.selectALl();
 
 			this.displayRestaurantList(restaurants);
 
@@ -277,7 +278,7 @@ public class RestaurantController
 
 				System.out.println("Vous avez choisis du supprimer :"+restaurantToDelete);
 
-				this.restauranBLL.delete(restaurantToDelete.getId());
+				this.restaurantBLL.delete(restaurantToDelete.getId());
 
 			}
 
@@ -309,7 +310,7 @@ public class RestaurantController
 		
 		try 
 		{
-			List<Restaurant> restaurants = this.restauranBLL.selectALl();
+			List<Restaurant> restaurants = this.restaurantBLL.selectALl();
 			
 			this.displayRestaurantList(restaurants);
 			
@@ -320,9 +321,9 @@ public class RestaurantController
 			{
 				Restaurant restaurantToBind = restaurants.get(choice-1);
 				
-				restaurantToBind.setIdCard(card.getId());
+				restaurantToBind.setCard(card);
 				
-				restauranBLL.update(restaurantToBind);
+				restaurantBLL.update(restaurantToBind);
 				
 				System.out.println("Vous avez affecté la carte "+card.getName()+" au restaurant "+restaurantToBind.getName());
 				
@@ -338,6 +339,78 @@ public class RestaurantController
 		
 		
 	}
+	
+	//------------------------------------------------------------------
+	
+		public void displayCardRestaurant(Card card)
+		{
+			
+			try 
+			{
+				List<Restaurant> bindedRestaurant = this.restaurantBLL.selectByFk(card.getId());
+				
+				if(bindedRestaurant.size() != 0)
+				{
+					deleteRestaurantBindedList(bindedRestaurant);
+					
+				}
+				else
+				{
+					System.out.println("Cette carte n'est affectée à aucuns restaurant");
+				}
+				
+				
+			} catch (BLLException e) 
+			{
+				e.printStackTrace();
+			}
+			
+		}
+		
+		//------------------------------------------------------------------
+		
+		public void deleteRestaurantBindedList (List<Restaurant> restaurants)
+		{
+			
+			System.out.printf("============================================\n");
+			System.out.printf("    Choisissez un restaurant à dé-affecter :\n");
+			System.out.printf("============================================\n");
+			
+			
+			int choice = 0;
+			
+			try 
+			{
+				
+				this.displayRestaurantList(restaurants);
+
+				
+				choice = Menu.SCAN.nextInt();
+				Menu.SCAN.nextLine();
+				
+				if(choice >= 1 && choice <= restaurants.size())
+				{
+					Restaurant restaurantToUnbind = restaurants.get(choice-1);
+					restaurantToUnbind.setCard(null);
+					
+					this.restaurantBLL.update(restaurantToUnbind);
+					
+					System.out.println("Vous avez retirez la carte du restaurant "+restaurantToUnbind);
+					
+					
+				}
+					
+				
+			} 
+			catch (BLLException e) 
+			{
+				
+				e.printStackTrace();
+			}
+			
+		
+			
+		}
 	
 	//------------------------------------------------------------------
 	

@@ -2,8 +2,6 @@ package controller;
 
 import java.util.List;
 
-import bll.BLLException;
-import bll.TableBLL;
 import bo.Restaurant;
 import bo.Table;
 
@@ -61,19 +59,14 @@ public class TableController
 
 		String state = null;
 		
-		for (int i = 0; i < nbTable; i++) {
+		for (int i = 0; i < nbTable; i++) 
+		{
 			Table newTable = new Table();
 			newTable.setNumberPlace(numberPlace);
 			newTable.setState(state);
-			newTable.setIdRestaurant(restaurant.getId());
 			
-			try {
-				TableBLL table = new TableBLL();
-				newTable = table.insert(numberPlace, state, restaurant.getId());	
+			restaurant.addTable(newTable);
 			
-			} catch (BLLException e) {
-				e.printStackTrace();
-			}
 		}
 		
 		System.out.println(nbTable + " tables de " + numberPlace + " places ajoutées.");
@@ -82,45 +75,44 @@ public class TableController
 		
 	}
 	
-    public void updateTable( Restaurant restaurant) {
-        // Affiche la liste des tables disponibles pour modification
+    public void updateTable( Restaurant restaurant) 
+    {
+ 
         System.out.println("Liste des tables pour modification :");
-        try {
-            List<Table> tables = new TableBLL().selectTablesByRestaurantId(restaurant.getId()); // Utilise la BLL pour récupérer la liste des tables
-            for (int i = 0; i < tables.size(); i++) {
-                System.out.println(i + 1 + " - " + tables.get(i));
-            }
+        
+      
+        List<Table> tables = restaurant.getTables();
+        
+        for (int i = 0; i < tables.size(); i++) {
+            System.out.println(i + 1 + " - " + tables.get(i));
+        }
 
-            // Demande à l'utilisateur de choisir une table à modifier
-            System.out.println("Choisissez le numéro de la table que vous souhaitez modifier (0 pour annuler) :");
-            int choice = Menu.SCAN.nextInt();
+        // Demande à l'utilisateur de choisir une table à modifier
+        System.out.println("Choisissez le numéro de la table que vous souhaitez modifier (0 pour annuler) :");
+        int choice = Menu.SCAN.nextInt();
+        Menu.SCAN.nextLine();
+
+        if (choice > 0 && choice <= tables.size()) 
+        {
+            Table selectedTable = tables.get(choice - 1);
+
+            // Demande à l'utilisateur de saisir les nouvelles informations
+            System.out.println("Saisissez le nouveau nombre de places :");
+            int newNumberPlace = Menu.SCAN.nextInt();
             Menu.SCAN.nextLine();
 
-            if (choice > 0 && choice <= tables.size()) {
-                Table selectedTable = tables.get(choice - 1);
+            String newState = null;
+            
+            selectedTable.setNumberPlace(newNumberPlace);
+            selectedTable.setState(newState);
 
-                // Demande à l'utilisateur de saisir les nouvelles informations
-                System.out.println("Saisissez le nouveau nombre de places :");
-                int newNumberPlace = Menu.SCAN.nextInt();
-                Menu.SCAN.nextLine();
-
-                String newState = null;
-                int restaurantId = restaurant.getId();
-
-                // Appelle la méthode de BLL pour effectuer la mise à jour
-                try {
-                    new TableBLL().updateTable(selectedTable.getId(), newNumberPlace, newState, restaurantId);
-                    System.out.println("Table mise à jour avec succès !");
-                } catch (BLLException e) {
-                    System.err.println("Erreur lors de la mise à jour de la table : " + e.getMessage());
-                    e.printStackTrace();
-                }
-            } else {
-                System.out.println("Opération annulée.");
-            }
-        } catch (BLLException e) {
-            System.err.println("Erreur lors de la récupération des tables : " + e.getMessage());
+            
+        } 
+        else 
+        {
+            System.out.println("Opération annulée.");
         }
+      
     }
 	
 	

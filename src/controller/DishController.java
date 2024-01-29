@@ -2,26 +2,13 @@ package controller;
 
 import java.util.List;
 
-import bll.BLLException;
-import bll.DishBLL;
 import bo.Card;
 import bo.Dish;
 
 public class DishController 
 {
-	private DishBLL dishBLL;
-	
-	public DishController()
-	{
-		try 
-		{
-			this.dishBLL = new DishBLL();
-		}
-		catch (BLLException e)
-		{
-			e.printStackTrace();
-		}
-	}
+
+	public DishController(){}
 	
 	public void displayMenuAddDish()
 	{
@@ -77,79 +64,64 @@ public class DishController
 		System.out.println("Votre plat est-il une entrée[entry] ? Un plat[dish] ? Un dessert[desert] ? Une boisson[beverage] ?");
 		String categoryDish = Menu.SCAN.nextLine();
 		
-		int idCard = card.getId();
 		
 		Dish newDish = new Dish();
 		newDish.setName(nameDish);
 		newDish.setPrice(priceDish);
 		newDish.setDescription(descriptionDish);
 		newDish.setCategory(categoryDish);
-		newDish.setIdCard(idCard);
 		
-		try {
-			
-			newDish = this.dishBLL.insert(nameDish, priceDish, descriptionDish, categoryDish, idCard);
-		
-		} catch (BLLException e) {
-			e.printStackTrace();
-		}
+		card.addDish(newDish);
 	
 		System.out.println("L'élément " + nameDish + " a été ajouté à la carte");
 	}
 	
-    public void updateDishIntoCard(Card card) {
+    public void updateDishIntoCard(Card card) 
+    {
         // Affiche la liste des tables disponibles pour modification
         System.out.println("Liste des plats pour modification :");
-        try {
-            List<Dish> dishes = new DishBLL().selectDishesByCardId(card.getId()); // Utilise la BLL pour récupérer la liste des tables
-            for (int i = 0; i < dishes.size(); i++) {
-                System.out.println(i + 1 + " - " + dishes.get(i));
-            }
-
-            // Demande à l'utilisateur de choisir une table à modifier
-            System.out.println("Choisissez le numéro du plat que vous souhaitez modifier (0 pour annuler) :");
-            int choice = Menu.SCAN.nextInt();
-            Menu.SCAN.nextLine();
-
-            if (choice > 0 && choice <= dishes.size()) {
-                Dish selectedDish = dishes.get(choice - 1);
-
-                // Demande à l'utilisateur de saisir les nouvelles informations
-        		System.out.println("Saisissez le nom de l'élément à ajouter à la carte");
-        		String newNameDish = Menu.SCAN.nextLine();
-        		
-        		System.out.println("Saisissez le prix de l'élément ajouté (utilisez les ',' pour les décimales)");
-        		float newPriceDish = Menu.SCAN.nextFloat();
-        		Menu.SCAN.nextLine();
-
-        		System.out.println("Saisissez une description pour l'élément ajouté");
-        		String newDescriptionDish = Menu.SCAN.nextLine();
-        		
-        		System.out.println("Votre plat est-il une entrée[entry] ? Un plat[dish] ? Un dessert[desert] ? Une boisson[beverage] ?");
-        		String newCategoryDish = Menu.SCAN.nextLine();
-        		
-        		int IdCard = card.getId();
-
-                // Appelle la méthode de BLL pour effectuer la mise à jour
-                try {
-                	selectedDish.setName(newNameDish);
-                	selectedDish.setPrice(newPriceDish);
-                	selectedDish.setDescription(newDescriptionDish);
-                	selectedDish.setCategory(newCategoryDish);
-                	selectedDish.setIdCard(IdCard);
-                	
-                    this.dishBLL.update(selectedDish);
-                    System.out.println("Plat mise à jour avec succès !");
-                } catch (BLLException e) {
-                    System.err.println("Erreur lors de la mise à jour du plat : " + e.getMessage());
-                    e.printStackTrace();
-                }
-            } else {
-                System.out.println("Opération annulée.");
-            }
-        } catch (BLLException e) {
-        	e.printStackTrace();
-            System.err.println("Erreur lors de la récupération des plats : " + e.getMessage());
+       
+        List<Dish> dishes = card.getDishes();
+        
+        for (int i = 0; i < dishes.size(); i++) {
+            System.out.println(i + 1 + " - " + dishes.get(i));
         }
-    }
+
+        // Demande à l'utilisateur de choisir une table à modifier
+        System.out.println("Choisissez le numéro du plat que vous souhaitez modifier (0 pour annuler) :");
+        int choice = Menu.SCAN.nextInt();
+        Menu.SCAN.nextLine();
+
+        if (choice > 0 && choice <= dishes.size()) 
+        {
+            Dish selectedDish = dishes.get(choice - 1);
+
+            // Demande à l'utilisateur de saisir les nouvelles informations
+    		System.out.println("Saisissez le nom de l'élément à ajouter à la carte");
+    		String newNameDish = Menu.SCAN.nextLine();
+    		
+    		System.out.println("Saisissez le prix de l'élément ajouté (utilisez les ',' pour les décimales)");
+    		float newPriceDish = Menu.SCAN.nextFloat();
+    		Menu.SCAN.nextLine();
+
+    		System.out.println("Saisissez une description pour l'élément ajouté");
+    		String newDescriptionDish = Menu.SCAN.nextLine();
+    		
+    		System.out.println("Votre plat est-il une entrée[entry] ? Un plat[dish] ? Un dessert[desert] ? Une boisson[beverage] ?");
+    		String newCategoryDish = Menu.SCAN.nextLine();
+    		
+    		selectedDish.setName(newNameDish);
+    		selectedDish.setPrice(newPriceDish);
+    		selectedDish.setDescription(newDescriptionDish);
+    		selectedDish.setCategory(newCategoryDish);
+    		
+
+        } 
+        else 
+        {
+            System.out.println("Opération annulée.");
+        }
+   
+   }
+    
 }

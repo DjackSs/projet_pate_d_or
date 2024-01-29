@@ -12,8 +12,10 @@ public class TestRestaurant
 
 	public static void main(String[] args) 
 	{
+		
 		Scanner scan = new Scanner(System.in);
 		
+		/*
 		System.out.println("nom du restaurant?");
 		String name =  scan.nextLine();
 		
@@ -25,77 +27,21 @@ public class TestRestaurant
 		
 		System.out.println("Ville du restaurant?");
 		String town = scan.nextLine();
-		
+		*/
 		try 
 		{
-			RestaurantBLL restaurant = new RestaurantBLL();
+			System.out.println("hello");
 			
-			restaurant.insert(name, adress, postal, town, 0);
+			RestaurantBLL restaurantBLL = new RestaurantBLL();
 			
-			List<Restaurant> restaurants = restaurant.selectALl();
+			List<Restaurant> restaurants = restaurantBLL.selectALl();
 			
-			for(Restaurant item : restaurants)
+			for(Restaurant restaurant : restaurants)
 			{
-				System.out.println(item);
+				System.out.println(restaurant);
 			}
 			
-			System.out.println("choisissez un id :");
-			int id = scan.nextInt();
-			scan.nextLine();
-			
-			System.out.println(restaurant.selectById(id));
-			
-			System.out.println("choisissez un id pour delete :");
-			int deleteId = scan.nextInt();
-			scan.nextLine();
-			
-			for(int i=0; i<restaurants.size(); i++)
-			{
-				if(restaurants.get(i).getId() == deleteId)
-				{
-					restaurant.delete(restaurants.get(i).getId());
-				}
-				
-			}
-			
-			restaurants = restaurant.selectALl();
-			
-			for(Restaurant item : restaurants)
-			{
-				System.out.println(item);
-			}
-			
-			
-			
-			System.out.println("choisissez un id pour update :");
-			id = scan.nextInt();
-			scan.nextLine();
-			
-			System.out.println("choisissez un nouveau nom:");
-			name = scan.nextLine();
-			
-			for(int i=0; i<restaurants.size(); i++)
-			{
-				if(restaurants.get(i).getId() == id)
-				{
-					restaurant.update(restaurants.get(i));
-				}
-				
-			}
-			
-			
-			restaurants = restaurant.selectALl();
-			
-			for(Restaurant item : restaurants)
-			{
-				System.out.println(item);
-			}
-			
-			
-			
-			
-			
-			
+
 			
 		} 
 		catch (BLLException e) 

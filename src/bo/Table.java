@@ -4,17 +4,15 @@ public class Table {
 	private int id;
 	private int numberPlace;
 	private String state;
-	private int idRestaurant;
 	
 	
 	public Table() {
 	}
 
 
-	public Table(int numberPlace, String state, int idRestaurant) {
+	public Table(int numberPlace, String state) {
 		this.numberPlace = numberPlace;
 		this.state = state;
-		this.idRestaurant = idRestaurant;
 	}
 
 
@@ -48,20 +46,12 @@ public class Table {
 	}
 
 
-	public int getIdRestaurant() {
-		return idRestaurant;
-	}
-
-
-	public void setIdRestaurant(int idRestaurant) {
-		this.idRestaurant = idRestaurant;
-	}
-	
 	@Override
-	public String toString() {
+	public String toString() 
+	{
 		return "Table [id=" + id + ", numberPlace=" + numberPlace + ", state=" + state + "]";
 	}
-	
-	
+
+
 	
 }
