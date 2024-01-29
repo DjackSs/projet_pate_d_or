@@ -281,7 +281,7 @@ public class RestaurantBLL
 					throw new BLLException("Le nombre de place d'une table doit être au minimum de 2.", null);
 				}
 				
-				List<String> checkState = Arrays.asList(null, "PRES");
+				List<String> checkState = Arrays.asList(null, "pres");
 				
 				if (!checkState.contains(table.getState())) 
 				{
