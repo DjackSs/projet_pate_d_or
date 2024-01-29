@@ -15,31 +15,22 @@ public class TestRestaurant
 		
 		Scanner scan = new Scanner(System.in);
 		
-		/*
-		System.out.println("nom du restaurant?");
-		String name =  scan.nextLine();
-		
-		System.out.println("adresse du restaurant?");
-		String adress = scan.nextLine();
-		
-		System.out.println("code postal du restaurant?");
-		String postal = scan.nextLine();
-		
-		System.out.println("Ville du restaurant?");
-		String town = scan.nextLine();
-		*/
 		try 
 		{
 			System.out.println("hello");
 			
 			RestaurantBLL restaurantBLL = new RestaurantBLL();
 			
-			List<Restaurant> restaurants = restaurantBLL.selectALl();
+			List<Restaurant> restaurants = restaurantBLL.selectAll();
 			
 			for(Restaurant restaurant : restaurants)
 			{
 				System.out.println(restaurant);
 			}
+			
+			Restaurant resto = restaurantBLL.selectById(restaurants.get(0).getId());
+			
+			System.out.println(resto);
 			
 
 			

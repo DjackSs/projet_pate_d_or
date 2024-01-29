@@ -14,12 +14,16 @@ public class CardDAO implements GenericDAOInterface<Card>
 {
 	
 	//-------------select
-	private static final String SELECT = "select Cards.id, Cards.name, "
-										+"Dishes.id as id_dish, Dishes.name as name_dish, Dishes.price, Dishes.description, Dishes.category "
-										+"from Cards "
-										+"inner join Dishes on Cards.id = Dishes.id_card";
+	private static final String SELECT_CARDS = "select Cards.id, Cards.name, "
+												+"Dishes.id as id_dish, Dishes.name as name_dish, Dishes.price, Dishes.description, Dishes.category "
+												+"from Cards "
+												+"inner join Dishes on Cards.id = Dishes.id_card";
 	
-	private static final String SELECT_BY_ID = "SELECT * FROM Cards WHERE id = ?";
+	private static final String SELECT_CARDS_BY_ID = "select Cards.id, Cards.name, "
+													+"Dishes.id as id_dish, Dishes.name as name_dish, Dishes.price, Dishes.description, Dishes.category "
+													+"from Cards "
+													+"inner join Dishes on Cards.id = Dishes.id_card "
+													+"where Cards.id = ?";
 	
 	//-------------insert
 	private static final String INSERT_INTO_CARD = "INSERT INTO Cards (name) VALUES (?)";
@@ -64,7 +68,7 @@ public class CardDAO implements GenericDAOInterface<Card>
 
 		try 
 		{
-			PreparedStatement ps = cnx.prepareStatement(SELECT);
+			PreparedStatement ps = cnx.prepareStatement(SELECT_CARDS);
 			ResultSet rs = ps.executeQuery();
 			
 			Card card = new Card();
@@ -112,24 +116,55 @@ public class CardDAO implements GenericDAOInterface<Card>
 	
 	//--------------------------------------------------------------
 
-	public Card selectById(int id) throws DALException {
+	public Card selectById(int id) throws DALException 
+	{
 		Card card = null;
 
-		try {
-			PreparedStatement ps = cnx.prepareStatement(SELECT_BY_ID);
+		try 
+		{
+			PreparedStatement ps = cnx.prepareStatement(SELECT_CARDS_BY_ID);
 			ps.setInt(1, id);
+			
 			ResultSet rs = ps.executeQuery();
-
-			if(rs.next()) {
-				card = new Card();
-				card.setId(rs.getInt("id"));
-				card.setName(rs.getString("name"));
+			
+			card = new Card();
+			
+			while(rs.next()) 
+			{
+				if(rs.getInt("id") != card.getId())
+				{
+					
+					card.setId(rs.getInt("id"));
+					card.setName(rs.getString("name"));
+					
+				}
+				
+				Dish dish = new Dish();
+				dish.setId(rs.getInt("id_dish"));
+				dish.setName(rs.getString("name_dish"));
+				dish.setPrice(rs.getFloat("price"));
+				dish.setDescription(rs.getString("description"));
+				dish.setCategory(rs.getString("category"));
+				
+				card.addDish(dish);
+	
 			}
 
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) 
+		{
 			throw new DALException("Impossible de recuperer les informations pour l'id "+ id, e);
 		}
-		return card;
+		
+		if(card.getId() != 0)
+		{
+			return card;
+		}
+		else
+		{
+			return null;
+		}
+		
 	}
 	
 	//--------------------------------------------------------------
