@@ -153,7 +153,6 @@ public class TableController
                 
             }
 
-            // Demande à l'utilisateur de choisir une table à modifier
             System.out.println("Choisissez le numéro de la table que vous souhaitez modifier (0 pour annuler) :");
             int choice = Menu.SCAN.nextInt();
             Menu.SCAN.nextLine();
@@ -161,6 +160,7 @@ public class TableController
             if (choice > 0 && choice <= tables.size()) 
             {
                 Table selectedTable = tables.get(choice - 1);
+                
                 
                 if(tables.size() > 1)
                 {
@@ -222,19 +222,26 @@ public class TableController
     
     private void updateTable(Table table)
     {
-    	 // Demande à l'utilisateur de saisir les nouvelles informations
-        System.out.println("Saisissez le nouveau nombre de places :");
-        int newNumberPlace = Menu.SCAN.nextInt();
-        Menu.SCAN.nextLine();
-        
-        table.setNumberPlace(newNumberPlace);
 
-        // Appelle la méthode de BLL pour effectuer la mise à jour
         try 
         {
+	        System.out.println("Saisissez le nouveau nombre de places :");
+	        int newNumberPlace = Menu.SCAN.nextInt();
+	        Menu.SCAN.nextLine();
+	        
+	        table.setNumberPlace(newNumberPlace);
+
+      
             new TableBLL().updateTable(table);
             System.out.println("Table mise à jour avec succès !");
         }
+        catch(InputMismatchException e)
+  		{
+  			Menu.SCAN.nextLine();
+  			
+  			System.err.println("Saisissez un nombre s'il vous plaît");
+  			
+  		}
         catch (BLLException e) 
         {
         	for(String message : e.getErrors())

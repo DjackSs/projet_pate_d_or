@@ -6,12 +6,11 @@ import java.util.List;
 import bo.Dish;
 import dal.DALException;
 import dal.DishDAO;
-import dal.GenericDAOInterface;
 
 public class DishBLL 
 {
 
-	private GenericDAOInterface<Dish> dao;
+	private DishDAO dishDAO;
 
 	private static final int NAME_MAX_LENGTH = 40;
 	private static final int DESCRIPTION_MAX_LENGTH = 250;
@@ -26,7 +25,7 @@ public class DishBLL
 
 		try
 		{
-			this.dao = new DishDAO();
+			this.dishDAO = new DishDAO();
 
 		}
 		catch (DALException error)
@@ -46,7 +45,7 @@ public class DishBLL
 
 		try 
 		{
-			return dao.selectAll();
+			return dishDAO.selectAll();
 
 		} 
 		catch (DALException error)
@@ -64,7 +63,7 @@ public class DishBLL
 
 		try 
 		{
-			return dao.selectById(id);
+			return dishDAO.selectById(id);
 		} 
 		catch (DALException error)
 		{
@@ -76,48 +75,48 @@ public class DishBLL
 
 	public List<Dish> selectDishesByCardId(int idCard) throws BLLException {
 		try {
-			return ((DishDAO) dao).selectByForeignKey("id_card", idCard);
+			return ((DishDAO) dishDAO).selectByForeignKey("id_card", idCard);
 		} catch (DALException e) {
 			throw new BLLException("Echec de la récupération des tables par id_card", e);
 		}
 	}
 	//--------------------------------------------------------------
 
-	public Dish insert(String name, Float price, String description, String category, int idCard) throws BLLException
+	public Dish insert(Dish newDish) throws BLLException
 	{
-
+		BLLException error = new BLLException ();
 
 		//name
-		if(name.length() > NAME_MAX_LENGTH)
+		if(newDish.getName().length() > NAME_MAX_LENGTH)
 		{
-			throw new BLLException("Dish's name is too big", null);
+			error.addError("Le nom du plat: "+newDish.getName()+" est trop long");
 
 		}
 
-		if(name.length() < MIN_LENGTH)
+		if(newDish.getName().length() < MIN_LENGTH)
 		{
-			throw new BLLException("Dish's name is too small", null);
+			error.addError("Le nom du plat: "+newDish.getName()+" est trop court");
 
 		}
 
 		//price
-		if(price > PRICE_MAX_VALUE)
+		if(newDish.getPrice() > PRICE_MAX_VALUE)
 		{
-			throw new BLLException("Dish's price is too high", null);
+			error.addError("Le prix du plat: "+newDish.getPrice()+" est trop élevé");
 
 		}
 
 
 		//description
-		if(description.length() > DESCRIPTION_MAX_LENGTH)
+		if(newDish.getDescription().length() > DESCRIPTION_MAX_LENGTH)
 		{
-			throw new BLLException("Dish's description is too big", null);
+			error.addError("La déscription du plat: "+newDish.getDescription()+" est trop longue");
 
 		}
 
-		if(description.length() < MIN_LENGTH)
+		if(newDish.getDescription().length() < MIN_LENGTH)
 		{
-			throw new BLLException("Dish's description is too small", null);
+			error.addError("La déscription du plat: "+newDish.getDescription()+" est trop courte");
 
 		}
 
@@ -125,36 +124,29 @@ public class DishBLL
 		//category
 		List<String> AllowedCategories = Arrays.asList("entry","dish","desert","beverage");
 
-		if(!AllowedCategories.contains(category.toLowerCase()) )
+		if(!AllowedCategories.contains(newDish.getCategory().toLowerCase()) )
 		{
-			throw new BLLException("Invalid Dish's category", null);
+			error.addError("La catégorie du plat: "+newDish.getCategory()+" est invalide (entry, dish, desert, beverag sont attendus)");
 
 		}
+		
+		if(error.getErrors().size() != 0)
+		{
+			throw error;
+		}
 
-
-
-		//idCard
 
 		try
 		{
 
-			Dish dish = new Dish();
-			dish.setName(name);
-			dish.setPrice(price);
-			dish.setDescription(description);
-			dish.setCategory(category.toLowerCase());
-			dish.setIdCard(idCard);
+			this.dishDAO.insert(newDish);
 
-			dao.insert(dish);
-
-			return dish;
-
-
+			return newDish;
 
 		}
-		catch (DALException error) 
+		catch (DALException e) 
 		{
-			throw new BLLException("Unable to creat a new restaurant to pass to the DAO",error);
+			throw new BLLException("Unable to creat a new restaurant to pass to the DAO",e);
 		}
 
 	}
@@ -211,7 +203,7 @@ public class DishBLL
 
 		try 
 		{
-			dao.update(dish);
+			this.dishDAO.update(dish);
 
 		} catch (DALException error)
 		{
@@ -269,7 +261,7 @@ public class DishBLL
 		updatedDish.setIdCard(cardId);
 
 		try {
-			dao.update(updatedDish);
+			this.dishDAO.update(updatedDish);
 		} catch (DALException e) {
 			e.printStackTrace();
 			throw new BLLException("Echec de la mise a jour de la table d'id " + id, e);
@@ -284,7 +276,7 @@ public class DishBLL
 
 		try 
 		{
-			dao.delete(id);
+			this.dishDAO.delete(id);
 
 		} catch (DALException e)
 		{

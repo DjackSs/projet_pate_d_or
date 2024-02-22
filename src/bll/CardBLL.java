@@ -10,6 +10,9 @@ import dal.CardDAO;
 public class CardBLL {
 	private GenericDAOInterface<Card> dao;
 	
+	private static final int MIN_LENGTH = 2;
+	private static final int NAME_MAX_LENGTH = 30;
+	
 	public CardBLL() throws BLLException {
 		try {
 			dao = new CardDAO();
@@ -38,23 +41,18 @@ public class CardBLL {
 	
 	
 	
-	public Card insert(String name) throws BLLException {
+	public Card insert(Card card) throws BLLException {
 		
 		BLLException bllException = new BLLException();
 		
-		if (name.length() < 2) {
-			bllException.addError("Le nom doit faire au moins 2 caractères");
-		}
+		this.controleCard(card, bllException);
 		
-		if (name.length() > 30) {
-			bllException.addError("Le nom doit faire maximum 30 caractères");
-		}
 		
-		if (bllException.getErrors().size() > 0) {
+		if(bllException.getErrors().size() != 0)
+		{
 			throw bllException;
 		}
 		
-		Card card = new Card(name);
 		try {
 			dao.insert(card);
 		} catch (DALException e) {
@@ -64,6 +62,16 @@ public class CardBLL {
 	}
 	
 	public void update(Card card) throws BLLException {
+		
+		BLLException bllException = new BLLException();
+		
+		this.controleCard(card, bllException);
+		
+		
+		if(bllException.getErrors().size() != 0)
+		{
+			throw bllException;
+		}
 		
 		try {
 			dao.update(card);
@@ -78,6 +86,18 @@ public class CardBLL {
 		} catch (DALException e) {
 			throw new BLLException("Echec de la suppression", e);
 		}
+	}
+	
+	private void controleCard(Card card, BLLException error)
+	{
+		if (card.getName().length() < MIN_LENGTH) {
+			error.addError("Le nom de la carte :"+card.getName()+" est trop court");
+		}
+		
+		if (card.getName().length() > NAME_MAX_LENGTH) {
+			error.addError("Le nom de la carte :"+card.getName()+" est trop long");
+		}
+		
 	}
 	
 }
