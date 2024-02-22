@@ -121,7 +121,7 @@ public class RestaurantController
 				System.err.println(message);
 			}
 			
-			//e.printStackTrace();
+			
 		}
 
 
@@ -248,7 +248,10 @@ public class RestaurantController
 			} 
 			catch (BLLException e)
 			{
-				e.printStackTrace();
+				for(String message : e.getErrors())
+				{
+					System.err.println(message);
+				}
 			}
 
 		}

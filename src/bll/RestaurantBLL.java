@@ -100,17 +100,85 @@ public class RestaurantBLL
 		BLLException error = new BLLException();
 		
 		
+		this.controleRestaurant(restaurant, error);
+		
+		
+		if(error.getErrors().size() != 0)
+		{
+			throw error;
+		}
+		
+			
+		try
+		{		
+			dao.insert(restaurant);
+			
+			return restaurant;
+
+		}
+		catch (DALException e) 
+		{
+			throw new BLLException("Unable to creat a new restaurant to pass to the DAO",e);
+		}
+		
+	}
+	
+	//--------------------------------------------------------------
+	
+	public void update(Restaurant restaurant) throws BLLException
+	{
+			
+		BLLException error = new BLLException();
+		
+		this.controleRestaurant(restaurant, error);
+		
+		if(error.getErrors().size() != 0)
+		{
+			throw error;
+		}
+		
+		try 
+		{
+			dao.update(restaurant);
+			
+		} catch (DALException e)
+		{
+			throw new BLLException("DAO failed to update datas",e);
+		}
+		
+	}
+	
+	//--------------------------------------------------------------
+	
+	
+	public void delete(int id) throws BLLException
+	{
+		
+		try 
+		{
+			dao.delete(id);
+			
+		} catch (DALException e)
+		{
+			throw new BLLException("DAO failed to delete datas",e);
+		}
+		
+	}
+	
+	//--------------------------------------------------------------
+	
+	private void controleRestaurant(Restaurant restaurant, BLLException error)
+	{
+		
 		//name
 		if(restaurant.getName().length() > NAME_MAX_LENGTH)
 		{
-			error.addError("Le nom du restaurant :"+ restaurant.getName()+" est trop long");
-					
+			error.addError("Le nom du restaurant :"+ restaurant.getName()+" est trop long");		
 		}
 		
 		if(restaurant.getName().length() < MIN_LENGTH)
 		{
 			error.addError("Le nom du restaurant :"+ restaurant.getName()+" est trop court");
-			
 			
 		}
 		
@@ -149,108 +217,7 @@ public class RestaurantBLL
 			error.addError("Le nom de la ville du restaurant: "+restaurant.getTown()+" est trop court");
 			
 		}
-		
-		
-		if(error.getErrors().size() != 0)
-		{
-			throw error;
-		}
-		
-			
-		try
-		{		
-			dao.insert(restaurant);
-			
-			return restaurant;
-
-		}
-		catch (DALException e) 
-		{
-			throw new BLLException("Unable to creat a new restaurant to pass to the DAO",e);
-		}
-		
-	}
-	
-	//--------------------------------------------------------------
-	
-	public void update(Restaurant restaurant) throws BLLException
-	{
-			
-		//name
-		if(restaurant.getName().length() > NAME_MAX_LENGTH)
-		{
-			throw new BLLException("Restaurant's name is too big", null);
-					
-		}
-		
-		if(restaurant.getName().length() < MIN_LENGTH)
-		{
-			throw new BLLException("Restaurant's name is too small", null);
-			
-		}
-		
-		
-		//address
-		if(restaurant.getAddress().length() > ADDRESS_MAX_LENGTH)
-		{
-			throw new BLLException("Restaurant's address is too big", null);
-					
-		}
-		
-		if(restaurant.getAddress().length() < MIN_LENGTH)
-		{
-			throw new BLLException("Restaurant's address is too small", null);
-			
-		}
-		
-		
-		//postalCode
-		if(restaurant.getPostalCode().length() != POSTAL_CODE_LENGTH)
-		{
-			throw new BLLException("Restaurant's postal code is not valid", null);
-					
-		}
-		
-		
-		//town
-		if(restaurant.getTown().length() > TOWN_MAX_LENGTH)
-		{
-			throw new BLLException("Restaurant town's name is too big", null);
-					
-		}
-		
-		if(restaurant.getTown().length() < MIN_LENGTH)
-		{
-			throw new BLLException("Restaurant town's name is too small", null);
-			
-		}
-		
-		
-		try 
-		{
-			dao.update(restaurant);
-			
-		} catch (DALException error)
-		{
-			throw new BLLException("DAO failed to update datas",error);
-		}
-		
-	}
-	
-	//--------------------------------------------------------------
-	
-	
-	public void delete(int id) throws BLLException
-	{
-		
-		try 
-		{
-			dao.delete(id);
-			
-		} catch (DALException e)
-		{
-			throw new BLLException("DAO failed to delete datas",e);
-		}
+				
 		
 	}
 
