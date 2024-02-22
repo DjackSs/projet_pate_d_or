@@ -94,85 +94,31 @@ public class RestaurantBLL
 	
 	//--------------------------------------------------------------
 
-	public Restaurant insert(String name, String address, String postalCode, String town, int idCard) throws BLLException
+	public Restaurant insert(Restaurant restaurant) throws BLLException
 	{
 		
+		BLLException error = new BLLException();
 		
-		//name
-		if(name.length() > NAME_MAX_LENGTH)
+		
+		this.controleRestaurant(restaurant, error);
+		
+		
+		if(error.getErrors().size() != 0)
 		{
-			throw new BLLException("Restaurant's name is too big", null);
-					
+			throw error;
 		}
-		
-		if(name.length() < MIN_LENGTH)
-		{
-			throw new BLLException("Restaurant's name is too small", null);
-			
-		}
-		
-		
-		//address
-		if(address.length() > ADDRESS_MAX_LENGTH)
-		{
-			throw new BLLException("Restaurant's address is too big", null);
-					
-		}
-		
-		if(address.length() < MIN_LENGTH)
-		{
-			throw new BLLException("Restaurant's adress is too small", null);
-			
-		}
-		
-		
-		//postalCode
-		if(postalCode.length() != POSTAL_CODE_LENGTH)
-		{
-			throw new BLLException("Restaurant's postal code is not valid", null);
-					
-		}
-		
-		
-		//town
-		if(town.length() > TOWN_MAX_LENGTH)
-		{
-			throw new BLLException("Restaurant town's name is too big", null);
-					
-		}
-		
-		if(town.length() < MIN_LENGTH)
-		{
-			throw new BLLException("Restaurant town's name is too small", null);
-			
-		}
-		
-		
-		//idCard
-		
-		
 		
 			
 		try
-		{
-			
-			Restaurant restaurant = new Restaurant();
-			restaurant.setName(name);
-			restaurant.setAddress(address);
-			restaurant.setPostalCode(postalCode);
-			restaurant.setTown(town);
-			restaurant.setIdCard(idCard);
-			
+		{		
 			dao.insert(restaurant);
 			
 			return restaurant;
-			
-			
-			
+
 		}
-		catch (DALException error) 
+		catch (DALException e) 
 		{
-			throw new BLLException("Unable to creat a new restaurant to pass to the DAO",error);
+			throw new BLLException("Unable to creat a new restaurant to pass to the DAO",e);
 		}
 		
 	}
@@ -182,63 +128,22 @@ public class RestaurantBLL
 	public void update(Restaurant restaurant) throws BLLException
 	{
 			
-		//name
-		if(restaurant.getName().length() > NAME_MAX_LENGTH)
+		BLLException error = new BLLException();
+		
+		this.controleRestaurant(restaurant, error);
+		
+		if(error.getErrors().size() != 0)
 		{
-			throw new BLLException("Restaurant's name is too big", null);
-					
+			throw error;
 		}
-		
-		if(restaurant.getName().length() < MIN_LENGTH)
-		{
-			throw new BLLException("Restaurant's name is too small", null);
-			
-		}
-		
-		
-		//address
-		if(restaurant.getAddress().length() > ADDRESS_MAX_LENGTH)
-		{
-			throw new BLLException("Restaurant's address is too big", null);
-					
-		}
-		
-		if(restaurant.getAddress().length() < MIN_LENGTH)
-		{
-			throw new BLLException("Restaurant's address is too small", null);
-			
-		}
-		
-		
-		//postalCode
-		if(restaurant.getPostalCode().length() != POSTAL_CODE_LENGTH)
-		{
-			throw new BLLException("Restaurant's postal code is not valid", null);
-					
-		}
-		
-		
-		//town
-		if(restaurant.getTown().length() > TOWN_MAX_LENGTH)
-		{
-			throw new BLLException("Restaurant town's name is too big", null);
-					
-		}
-		
-		if(restaurant.getTown().length() < MIN_LENGTH)
-		{
-			throw new BLLException("Restaurant town's name is too small", null);
-			
-		}
-		
 		
 		try 
 		{
 			dao.update(restaurant);
 			
-		} catch (DALException error)
+		} catch (DALException e)
 		{
-			throw new BLLException("DAO failed to update datas",error);
+			throw new BLLException("DAO failed to update datas",e);
 		}
 		
 	}
@@ -257,6 +162,62 @@ public class RestaurantBLL
 		{
 			throw new BLLException("DAO failed to delete datas",e);
 		}
+		
+	}
+	
+	//--------------------------------------------------------------
+	
+	private void controleRestaurant(Restaurant restaurant, BLLException error)
+	{
+		
+		//name
+		if(restaurant.getName().length() > NAME_MAX_LENGTH)
+		{
+			error.addError("Le nom du restaurant :"+ restaurant.getName()+" est trop long");		
+		}
+		
+		if(restaurant.getName().length() < MIN_LENGTH)
+		{
+			error.addError("Le nom du restaurant :"+ restaurant.getName()+" est trop court");
+			
+		}
+		
+		
+		//address
+		if(restaurant.getAddress().length() > ADDRESS_MAX_LENGTH)
+		{
+			error.addError("L'adresse du restaurant: "+restaurant.getAddress()+" est trop longue");
+					
+		}
+		
+		if(restaurant.getAddress().length() < MIN_LENGTH)
+		{
+			error.addError("L'adresse du restaurant: "+restaurant.getAddress()+" est trop courte");
+			
+		}
+		
+		
+		//postalCode
+		if(restaurant.getPostalCode().length() != POSTAL_CODE_LENGTH)
+		{
+			error.addError("Le code postal du restaurant: "+restaurant.getPostalCode()+" n'est pas valide");
+					
+		}
+		
+		
+		//town
+		if(restaurant.getTown().length() > TOWN_MAX_LENGTH)
+		{
+			error.addError("Le nom de la ville du restaurant: "+restaurant.getTown()+" est trop long");
+					
+		}
+		
+		if(restaurant.getTown().length() < MIN_LENGTH)
+		{
+			error.addError("Le nom de la ville du restaurant: "+restaurant.getTown()+" est trop court");
+			
+		}
+				
 		
 	}
 

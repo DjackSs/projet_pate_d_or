@@ -80,15 +80,15 @@ public class TableBLL {
 		}
 	}
 	
-    public void updateTable(int id, int newNumberPlace, String newState, int restaurantId) throws BLLException {
+    public void updateTable(Table table) throws BLLException {
         BLLException bllException = new BLLException();
 
-        if (newNumberPlace < 2) {
+        if (table.getNumberPlace() < 2) {
             bllException.addError("Le nombre de place d'une table doit être au minimum de 2.");
         }
 
         List<String> checkState = Arrays.asList(null, "PRES");
-        if (!checkState.contains(newState)) {
+        if (!checkState.contains(table.getState())) {
             bllException.addError("Le statut de la table est soit nul soit PRES");
         }
 
@@ -96,16 +96,11 @@ public class TableBLL {
             throw bllException;
         }
 
-        Table updatedTable = new Table();
-        updatedTable.setId(id);
-        updatedTable.setNumberPlace(newNumberPlace);
-        updatedTable.setState(newState);
-        updatedTable.setIdRestaurant(restaurantId);
 
         try {
-            dao.update(updatedTable);
+            dao.update(table);
         } catch (DALException e) {
-            throw new BLLException("Echec de la mise a jour de la table d'id " + id, e);
+            throw new BLLException("Echec de la mise a jour de la table d'id " + table.getId(), e);
         }
     }
 	

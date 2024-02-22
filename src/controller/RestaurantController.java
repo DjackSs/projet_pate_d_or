@@ -98,10 +98,11 @@ public class RestaurantController
 		newRestaurant.setAddress(address);
 		newRestaurant.setPostalCode(postalCode);
 		newRestaurant.setTown(town);
+		newRestaurant.setIdCard(0);
 
 		try 
 		{
-			newRestaurant = this.restauranBLL.insert(name, address, postalCode, town, 0);
+			newRestaurant = this.restauranBLL.insert(newRestaurant);
 			
 			System.out.println("nouveau restaurant crée :"+ newRestaurant);
 			
@@ -115,7 +116,12 @@ public class RestaurantController
 		}
 		catch (BLLException e) 
 		{
-			e.printStackTrace();
+			for(String message : e.getErrors())
+			{
+				System.err.println(message);
+			}
+			
+			
 		}
 
 
@@ -242,7 +248,10 @@ public class RestaurantController
 			} 
 			catch (BLLException e)
 			{
-				e.printStackTrace();
+				for(String message : e.getErrors())
+				{
+					System.err.println(message);
+				}
 			}
 
 		}

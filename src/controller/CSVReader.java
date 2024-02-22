@@ -77,7 +77,7 @@ public class CSVReader
 						
 						try 
 						{
-							newRestaurant = restaurantBLL.insert(newRestaurant.getName(), newRestaurant.getAddress(), newRestaurant.getPostalCode(), newRestaurant.getTown(), 0);
+							newRestaurant = restaurantBLL.insert(newRestaurant);
 							
 							//schedule
 							String[] dataScheduleOpen = datas[4].split("/");
@@ -96,9 +96,8 @@ public class CSVReader
 							{
 								for(int i=0; i<dataScheduleOpen.length; i++)
 								{
-									Schedule newSchedule = new Schedule(LocalTime.parse(dataScheduleOpen[i]), LocalTime.parse(dataScheduleClose[i]), newRestaurant.getId());
-									
-									newSchedule = this.scheduleBLL.insert(newSchedule.getOpenHour(), newSchedule.getCloseHour() , newSchedule.getIdRestaurant());
+						
+									this.scheduleBLL.insert(dataScheduleOpen[i], dataScheduleClose[i] , newRestaurant.getId());
 									
 								}
 							}
