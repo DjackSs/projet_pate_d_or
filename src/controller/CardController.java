@@ -90,10 +90,9 @@ public class CardController
 		Card newCard = new Card ();
 		newCard.setName(name);
 		
-		
 		try 
 		{	
-			newCard = this.cardBLL.insert(name);
+			newCard = this.cardBLL.insert(newCard);
 			
 			System.out.println("nouvelle carte crée :"+ newCard);
 			
@@ -105,7 +104,10 @@ public class CardController
 		}
 		catch (BLLException e) 
 		{
-			e.printStackTrace();
+			for(String message : e.getErrors())
+			{
+				System.err.println(message);
+			}
 		}
 		
 		
@@ -282,7 +284,12 @@ public class CardController
 			} 
 			catch (BLLException e)
 			{
-				e.printStackTrace();
+				for(String message : e.getErrors())
+				{
+					System.err.println(message);
+				}
+				
+				choice = 0;
 			}
 			
 		}

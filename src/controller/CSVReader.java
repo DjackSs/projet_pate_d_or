@@ -2,7 +2,6 @@ package controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -15,7 +14,6 @@ import bll.TableBLL;
 import bo.Card;
 import bo.Dish;
 import bo.Restaurant;
-import bo.Schedule;
 import bo.Table;
 
 public class CSVReader 
@@ -187,7 +185,7 @@ public class CSVReader
 							//card
 							if(!datas[0].equals(currentCard.getName()))
 							{
-								newCard = cardBLL.insert(newCard.getName());
+								newCard = cardBLL.insert(newCard);
 								
 								currentCard = newCard;
 								
@@ -201,7 +199,7 @@ public class CSVReader
 							//dish
 							Dish newDish = new Dish(datas[1], Float.parseFloat(datas[2]), datas[3], datas[4], newCard.getId());
 							
-							newDish = dishBLL.insert(newDish.getName(), newDish.getPrice(), newDish.getDescription(), newDish.getCategory(), newDish.getIdCard());
+							newDish = dishBLL.insert(newDish);
 							
 						
 						} 
