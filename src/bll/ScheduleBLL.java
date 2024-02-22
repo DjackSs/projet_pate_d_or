@@ -1,6 +1,7 @@
 package bll;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import bo.Schedule;
@@ -43,17 +44,37 @@ public class ScheduleBLL {
 	}
 	
 	
-	public Schedule insert(LocalTime openHour, LocalTime closeHour, int idRestaurant) throws BLLException {
-		if(openHour.isAfter(closeHour)) {
-			throw new BLLException("L'heure d'ouverture " + openHour
-									+ "doit être avant l'heure de fermeture " + closeHour, null);
-		}
+	public Schedule insert(String openHour, String closeHour, int idRestaurant) throws BLLException 
+	{
+		BLLException error = new BLLException();
+		Schedule schedule = null;
 		
-		Schedule schedule = new Schedule(openHour, closeHour, idRestaurant);
-		
-		try {
+		try 
+		{
+			schedule = new Schedule(LocalTime.parse(openHour), LocalTime.parse(closeHour), idRestaurant);
+			
+			
+			
+			if(schedule.getOpenHour().isAfter(schedule.getCloseHour())) 
+			{
+				error.addError("L'heure d'ouverture "+ openHour +" doit être avant l'heure de fermeture " + closeHour);
+				throw error;
+			}
+			
+			if(error.getErrors().size() != 0)
+			{
+				throw error;
+			}
+			
 			dao.insert(schedule);
-		} catch (DALException e) {
+		}
+		catch(DateTimeParseException e)
+		{
+			error.addError("Formas de l'heure saisi incorrecte (HH:MM est attendu)");
+			throw error;
+			
+		}
+		catch (DALException e) {
 			throw new BLLException("Echec de l'insertion", e);
 		}
 		

@@ -94,85 +94,79 @@ public class RestaurantBLL
 	
 	//--------------------------------------------------------------
 
-	public Restaurant insert(String name, String address, String postalCode, String town, int idCard) throws BLLException
+	public Restaurant insert(Restaurant restaurant) throws BLLException
 	{
+		
+		BLLException error = new BLLException();
 		
 		
 		//name
-		if(name.length() > NAME_MAX_LENGTH)
+		if(restaurant.getName().length() > NAME_MAX_LENGTH)
 		{
-			throw new BLLException("Restaurant's name is too big", null);
+			error.addError("Le nom du restaurant :"+ restaurant.getName()+" est trop long");
 					
 		}
 		
-		if(name.length() < MIN_LENGTH)
+		if(restaurant.getName().length() < MIN_LENGTH)
 		{
-			throw new BLLException("Restaurant's name is too small", null);
+			error.addError("Le nom du restaurant :"+ restaurant.getName()+" est trop court");
+			
 			
 		}
 		
 		
 		//address
-		if(address.length() > ADDRESS_MAX_LENGTH)
+		if(restaurant.getAddress().length() > ADDRESS_MAX_LENGTH)
 		{
-			throw new BLLException("Restaurant's address is too big", null);
+			error.addError("L'adresse du restaurant: "+restaurant.getAddress()+" est trop longue");
 					
 		}
 		
-		if(address.length() < MIN_LENGTH)
+		if(restaurant.getAddress().length() < MIN_LENGTH)
 		{
-			throw new BLLException("Restaurant's adress is too small", null);
+			error.addError("L'adresse du restaurant: "+restaurant.getAddress()+" est trop courte");
 			
 		}
 		
 		
 		//postalCode
-		if(postalCode.length() != POSTAL_CODE_LENGTH)
+		if(restaurant.getPostalCode().length() != POSTAL_CODE_LENGTH)
 		{
-			throw new BLLException("Restaurant's postal code is not valid", null);
+			error.addError("Le code postal du restaurant: "+restaurant.getPostalCode()+" n'est pas valide");
 					
 		}
 		
 		
 		//town
-		if(town.length() > TOWN_MAX_LENGTH)
+		if(restaurant.getTown().length() > TOWN_MAX_LENGTH)
 		{
-			throw new BLLException("Restaurant town's name is too big", null);
+			error.addError("Le nom de la ville du restaurant: "+restaurant.getTown()+" est trop long");
 					
 		}
 		
-		if(town.length() < MIN_LENGTH)
+		if(restaurant.getTown().length() < MIN_LENGTH)
 		{
-			throw new BLLException("Restaurant town's name is too small", null);
+			error.addError("Le nom de la ville du restaurant: "+restaurant.getTown()+" est trop court");
 			
 		}
 		
 		
-		//idCard
-		
-		
+		if(error.getErrors().size() != 0)
+		{
+			throw error;
+		}
 		
 			
 		try
-		{
-			
-			Restaurant restaurant = new Restaurant();
-			restaurant.setName(name);
-			restaurant.setAddress(address);
-			restaurant.setPostalCode(postalCode);
-			restaurant.setTown(town);
-			restaurant.setIdCard(idCard);
-			
+		{		
 			dao.insert(restaurant);
 			
 			return restaurant;
-			
-			
-			
+
 		}
-		catch (DALException error) 
+		catch (DALException e) 
 		{
-			throw new BLLException("Unable to creat a new restaurant to pass to the DAO",error);
+			throw new BLLException("Unable to creat a new restaurant to pass to the DAO",e);
 		}
 		
 	}

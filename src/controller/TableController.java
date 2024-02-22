@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.InputMismatchException;
 import java.util.List;
 
 import bll.BLLException;
@@ -50,33 +51,65 @@ public class TableController
 	}
 	
 	public void addTable(Restaurant restaurant) {
-			
-		System.out.println("Saisissez le nombre de table souhaitée");
-		int nbTable = Menu.SCAN.nextInt();
-		Menu.SCAN.nextLine();
 		
-		System.out.println("Combien de place souhaitez-vous pour cette table ?");
-		int numberPlace = Menu.SCAN.nextInt();
-		Menu.SCAN.nextLine();
-
-		String state = null;
+		boolean AtLeastOneTable = false;
 		
-		for (int i = 0; i < nbTable; i++) {
-			Table newTable = new Table();
-			newTable.setNumberPlace(numberPlace);
-			newTable.setState(state);
-			newTable.setIdRestaurant(restaurant.getId());
+		try 
+		{
+			System.out.println("Saisissez le nombre de table souhaitée");
+			int nbTable = Menu.SCAN.nextInt();
+			Menu.SCAN.nextLine();
 			
-			try {
+			System.out.println("Combien de place souhaitez-vous pour cette table ?");
+			int numberPlace = Menu.SCAN.nextInt();
+			Menu.SCAN.nextLine();
+	
+			String state = null;
+		
+			
+		
+			for (int i = 0; i < nbTable; i++) 
+			{
+				Table newTable = new Table();
+				newTable.setNumberPlace(numberPlace);
+				newTable.setState(state);
+				newTable.setIdRestaurant(restaurant.getId());
+			
+			
 				TableBLL table = new TableBLL();
-				newTable = table.insert(numberPlace, state, restaurant.getId());	
+				newTable = table.insert(numberPlace, state, restaurant.getId());
+				
+				AtLeastOneTable = true;
+			}
 			
-			} catch (BLLException e) {
-				e.printStackTrace();
+			System.out.println(nbTable + " tables de " + numberPlace + " places ajoutées.");
+				
+		}
+		catch(InputMismatchException e)
+		{
+			Menu.SCAN.nextLine();
+			
+			System.err.println("Saisissez un nombre s'il vous plaît");
+			
+			if(AtLeastOneTable != true)
+			{
+				this.addTable(restaurant);
+			}
+		}
+		catch (BLLException e) 
+		{
+			for(String message : e.getErrors())
+			{
+				System.err.println(message);
+			}
+			
+			if(AtLeastOneTable != true)
+			{
+				this.addTable(restaurant);
 			}
 		}
 		
-		System.out.println(nbTable + " tables de " + numberPlace + " places ajoutées.");
+		
 		
 		
 		

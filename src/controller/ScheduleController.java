@@ -4,19 +4,16 @@ import java.time.LocalTime;
 import java.util.List;
 
 import bll.BLLException;
-import bll.RestaurantBLL;
 import bll.ScheduleBLL;
 import bo.Restaurant;
 import bo.Schedule;
 
 public class ScheduleController {
 	private ScheduleBLL scheduleBLL;
-	private RestaurantBLL restaurantBLL;
 
 	public ScheduleController() {
 		try {
 			scheduleBLL = new ScheduleBLL();
-			restaurantBLL = new RestaurantBLL();
 		} catch (BLLException e) {
 			e.printStackTrace();
 		}
@@ -31,37 +28,6 @@ public class ScheduleController {
 			
 		Menu.SCAN.nextLine();
 			
-		/*if(choice == 0 || choice >= listTimeSlots.size()) {
-			return;
-		}  else {
-			choice -= choice;
-			
-			Schedule scheduleSelected = listTimeSlots.get(choice);
-			
-			Schedule newSchedule = null;
-			try {
-				newSchedule = scheduleBLL.selectById(scheduleSelected.getId());
-			} catch (BLLException e) {
-				e.printStackTrace();
-			}
-			
-			System.out.println("Veuillez saisir l'horaire d'ouverture");
-			String openHour = scan.nextLine();
-			
-			System.out.println("Veuillez saisir l'horaire de fermeture");
-			String closeHour = scan.nextLine();
-			
-			newSchedule.setOpenHour(LocalTime.parse(openHour));
-			newSchedule.setCloseHour(LocalTime.parse(closeHour));
-			
-			try {
-				scheduleBLL.update(newSchedule);
-			} catch (BLLException e) {
-				e.printStackTrace();
-			}
-			
-			return;
-		}*/
 		
 		switch (choice) {
 		case 0 :
@@ -144,22 +110,26 @@ public class ScheduleController {
 		return listTimeSlots;
 	}
 	
-	public void createRestaurantTimeSlots(Restaurant restaurantScheduleOff) {
+	public void createRestaurantTimeSlots(Restaurant restaurant) {
+		
+		boolean AtLeastOneSchedule = false;
+		
 		System.out.println("Veuillez saisir l'horaire d'ouverture");
 		String openHour = Menu.SCAN.nextLine();
 		
 		System.out.println("Veuillez saisir l'horaire de fermeture");
 		String closeHour = Menu.SCAN.nextLine();
-		System.out.println(closeHour);
+
 		
-		try {			
-			scheduleBLL.insert(LocalTime.parse(openHour), LocalTime.parse(closeHour), restaurantScheduleOff.getId());
+		try 
+		{			
+			scheduleBLL.insert(openHour, closeHour, restaurant.getId());
 			
-			Restaurant restaurantScheduleOn = restaurantBLL.selectById(restaurantScheduleOff.getId());
+			AtLeastOneSchedule = true;
 			
-			List<Schedule> restaurantListScheduleOn = scheduleBLL.selectAllByIdRestaurant(restaurantScheduleOff.getId());
+			List<Schedule> restaurantListScheduleOn = scheduleBLL.selectAllByIdRestaurant(restaurant.getId());
 			
-			System.out.println(restaurantScheduleOn);
+			System.out.println(restaurant);
 			
 			for (int i = 0; i < restaurantListScheduleOn.size(); i++) {
 				System.out.println("\t" + (i+1) + ". " 
@@ -169,9 +139,19 @@ public class ScheduleController {
 									+ restaurantListScheduleOn.get(i).getCloseHour());
 			}
 			
-		} catch (BLLException e) {
-			System.out.println("Une erreur est survenue : ");
-			e.printStackTrace();
+		} 
+		catch (BLLException e) 
+		{
+			for(String message : e.getErrors())
+			{
+				System.err.println(message);
+			}
+			
+			if(AtLeastOneSchedule != true)
+			{
+				this.createRestaurantTimeSlots(restaurant);
+			}
+			
 		}
 	}
 	
