@@ -82,7 +82,7 @@ public class Menu
 		System.out.printf("4 - Creer une carte\n");
 		System.out.printf("5 - Modifier une carte\n");
 		System.out.printf("6 - Supprimer une carte\n");
-		System.out.printf("7 - Quitter en apuyant sur 7\n");
+		System.out.printf("7 - Quitter en appuyant sur 7\n");
 		
 	
 		
