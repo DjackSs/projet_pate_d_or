@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import bll.BLLException;
@@ -122,17 +123,24 @@ public class CardController
 		System.out.printf("    AJOUTER UNE CARTE A PARTIR D'UN CSV\n");
 		System.out.printf("============================================\n");
 		
-		System.out.printf("Placez votre fichier CSV dans le dossier et indiquer son nom :\n");
-		System.out.printf("Nom du fichier CSV ? \n");
+		System.out.printf("Indiquer le chemin d'accès de votre fichier CSV :\n");
 		
 		String data = Menu.SCAN.nextLine();
 		String mime = ".csv";
 		
 		CSVReader reader = new CSVReader();
 		
-		reader.parseCard(data.concat(mime));
+		try
+		{
+			reader.parseCard(data.concat(mime));
+		}
+		catch(FileNotFoundException error)
+		{
+			System.err.println("Le fichier est introuvable ou invalide");
+			
+		}
 		
-		
+
 		
 	}
 

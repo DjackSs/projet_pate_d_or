@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import bll.BLLException;
@@ -136,15 +137,24 @@ public class RestaurantController
 		System.out.printf("    AJOUTER UN RESTAURANT A PARTIR D'UN CSV\n");
 		System.out.printf("============================================\n");
 		
-		System.out.printf("Placez votre fichier CSV dans le dossier et indiquer son nom :\n");
-		System.out.printf("Nom du fichier CSV ? \n");
+		System.out.printf("Indiquer le chemin d'accès de votre fichier CSV :\n");
 		
 		String data = Menu.SCAN.nextLine();
 		String mime = ".csv";
 		
 		CSVReader reader = new CSVReader();
 		
-		reader.parseRestaurant(data.concat(mime));
+		
+		try
+		{
+			reader.parseRestaurant(data.concat(mime));
+		}
+		catch(FileNotFoundException error)
+		{
+			System.err.println("Le fichier est introuvable ou invalide");
+			
+		}
+		
 		
 		
 		
