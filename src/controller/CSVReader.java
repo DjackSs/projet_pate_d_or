@@ -49,7 +49,7 @@ public class CSVReader
 	
 	//==================================================================
 	
-	public void parseRestaurant(String path)
+	public void parseRestaurant(String path) throws FileNotFoundException
 	{
 		
 		File file = new File(path);
@@ -229,7 +229,7 @@ public class CSVReader
 		catch (FileNotFoundException error) 
 		{
 			
-			System.err.println("Le fichier est introuvable");
+			throw error;
 			
 		}
 		
@@ -237,7 +237,7 @@ public class CSVReader
 	
 	//==================================================================
 	
-	public void parseCard(String path)
+	public void parseCard(String path) throws FileNotFoundException
 	{
 		
 		File file = new File(path);
@@ -343,8 +343,7 @@ public class CSVReader
 		} 
 		catch (FileNotFoundException error) 
 		{
-			
-			error.printStackTrace();
+			throw error;
 			
 		}
 		
