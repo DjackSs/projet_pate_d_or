@@ -94,7 +94,7 @@ public class TableController
 			
 			
 				
-				newTable = this.tableBLL.insert(numberPlace, state, restaurant.getId());
+				newTable = this.tableBLL.insert(newTable);
 				
 				AtLeastOneTable = true;
 			}

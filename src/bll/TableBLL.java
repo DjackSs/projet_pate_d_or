@@ -45,16 +45,16 @@ public class TableBLL {
         }
     }
 	
-	public Table insert(int numberPlace, String state, int idRestaurant) throws BLLException {
+	public Table insert(Table table) throws BLLException {
 		
 		BLLException bllException = new BLLException();
 		
-		if (numberPlace < 2) {
+		if (table.getNumberPlace() < 2) {
 			bllException.addError("Le nombre de place d'une table doit être au minimum de 2.");
 		}
 		
 		List<String> checkState = Arrays.asList(null, "PRES");
-		if (!checkState.contains(state)) {
+		if (!checkState.contains(table.getState())) {
 			bllException.addError("Le statut de la table est soit nul soit PRES");
 		}
 		
@@ -62,7 +62,6 @@ public class TableBLL {
 			throw bllException;
 		}
 		
-		Table table = new Table(numberPlace, state, idRestaurant);
 		try {
 			dao.insert(table);
 		} catch (DALException e) {
