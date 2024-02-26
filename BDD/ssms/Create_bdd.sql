@@ -36,7 +36,7 @@ CREATE TABLE Tables (
 	id				INT				PRIMARY KEY identity,
 	number_place	int		        NOT NULL,
     state           char(4)         null,
-	id_restaurant	INT				NOT NULL,
+	id_restaurant	INT				null,
 
     FOREIGN KEY (id_restaurant) REFERENCES Restaurants(id) on delete cascade,
     check(state in(null,'pres'))
@@ -49,20 +49,21 @@ CREATE TABLE Users (
     name            varchar(40)     not null,
     lastname        varchar(40)     not null,
     email           varchar(50)     not null,
-    role            char(4)         not null default 'cus',
+    password        varchar(150)    not null,
+    token			varchar(255)	null,
+    expiration_time	datetime		null,
+    role            char(4)         not null default 'cust',
 
     check( role in('cust', 'admi', 'staf'))
-
-
-	
 );
+
 
 CREATE TABLE Reservations (
 	id				    INT				PRIMARY KEY identity,
 	reservation_time    datetime        not null,
     state               char(4)         not null default 'hold',
-    id_table            int             not null,
-    id_user             int             not null,
+    id_table            int             ,
+    id_user             int             ,
 
     FOREIGN KEY (id_table) REFERENCES Tables(id),
     FOREIGN KEY (id_user) REFERENCES Users(id),
@@ -74,9 +75,9 @@ CREATE TABLE Messages (
 	id				INT				PRIMARY KEY identity,
 	object			VARCHAR(100)	not NULL,
     content         varchar(250)    not null,
-	id_user			int				not null,
+	id_user			int				,
 
-	FOREIGN KEY (id_user) REFERENCES Users(id) on delete cascade,
+	FOREIGN KEY (id_user) REFERENCES Users(id) on delete cascade
 );
 
 
@@ -110,8 +111,5 @@ CREATE TABLE Orders_Dishes (
     id_dish        int             not null,
 
     FOREIGN KEY (id_order) REFERENCES Orders(id) on delete cascade,
-    FOREIGN KEY (id_dish) REFERENCES Dishes(id),
-    
-
-
+    FOREIGN KEY (id_dish) REFERENCES Dishes(id)
 );
