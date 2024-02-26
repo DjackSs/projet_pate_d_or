@@ -1,4 +1,4 @@
-# Projet file rouge
+# Projet Pate D'Or: Application administration
 
 ## Description
 
